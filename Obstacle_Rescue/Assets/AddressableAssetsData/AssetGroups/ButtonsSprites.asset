@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ButtonsSprites
+  m_EditorClassIdentifier: 
+  m_GroupName: ButtonsSprites
+  m_Data:
+    m_SerializedData: []
+  m_GUID: f7b9b6eabef706942b4d172795e6d55d
+  m_SerializeEntries:
+  - m_GUID: 8f59eeabd8e32654e87d540891348f6c
+    m_Address: Again
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2e6a82430b4457f43891f4c697e47417
+    m_Address: BGMOff
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6eb8756c5be10c6468a06d4347287b1f
+    m_Address: BGMOn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5fb6a325ce4b20846a15ea4bb4259008
+    m_Address: Dictionary
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 555a4b34574a13b4d95554403b1e713b
+    m_Address: Education
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cb1cd22eeca36524186d3305ab7adbfd
+    m_Address: Home
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bed4ad7857da4c24380d291a14112ba4
+    m_Address: Play
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e4a591417f4425248915206bd9d21ee0
+    m_Address: Settings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c1759fb3936721f4db920af7c162ce39
+    m_Address: SFXOff
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 77d7617f7ca31e847946e3b3f6ade5d6
+    m_Address: SFXOn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 09be2e9b74552af46a27b3acf5dbbd31
+    m_Address: Stop
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 74450246de59b2249a49c7d35aae76c7
+    m_Address: VibrationOff
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6078b7e3b73118a4baf55acf5cd0761c
+    m_Address: VibrationOn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 87bd1b6abcc712b49a239b4da6985aae, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: ee067cd3289dcd24288eb4b83a723a35, type: 2}
+    - {fileID: 11400000, guid: cac8cc54c17dc6f4dbee22d2776154ce, type: 2}

@@ -1,0 +1,174 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "ParamGroup",
+			"Name": "Eyes Open"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup",
+			"Name": "IrisSmall"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup",
+			"Name": "Iris"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup",
+			"Name": "Iris Y"
+		},
+		{
+			"Id": "ParamEyeLSmile",
+			"GroupId": "ParamGroup2",
+			"Name": "Smile"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"GroupId": "ParamGroup3",
+			"Name": "face jump"
+		},
+		{
+			"Id": "ParamEyeRSmile",
+			"GroupId": "ParamGroup3",
+			"Name": "HadMoveHor"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"GroupId": "ParamGroup5",
+			"Name": "hand l"
+		},
+		{
+			"Id": "ParamBrowLY",
+			"GroupId": "ParamGroup5",
+			"Name": "Hand l bend"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "ParamGroup6",
+			"Name": "hand r"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "ParamGroup6",
+			"Name": "hand bend"
+		},
+		{
+			"Id": "ParamBrowRAngle",
+			"GroupId": "ParamGroup7",
+			"Name": "leg l"
+		},
+		{
+			"Id": "ParamBrowLAngle",
+			"GroupId": "",
+			"Name": "Torso"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "",
+			"Name": "torso hor"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "ParamGroup4",
+			"Name": "Had move to the sides"
+		},
+		{
+			"Id": "Param4",
+			"GroupId": "ParamGroup4",
+			"Name": "Brows"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "eyes"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "mouth"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "had"
+		},
+		{
+			"Id": "ParamGroup5",
+			"GroupId": "",
+			"Name": "hand l"
+		},
+		{
+			"Id": "ParamGroup6",
+			"GroupId": "",
+			"Name": "hand r"
+		},
+		{
+			"Id": "ParamGroup7",
+			"GroupId": "",
+			"Name": "leg l"
+		},
+		{
+			"Id": "ParamGroup4",
+			"GroupId": "",
+			"Name": "Face"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "idle anim"
+		},
+		{
+			"Id": "Part4",
+			"Name": "had"
+		},
+		{
+			"Id": "Part5",
+			"Name": "torso"
+		},
+		{
+			"Id": "Part8",
+			"Name": "leg l"
+		},
+		{
+			"Id": "Part9",
+			"Name": "leg r"
+		},
+		{
+			"Id": "Part7",
+			"Name": "hand r"
+		},
+		{
+			"Id": "hair",
+			"Name": "hair"
+		},
+		{
+			"Id": "Part2",
+			"Name": "eye right"
+		},
+		{
+			"Id": "Part3",
+			"Name": "eye left"
+		},
+		{
+			"Id": "mouthes",
+			"Name": "mouthes"
+		},
+		{
+			"Id": "Part6",
+			"Name": "hand l"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamAngleY",
+			"ParamAngleZ"
+		]
+	]
+}
