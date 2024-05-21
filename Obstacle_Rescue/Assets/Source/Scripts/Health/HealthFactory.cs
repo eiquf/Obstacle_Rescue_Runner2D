@@ -9,7 +9,6 @@ public class HealthFactory : MonoBehaviour
     public Action OnPlayerHealed;
     #endregion
     [SerializeField] private LivesSettings _livesSettings;
-
     #region Scripts
     private HurtsInitialization _hurtsInitialize;
 
