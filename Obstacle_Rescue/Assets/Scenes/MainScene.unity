@@ -661,6 +661,7 @@ GameObject:
   - component: {fileID: 6327346736712717124}
   - component: {fileID: 6327346736712717125}
   - component: {fileID: 6327346736712717127}
+  - component: {fileID: 6327346736712717128}
   m_Layer: 5
   m_Name: Attenuation
   m_TagString: Untagged
@@ -718,6 +719,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &6327346736712717128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6327346736712717121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd370cd3bd47bec4e9a8736bf9cbb3c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &6327346736780789108
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1006,11 +1019,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: fa1520540c5c5114eb5e7ef2346ebb5a, type: 3}
-    m_FontSize: 71
+    m_Font: {fileID: 12800000, guid: 44855569d9d7a634f90bef0192e8607d, type: 3}
+    m_FontSize: 70
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 0
     m_MaxSize: 110
     m_Alignment: 4
     m_AlignByGeometry: 0
