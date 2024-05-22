@@ -1,5 +1,12 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 public class PlayerDeath : Health
 {
+    public PlayerDeath(HealthFactory healthFactory, LivesSettings livesSettings, List<GameObject> hurts) : base(healthFactory, livesSettings, hurts)
+    {
+    }
+
     public override void Execute()
     {
         //if (hurts.Count == _livesSettings.MinLives)

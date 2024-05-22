@@ -3,15 +3,18 @@ using UnityEngine;
 
 public abstract class Health
 {
-    protected GameObject hurt;
-
-    protected GameObject[] startHurts;
-    protected List<GameObject> hurts = new();
+    protected List<GameObject> _hurts;
 
     protected HealthFactory _healthFactory;
     protected LivesSettings _livesSettings;
 
     protected readonly PropUIAnimation _propUIAnim = new();
+    protected Health(HealthFactory healthFactory, LivesSettings livesSettings, List<GameObject> hurts)
+    {
+        _healthFactory = healthFactory;
+        _livesSettings = livesSettings;
+        _hurts = hurts;
+    }
 
     public abstract void Execute();
 }

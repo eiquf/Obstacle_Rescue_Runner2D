@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthFactory : MonoBehaviour
@@ -9,13 +10,14 @@ public class HealthFactory : MonoBehaviour
     public Action OnPlayerHealed;
     #endregion
     [SerializeField] private LivesSettings _livesSettings;
+    protected List<GameObject> _hurts = new();
     #region Scripts
     private HurtsInitialization _hurtsInitialize;
 
-    private readonly AddHealth _addHealth = new();
-    private readonly RemoveHealth _removeHealth = new();
-    private readonly PlayerDeath _playerDeath = new();
-    private readonly AliveChecker _aliveChecker = new();
+    private AddHealth _addHealth;
+    private RemoveHealth _removeHealth;
+    private PlayerDeath _playerDeath;
+    private AliveChecker _aliveChecker;
     #endregion
 
     #region Injects
@@ -47,8 +49,13 @@ public class HealthFactory : MonoBehaviour
     private void FixedUpdate() => _aliveChecker.Execute();
     private void HurtsInitialize()
     {
-        _hurtsInitialize = new HurtsInitialization(this, _livesSettings);
+        _hurtsInitialize = new HurtsInitialization(this, _livesSettings, _hurts);
         _hurtsInitialize.Execute();
+
+        _addHealth = new AddHealth(this, _livesSettings, _hurts);
+        _playerDeath = new PlayerDeath(this, _livesSettings, _hurts);
+        _removeHealth = new RemoveHealth(this, _livesSettings, _hurts, _playerDeath);
+        _aliveChecker = new AliveChecker(this, _livesSettings, _hurts, _playerDeath);
     }
     private void AddHealth() => _addHealth.Execute();
     private void ChangeHealth() => _removeHealth.Execute();
