@@ -17,7 +17,7 @@ public sealed class Vibration : VibrationSettings, IVibration
             data.VibrationVolume = _maxVibration;
             data.VibrationImageIndex = 0;
         }
-        vibrationController.image.sprite = vibrationController.ButtonsSprites[data.VibrationImageIndex];
+        vibrationController.Image.sprite = vibrationController.ButtonsSprites[data.VibrationImageIndex];
 
         SaveVibrationSettings(data);
     }

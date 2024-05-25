@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Address: LevelUI
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: c444be6724e121448aee5bf0b19e53b7
+  - m_GUID: 6330cf87827fce84aadede2368258b76
     m_Address: MainMenuUI
     m_ReadOnly: 0
     m_SerializedLabels: []

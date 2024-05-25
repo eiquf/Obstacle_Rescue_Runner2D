@@ -132,12 +132,12 @@ TextureImporter:
       name: Light_0
       rect:
         serializedVersion: 2
-        x: 44
-        y: 686
-        width: 847
-        height: 957
+        x: 13
+        y: 679
+        width: 772
+        height: 457
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -150,36 +150,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Light_3
-      rect:
-        serializedVersion: 2
-        x: 36
-        y: 537
-        width: 588
-        height: 146
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e58aeac2d818d60458e9309a113cb9eb
-      internalID: 1513193555
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Light_5
       rect:
         serializedVersion: 2
-        x: 13
-        y: 44
-        width: 741
-        height: 427
+        x: 41
+        y: 8
+        width: 750
+        height: 628
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -187,6 +166,48 @@ TextureImporter:
       bones: []
       spriteID: e3d084f9af7b29649a84538c3f5a5358
       internalID: -1512292174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Light_1
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 1162
+        width: 651
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f2cd137f6520d64093c9fcf73527a0f
+      internalID: -581375701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Light_2
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1380
+        width: 929
+        height: 948
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ade3ab984530b44f9c4fa3408c1f9fe
+      internalID: 1849440508
       vertices: []
       indices: 
       edges: []

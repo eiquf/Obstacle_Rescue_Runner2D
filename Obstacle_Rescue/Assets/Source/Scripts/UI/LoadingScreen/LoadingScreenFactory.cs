@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class LoadingScreenFactory : MonoBehaviour
 {
-    public Action<string> OnChangeScene;
+    public Action<string> OnChangeScene { get; set; }
 
     protected Text _loadingText;
 
@@ -12,7 +12,7 @@ public class LoadingScreenFactory : MonoBehaviour
     private LoadingScreenLoading _loading;
 
     private void OnEnable() => OnChangeScene += Loading;
-    private void OnDestroy() => OnChangeScene -= Loading;
+    private void OnDisable() => OnChangeScene -= Loading;
     private void Awake() => ComponentsInitialize();
     private void ComponentsInitialize()
     {
@@ -22,7 +22,6 @@ public class LoadingScreenFactory : MonoBehaviour
     }
     private void Loading(string sceneName)
     {
-        gameObject.SetActive(true);
         _loading = new(sceneName);
         StartCoroutine(_loading.Execute());
         StartCoroutine(_screenAnimation.Execute());
