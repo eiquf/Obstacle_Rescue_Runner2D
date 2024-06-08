@@ -11,9 +11,6 @@ public class VibrationController : MonoBehaviour
     public Image Image { get; private set; }
 
     #region Scripts
-    private readonly VibrationSpritesLoader _spritesLoader = new();
-
-    private readonly VibrationInitialization _vibrationInitialization = new();
     private readonly VibrationImageInitialization _vibrationImageInitialization = new();
 
     private readonly Vibration _vibration = new();
@@ -40,8 +37,8 @@ public class VibrationController : MonoBehaviour
         Image = imageButton;
         _vibrationImageInitialization.Execute(this);
     }
-    private void LoadSprites() => ButtonsSprites = _spritesLoader.Execute();
-    private void Initialization() => _vibrationInitialization.Execute(this);
+    private void LoadSprites() => ButtonsSprites = new VibrationSpritesLoader().Execute();
+    private void Initialization() => new VibrationInitialization().Execute(this);
     private void Vibrate() => Handheld.Vibrate();
     private void TurnVibration() => _vibration.Execute(this);
 }

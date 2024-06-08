@@ -3,51 +3,47 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-public class PreferencesAnimation : IPreferencesAnimation
+public class PreferencesAnimation
 {
-    private RectTransform[] _buttonsRectTransforms;
+    private readonly RectTransform[] _buttonsRectTransforms;
+    private readonly bool _isUpsideDown;
+    private readonly bool _isPanelOn;
+    private const float AnimationDuration = 0.4f;
+    private const float ButtonSpacing = 5f;
 
-    private readonly float _animationDuration = 0.4f;
-    private readonly float _buttonSpacing = 5f;
-
-    public PreferencesAnimation(RectTransform[] rectTransform) => _buttonsRectTransforms = rectTransform;
-
-    public void Execute(bool isUpsideDown, bool isPanelOn)
+    public PreferencesAnimation(RectTransform[] rectTransforms, bool isUpsideDown, bool isPanelOn)
     {
-        float offsetY;
-        bool isClose = false;
-        Action<RectTransform, int> animationAction = (buttonRect, i) =>
+        _buttonsRectTransforms = rectTransforms;
+        _isUpsideDown = isUpsideDown;
+        _isPanelOn = isPanelOn;
+    }
+
+    public void Execute()
+    {
+        if (_buttonsRectTransforms == null) return;
+
+        foreach (var (buttonRect, index) in _buttonsRectTransforms.Select((b, i) => (b, i)).Reverse())
         {
-            if (isPanelOn)
+            float offsetY = _isPanelOn ?
+                (_isUpsideDown ? -50 - index * (buttonRect.rect.height + ButtonSpacing) : 50 + index * (buttonRect.rect.height + ButtonSpacing))
+                : 0;
+
+            if (_isPanelOn)
             {
-                offsetY = isUpsideDown ? -50 - i * (buttonRect.rect.height + _buttonSpacing) : 50 + i * (buttonRect.rect.height + _buttonSpacing);
-                isClose = false;
+                if (!buttonRect.gameObject.activeSelf)
+                    buttonRect.gameObject.SetActive(true);
+
+                buttonRect.DOScale(1f, 0.5f).SetEase(Ease.OutCirc);
             }
             else
             {
-                offsetY = 0;
-                isClose = true;
+                buttonRect.DOScale(0f, 0.3f).SetEase(Ease.InCirc)
+                    .OnComplete(() => buttonRect.gameObject.SetActive(false));
             }
 
-            if (!isClose)
-            {
-                if (buttonRect.gameObject.activeSelf == false)
-                    buttonRect.gameObject.SetActive(true);
-                buttonRect.DOScale(1f, 0.5f).SetEase(Ease.OutCirc, 0.5f);
-            }
-            else buttonRect.DOScale(0f, 0.3f).SetEase(Ease.InCirc, 0.5f).OnComplete(() => buttonRect.gameObject.SetActive(false));
-
-            Vector2 targetPosition = new(buttonRect.anchoredPosition.x, offsetY);
-
-            buttonRect.DOAnchorPos(targetPosition, _animationDuration)
+            buttonRect.DOAnchorPos(new Vector2(buttonRect.anchoredPosition.x, offsetY), AnimationDuration)
                 .SetEase(Ease.OutBack)
-                .SetDelay(i * 0.1f);
-        };
-
-        if (_buttonsRectTransforms != null)
-        {
-            foreach (var (buttonRect, index) in _buttonsRectTransforms.Select((b, i) => (b, i)).Reverse())
-                animationAction(buttonRect, index);
+                .SetDelay(index * 0.1f);
         }
     }
 }

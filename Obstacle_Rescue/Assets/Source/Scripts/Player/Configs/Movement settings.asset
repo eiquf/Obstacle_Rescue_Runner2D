@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf4cb35a1734794cad53bc5d3b5b331, type: 3}
+  m_Name: Movement settings
+  m_EditorClassIdentifier: 
+  <gravity>k__BackingField: -200
+  <maxXVelocity>k__BackingField: 50
+  <maxAcceleration>k__BackingField: 10
+  <jumpVelocity>k__BackingField: 35
+  <maxMaxHoldJumpTime>k__BackingField: 0.4
+  <jumpGroundThreshold>k__BackingField: 1
+  <deadLine>k__BackingField: -25
+  <stopVelocity>k__BackingField: 0.7
+  <posXallowance>k__BackingField: 0.7
+  <groundLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 64
+  <obstacleLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 128
+  <healLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 2048
+  <letterLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 1024
+  minX: -5
+  maxX: 5
+  minY: -5
+  maxY: 5
+  bounceForce: 5

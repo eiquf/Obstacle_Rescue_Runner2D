@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public sealed class Preferences : IUIPanelsInstantiate
 {
@@ -16,37 +15,34 @@ public sealed class Preferences : IUIPanelsInstantiate
     {
         _isUpsideDown = isUpsideDown;
         _inject = inject;
-
         _canSpawnHomeButton = canSpawnHome;
     }
 
     public void Execute(Transform transform)
     {
-        if (!_isFirstTap)
-            InitializeComponents(transform);
-        else
+        if (_isFirstTap)
             TogglePreferences();
+        else
+            InitializeComponents(transform);
     }
 
     private void InitializeComponents(Transform pos)
     {
         _prefButtonsCreate = new PrefButtonsCreate(_canSpawnHomeButton, pos, _inject);
         _prefButtonsCreate.Execute();
-
-        new PreferencesAnimation(_prefButtonsCreate.ButtonsRectTransform).Execute(_isUpsideDown, true);
-
         _isFirstTap = true;
     }
 
     private void TogglePreferences()
     {
         _buttonsActivated = !_buttonsActivated;
-
-        if (_buttonsActivated)
-            UpdateButtonsAnimation(true);
-        else
-            UpdateButtonsAnimation(false);
+        UpdateButtonsAnimation(_buttonsActivated);
     }
 
-    private void UpdateButtonsAnimation(bool activate) => new PreferencesAnimation(_prefButtonsCreate.ButtonsRectTransform).Execute(_isUpsideDown, activate);
+    private void UpdateButtonsAnimation(bool activate) =>
+        new PreferencesAnimation
+        (_prefButtonsCreate.ButtonsRectTransform,
+            _isUpsideDown,
+            activate)
+        .Execute();
 }

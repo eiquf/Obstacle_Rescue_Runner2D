@@ -485,6 +485,9 @@ MonoBehaviour:
   _buttonsPanelPos: {fileID: 8998142704053109850}
   _creatPos:
   - {fileID: 8998142702454825542}
+  - {fileID: 8998142702872360059}
+  - {fileID: 947486224298492889}
+  - {fileID: 8998142703838748945}
 --- !u!1 &8998142702768383251
 GameObject:
   m_ObjectHideFlags: 0

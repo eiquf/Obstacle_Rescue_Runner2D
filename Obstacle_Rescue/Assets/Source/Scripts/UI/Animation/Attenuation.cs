@@ -6,15 +6,16 @@ public class Attenuation : MonoBehaviour
     private readonly float _fadeDuration = 0.8f;
     private CanvasGroup _attenuationImage;
 
-    private SceneChecker _sceneChecker = new();
+    private SceneChecker _sceneChecker;
+    private void Awake() => _sceneChecker = new();
     private void Start()
     {
         _attenuationImage = GetComponent<CanvasGroup>();
         Activate();
     }
-    private void FixedUpdate() => _sceneChecker.Execute();
     private void OnEnable() => _sceneChecker.OnNotify += Activate;
     private void OnDisable() => _sceneChecker.OnNotify -= Activate;
+    private void FixedUpdate() => _sceneChecker.Execute();
     private void Activate()
     {
         gameObject.SetActive(true);

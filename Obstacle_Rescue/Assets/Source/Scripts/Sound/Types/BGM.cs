@@ -1,4 +1,4 @@
-public class BGM: SoundType
+public class BGM : SoundType
 {
     public BGM()
     {

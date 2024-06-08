@@ -4,9 +4,8 @@ public class SoundLoader : IComponentsLoader<AudioClip>
 {
     private readonly string[] _audioClipsName = new string[]
     {
-       
-    };
 
+    };
     public AudioClip[] Execute()
     {
         AssetsLoader<AudioClip> loader = new(_audioClipsName);

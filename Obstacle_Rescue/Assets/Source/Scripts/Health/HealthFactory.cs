@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class HealthFactory : MonoBehaviour
 {
@@ -21,17 +22,17 @@ public class HealthFactory : MonoBehaviour
     #endregion
 
     #region Injects
-    //private PlayerAnimation _playerAnimation;
-    //private MainCamera _cameraController;
+    private PlayerAnimation _playerAnimation;
+    private MainCameraFactory _cameraController;
 
-    //[Inject]
-    //private void Construct
-    //    (MainCamera cameraController,
-    //    PlayerAnimation playerAnimation)
-    //{
-    //    _playerAnimation = playerAnimation;
-    //    _cameraController = cameraController;
-    //}
+    [Inject]
+    private void Construct
+        (MainCameraFactory cameraController,
+        PlayerAnimation playerAnimation)
+    {
+        _playerAnimation = playerAnimation;
+        _cameraController = cameraController;
+    }
     #endregion
     private void OnEnable()
     {

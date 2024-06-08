@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -8,18 +9,19 @@ public class PrefButtonsCreate : IPreferences
     private readonly Transform _preferencesCreatePos;
     private readonly bool _canSpawnHomeButton;
     public RectTransform[] ButtonsRectTransform { get; private set; }
-    public Button[] _buttons;
+    private Button[] _buttons;
     private Image[] _images;
 
     private readonly InjectContainer _container;
 
     private readonly string[] _buttonsReferences =
     {
-        "SFXButton",
         "VibrationButton",
+        "SFXButton",
         "BGMButton",
         "HomeButton"
     };
+
     public PrefButtonsCreate(bool canSpawnHomeButton, Transform preferencesCreatePos, InjectContainer container)
     {
         _canSpawnHomeButton = canSpawnHomeButton;
@@ -27,52 +29,38 @@ public class PrefButtonsCreate : IPreferences
         _container = container;
     }
 
-    public void Execute()
-    {
-        ButtonsPrefs();
-    }
+    public void Execute() => ButtonsPrefs();
     private void ButtonsPrefs()
     {
-        int indexToInstantiate = _canSpawnHomeButton ? _buttonsReferences.Length : _buttonsReferences.Length - 1;
-        _buttons = new Button[indexToInstantiate];
-        int buttonsLoaded = 0;
+        int buttonsCount = _canSpawnHomeButton ? _buttonsReferences.Length : _buttonsReferences.Length - 1;
+        _buttons = new Button[buttonsCount];
 
-        for (int i = 0; i < indexToInstantiate; i++)
+        for (int i = 0; i < buttonsCount; i++)
         {
             int index = i;
-            LoadButtonPrefab(_buttonsReferences[i], index, _buttons, () =>
-            {
-                buttonsLoaded++;
-                if (buttonsLoaded == indexToInstantiate)
-                {
-                    InitializeComponents();
-                }
-            });
+            LoadButtonPrefab(_buttonsReferences[i], index);
         }
     }
-
-    private void LoadButtonPrefab(string prefabReference, int index, Button[] buttons, System.Action onLoaded)
+    private void LoadButtonPrefab(string prefabReference, int index)
     {
         Addressables.LoadAssetAsync<GameObject>(prefabReference).Completed += handle =>
         {
-            if (handle.Status == AsyncOperationStatus.Succeeded)
+            if (handle.Status == AsyncOperationStatus.Succeeded && handle.Result != null)
             {
-                GameObject prefab = handle.Result;
-                if (prefab != null)
-                {
-                    Button button = Object.Instantiate(prefab.GetComponent<Button>(), _preferencesCreatePos);
-                    button.transform.localScale = Vector3.zero;
-                    buttons[index] = button;
+                Button button = Object.Instantiate(handle.Result.GetComponent<Button>(), _preferencesCreatePos);
+                button.transform.localScale = Vector3.zero;
+                _buttons[index] = button;
 
-                    button.onClick.AddListener(() =>
-                    {
-                        OnButtonClick(index);
-                        PlayButtonTapAnimation(button.transform);
-                    });
-                }
-                Addressables.Release(handle);
+                button.onClick.AddListener(() =>
+                {
+                    OnButtonClick(_buttonsReferences[index]);
+                    new ButtonTapAnimation().Execute(button.transform);
+                });
+
+                if (_buttons.All(b => b != null))
+                    InitializeComponents();
             }
-            onLoaded?.Invoke();
+            Addressables.Release(handle);
         };
     }
 
@@ -83,28 +71,48 @@ public class PrefButtonsCreate : IPreferences
 
         if (_images.Length > 0)
         {
-            _container.SoundController.IsImagesSetted?.Invoke(_images);
-            _container.VibrationController.IsImagesSetted?.Invoke(_images[0]);
+            for (int i = 0; i < _buttons.Length; i++)
+            {
+                Image buttonImage = _buttons[i].GetComponentInChildren<Image>();
+                AssignImageToButton(_buttonsReferences[i], buttonImage);
+            }
         }
     }
-    private void OnButtonClick(int index)
+    private void AssignImageToButton(string buttonReference, Image image)
     {
-        switch (index)
+        switch (buttonReference)
         {
-            case UIButtonsCount.SFX:
+            case "SFXButton":
+                _container.SoundController.IsImagesSet?.Invoke(image);
+                break;
+            case "VibrationButton":
+                _container.VibrationController.IsImagesSetted?.Invoke(image);
+                break;
+            case "BGMButton":
+                _container.SoundController.IsImagesSet?.Invoke(image);
+                break;
+            case "HomeButton":
+                // If HomeButton should set images, uncomment the following line
+                // _container.SoundController.IsImagesSetted?.Invoke(new[] { image });
+                break;
+        }
+    }
+    private void OnButtonClick(string buttonReference)
+    {
+        switch (buttonReference)
+        {
+            case "SFXButton":
                 _container.SoundController.IsSoundVolumeChanged?.Invoke(UIButtonsCount.SFX);
                 break;
-            case UIButtonsCount.BGM:
+            case "BGMButton":
                 _container.SoundController.IsSoundVolumeChanged?.Invoke(UIButtonsCount.BGM);
                 break;
-            case UIButtonsCount.Vibration:
+            case "VibrationButton":
                 _container.VibrationController.IsVibrationChanged?.Invoke();
                 break;
-            case UIButtonsCount.Home:
+            case "HomeButton":
                 _container.LoadingScreen.OnChangeScene?.Invoke(LevelsKeys.mainMenuLevelKey);
                 break;
         }
     }
-    private void PlayButtonTapAnimation(Transform transform) => new ButtonTapAnimation().Execute(transform);
-
 }
