@@ -3,16 +3,11 @@ using UnityEngine;
 
 public class AliveChecker : Health
 {
-    private PlayerDeath _playerDeath;
-
     public AliveChecker
-        (HealthFactory healthFactory,
-        LivesSettings livesSettings,
+        (LivesSettings livesSettings,
         List<GameObject> hurts,
         PlayerDeath playerDeath)
-        : base(healthFactory, livesSettings, hurts)
-    { _playerDeath = playerDeath; }
-
+        : base(livesSettings, hurts, playerDeath) { }
     public override void Execute()
     {
         if (_hurts.Count == _livesSettings.MinLives)

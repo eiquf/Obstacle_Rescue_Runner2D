@@ -1,19 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 public sealed class GroundGenerator : MonoBehaviour
 {
     public Action<int> IsWordComplete;
-    private enum TrapPlatforms
-    {
-        BoatPlatform,
-        BridgePlatform,
-        BucketPlatform
-    }
-    private const int IndexGroundPropGenerator = 7;
+
     private const int MaxSpawnedChunks = 7;
     private const float PlayerPosXAllowence = 40f;
 
@@ -31,29 +24,15 @@ public sealed class GroundGenerator : MonoBehaviour
     private readonly List<Ground> spawnedChunks = new();
     private GameObject[] _platforms;
 
-    private Player _player;
-    private Health _health;
-    private GroundPropsSetter _groundPropsSetter;
-    private GroundPlatformsSetter _platformsSetter;
-
-    [Inject]
-    private void Construct(
-        Player player,
-        Health health,
-        GroundPropsSetter groundPropsSetter,
-        GroundPlatformsSetter groundPlatformsSetter)
-    {
-        _player = player;
-        _health = health;
-        _groundPropsSetter = groundPropsSetter;
-        _platformsSetter = groundPlatformsSetter;
-    }
+    [Inject] private readonly Player _player;
     private void Awake()
     {
         _platforms = new GroundPlatformsSetter().Execute();
 
         _firstChunk = transform.GetChild(0).GetComponent<Ground>();
         spawnedChunks.Add(_firstChunk);
+
+        _currentIndex = 0;
     }
     private void FixedUpdate()
     {
@@ -68,9 +47,8 @@ public sealed class GroundGenerator : MonoBehaviour
     }
     private void SpawnPlatform()
     {
-        if (_player != null && _player.transform.position.x + PlayerPosXAllowence > spawnedChunks[spawnedChunks.Count - 1].End.position.x)
-            DefaultChunks();
-        else return;
+        if (_player != null && _player.transform.position.x + PlayerPosXAllowence > spawnedChunks[^1].End.position.x)
+            Chunks();
 
         InjectComponentsInChunks();
     }
@@ -79,23 +57,14 @@ public sealed class GroundGenerator : MonoBehaviour
         foreach (Ground ground in spawnedChunks)
             ground.Inject(_player);
     }
-    private void DefaultChunks()
+    private void Chunks()
     {
         float randomAddY = UnityEngine.Random.Range(-1.5f, 1.5f);
         Ground newChunk = Instantiate(_platforms[_currentIndex], transform).GetComponent<Ground>();
         newChunk.transform.position = new Vector2(spawnedChunks[^1].End.position.x - newChunk.Begin.position.x, transform.position.y + randomAddY);
         spawnedChunks.Add(newChunk);
 
-        PlatformWithProp(newChunk);
-
         _currentIndex++;
-    }
-    private void PlatformWithProp(Ground ground)
-    {
-        int randomGeneratorIndex = UnityEngine.Random.Range(0, 10);
-
-        if (randomGeneratorIndex == IndexGroundPropGenerator)
-            ground.AddComponent<GroundPropsGenerator>().Inject(_groundPropsSetter);
     }
     private void RemoveChuncks()
     {

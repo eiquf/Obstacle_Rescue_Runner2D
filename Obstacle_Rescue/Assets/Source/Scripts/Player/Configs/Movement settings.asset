@@ -13,26 +13,26 @@ MonoBehaviour:
   m_Name: Movement settings
   m_EditorClassIdentifier: 
   <gravity>k__BackingField: -200
-  <maxXVelocity>k__BackingField: 50
-  <maxAcceleration>k__BackingField: 10
-  <jumpVelocity>k__BackingField: 35
-  <maxMaxHoldJumpTime>k__BackingField: 0.4
-  <jumpGroundThreshold>k__BackingField: 1
-  <deadLine>k__BackingField: -25
-  <stopVelocity>k__BackingField: 0.7
-  <posXallowance>k__BackingField: 0.7
-  <groundLayerMask>k__BackingField:
+  <MaxXVelocity>k__BackingField: 50
+  <MaxAcceleration>k__BackingField: 10
+  <JumpVelocity>k__BackingField: 20
+  <MaxMaxHoldJumpTime>k__BackingField: 0.4
+  <JumpGroundThreshold>k__BackingField: 1
+  <DeadLine>k__BackingField: -25
+  <StopVelocity>k__BackingField: 0.7
+  <PosXallowance>k__BackingField: 0.7
+  <GroundLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
-  <obstacleLayerMask>k__BackingField:
+  <ObstacleLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
-  <healLayerMask>k__BackingField:
+  <HealLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 2048
-  <letterLayerMask>k__BackingField:
+    m_Bits: 256
+  <LetterLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 512
   minX: -5
   maxX: 5
   minY: -5

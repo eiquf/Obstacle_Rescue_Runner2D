@@ -4,6 +4,7 @@ using UnityEngine.AddressableAssets;
 public class UISetter : MonoBehaviour
 {
     protected const string GAME_LEVEL_NAME = "GameLevel";
+    protected const string COMPONENTS_NAME = "ComponentsLoading";
 
     private readonly string[] _panelsNames = new[]
     {
@@ -34,7 +35,10 @@ public class UISetter : MonoBehaviour
     }
     private void CreatePanels()
     {
-        string panelName = _sceneChecker.CurrentScene.name == GAME_LEVEL_NAME ? _panelsNames[0] : _panelsNames[1];
-        Addressables.InstantiateAsync(panelName, transform);
+        if (_sceneChecker.CurrentScene.name != COMPONENTS_NAME)
+        {
+            string panelName = _sceneChecker.CurrentScene.name == GAME_LEVEL_NAME ? _panelsNames[0] : _panelsNames[1];
+            Addressables.InstantiateAsync(panelName, transform);
+        }
     }
 }

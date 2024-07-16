@@ -4,7 +4,7 @@ public class SoundLoader : IComponentsLoader<AudioClip>
 {
     private readonly string[] _audioClipsName = new string[]
     {
-
+        "Jump"
     };
     public AudioClip[] Execute()
     {

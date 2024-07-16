@@ -11,6 +11,7 @@ public sealed class SoundController : MonoBehaviour
 
     private readonly BGM _bgm = new();
     private readonly SFX _sfx = new();
+    private SoundSFXPlay _sfxPlay;
 
     private const int Amount = 2;
 
@@ -43,6 +44,8 @@ public sealed class SoundController : MonoBehaviour
     {
         Sprites = new SoundSpritesLoader().Execute();
         AudioClips = new SoundLoader().Execute();
+
+        _sfxPlay = new(this);
     }
 
     private void LoadImage(Image image)
@@ -53,7 +56,7 @@ public sealed class SoundController : MonoBehaviour
             new SoundImagesInitialization().Execute(this);
     }
 
-    private void SoundPlay(int index) => new SoundSFXPlay(this, index);
+    private void SoundPlay(int index) => _sfxPlay.SFXPlay?.Invoke(index);
 
     private void ChangeSoundVolume(int index)
     {

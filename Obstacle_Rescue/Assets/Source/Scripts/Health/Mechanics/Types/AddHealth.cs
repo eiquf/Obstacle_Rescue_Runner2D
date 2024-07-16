@@ -4,13 +4,23 @@ using UnityEngine;
 public class AddHealth : Health
 {
     private readonly HealthPrefabsLoader _healthPrefabLoader = new();
+    private readonly Transform _spawn;
     private GameObject hurt;
-    public AddHealth(HealthFactory healthFactory, LivesSettings livesSettings, List<GameObject> hurts) : base(healthFactory, livesSettings, hurts) { LoadHurt(); }
+    public AddHealth
+        (LivesSettings livesSettings,
+        List<GameObject> hurts,
+        PlayerDeath playerDeath,
+        Transform transform)
+        : base(livesSettings, hurts, playerDeath)
+    {
+        _spawn = transform;
+        LoadHurt();
+    }
     public override void Execute()
     {
         if (_hurts.Count < _livesSettings.MaxLives && _hurts.Count != _livesSettings.MinLives)
         {
-            GameObject hurtPref = Object.Instantiate(hurt, _healthFactory.transform);
+            GameObject hurtPref = Object.Instantiate(hurt, _spawn.transform);
             _propUIAnim.OnEnable(hurtPref.transform);
             _hurts.Add(hurtPref);
         }

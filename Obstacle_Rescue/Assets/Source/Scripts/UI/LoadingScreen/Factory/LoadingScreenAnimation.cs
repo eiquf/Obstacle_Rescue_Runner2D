@@ -1,17 +1,14 @@
 using System;
-using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 
-public class LoadingScreenAnimation : LoadingScreen<IEnumerator>
+public class LoadingScreenAnimation : LoadingScreen<Text>
 {
-    private readonly Text _loadingText;
-    public LoadingScreenAnimation(Text text) => _loadingText = text;
-    public override async Task Execute()
+    public override async Task Execute(Text thing)
     {
         while (true)
         {
-            _loadingText.text = "Loading" + _loadingDotSequence[_currentDotIndex];
+            thing.text = "Loading" + _loadingDotSequence[_currentDotIndex];
             _currentDotIndex = (_currentDotIndex + 1) % _loadingDotSequence.Length;
             await Task.Delay(TimeSpan.FromSeconds(_dotAnimationSpeed));
         }

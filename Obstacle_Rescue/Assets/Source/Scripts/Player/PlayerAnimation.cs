@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerAnimation : MonoBehaviour
+public class PlayerAnimation : IDisposable
 {
     public Action<bool> PlayerJumpAnimation;
     public Action<bool> PlayerStoppedByTrap;
@@ -17,7 +17,7 @@ public class PlayerAnimation : MonoBehaviour
         isUpset,
         isSit
     }
-    private string[] _animationNames => new string[]
+    private string[] AnimationNames => new string[]
      {
         "isTrap",
         "isRun",
@@ -26,9 +26,9 @@ public class PlayerAnimation : MonoBehaviour
         "isSit"
      };
 
-    private Animator _playerAnimator;
+    private readonly Animator _playerAnimator;
 
-    private void OnEnable()
+    public PlayerAnimation()
     {
         PlayerGameStartedAnimation += PlayerGameStart;
         PlayerStoppedByTrap += PlayerTrapStop;
@@ -36,7 +36,6 @@ public class PlayerAnimation : MonoBehaviour
         PlayerIsUpset += PlayerLose;
         PlayerIsSit += PlayerSit;
     }
-    private void Start() => _playerAnimator = transform.GetChild(1).GetComponent<Animator>();
     private void PlayerJump(bool activate) => SetAnimationState(Animations.isJump, activate);
     private void PlayerTrapStop(bool activate) => SetAnimationState(Animations.isTrap, activate);
     private void PlayerSit(bool activate) => SetAnimationState(Animations.isSit, activate);
@@ -46,14 +45,17 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (_playerAnimator != null) return;
 
-        _playerAnimator.SetBool(_animationNames[(int)animation], activate);
+        _playerAnimator.SetBool(AnimationNames[(int)animation], activate);
     }
-    private void OnDisable()
+    public void Dispose()
     {
         PlayerStoppedByTrap -= PlayerTrapStop;
         PlayerJumpAnimation -= PlayerJump;
         PlayerIsUpset -= PlayerLose;
         PlayerGameStartedAnimation -= PlayerGameStart;
         PlayerIsSit -= PlayerSit;
+
+
+        Debug.Log("Hiiiiiiiiiii");
     }
 }

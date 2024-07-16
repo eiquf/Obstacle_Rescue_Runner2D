@@ -4,48 +4,67 @@ public sealed class Ground : MonoBehaviour
 {
     private const int IndexOfFallPlatform = 4;
     private const int HidePos = -200;
+    private bool _isFallPlatformAdded = false;
 
-    private bool _isFallWasAdded = false;
+    private Transform _spawnPropTransform;
+    private Player _playerController;
+
     public Transform Begin { get; private set; }
     public Transform End { get; private set; }
-    private BoxCollider2D _collider;
     public float Height { get; private set; }
+
+    private BoxCollider2D _collider;
 
     [SerializeField] private bool _canChangePointsHeight;
 
-    private Player _playerMove;
-    public void Inject(Player playerController) => _playerMove = playerController;
+    public void Inject(Player playerController) => _playerController = playerController;
+
     private void Awake()
+    {
+        CacheComponents();
+        CalculateHeight();
+        GenerateProps();
+    }
+    private void CacheComponents()
     {
         Begin = transform.GetChild(0);
         End = transform.GetChild(1);
-
         _collider = GetComponent<BoxCollider2D>();
-        Height = transform.position.y + (_collider.size.y / 2);
+    }
+    private void CalculateHeight() => Height = transform.position.y + (_collider.size.y / 2);
+    private void GenerateProps()
+    {
+        if (transform.Find("SpawnPoint").TryGetComponent(out _spawnPropTransform))
+            new GroundPropsGenerator().Execute(_spawnPropTransform);
     }
     private void FixedUpdate()
     {
-        if (_playerMove == null) return;
+        if (_playerController == null) return;
 
-        if (!_isFallWasAdded)
+        TryAddFallPlatform();
+        MoveGround();
+    }
+    private void TryAddFallPlatform()
+    {
+        if (!_isFallPlatformAdded)
         {
             int randomIndex = Random.Range(0, 10);
             if (randomIndex == IndexOfFallPlatform)
-                gameObject.AddComponent<GroundFall>();
+            {
+                GroundFall groundFall = gameObject.AddComponent<GroundFall>();
+                groundFall.Initialize(_playerController);
+            }
 
-            _isFallWasAdded = true;
+            _isFallPlatformAdded = true;
         }
-
-        MoveGround();
     }
     private void MoveGround()
     {
         Vector2 pos = transform.position;
-        pos.x -= _playerMove.Velocity.x * Time.fixedDeltaTime;
+        pos.x -= _playerController.Velocity.x * Time.fixedDeltaTime;
+        transform.position = pos;
 
         if (transform.position.x < HidePos)
             Destroy(gameObject);
-
-        transform.position = pos;
     }
 }

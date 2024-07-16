@@ -7,10 +7,8 @@ public sealed class Parallax : MonoBehaviour
     private float _velocity;
 
     [SerializeField] private ParallaxSettings _parallaxSettings;
-    private Player _playerMove;
+    [Inject] private readonly Player _playerMove;
 
-    [Inject]
-    private void Construct(Player playerMove) => _playerMove = playerMove;
     private void FixedUpdate()
     {
         ParallaxMove();
@@ -22,7 +20,6 @@ public sealed class Parallax : MonoBehaviour
 
         transform.position = _position;
     }
-
     private void ParallaxMove()
     {
         _velocity = _playerMove.Velocity.x / _parallaxSettings.Depth;

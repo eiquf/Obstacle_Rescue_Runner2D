@@ -2,7 +2,7 @@ using UnityEngine;
 
 public sealed class PlayerDead : PlayerSystem
 {
-    private HealthFactory _health;
+    private readonly HealthFactory _health;
     public PlayerDead(PlayerAnimation animation, HealthFactory health)
         : base(animation) { _health = health; }
 

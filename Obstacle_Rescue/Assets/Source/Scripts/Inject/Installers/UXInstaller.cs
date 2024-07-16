@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class InjectComponentIntaller : MonoInstaller
+public class UXInstaller : MonoInstaller
 {
     [SerializeField] private GameObject _container;
     public override void InstallBindings()
@@ -9,5 +9,7 @@ public class InjectComponentIntaller : MonoInstaller
         Container.Bind<SoundController>().FromInstance(_container.GetComponentInChildren<SoundController>());
         Container.Bind<VibrationController>().FromInstance(_container.GetComponentInChildren<VibrationController>());
         Container.Bind<LoadingScreenFactory>().FromInstance(_container.GetComponentInChildren<LoadingScreenFactory>());
+
+        Container.BindInterfacesAndSelfTo<SoundSFXPlay>().AsSingle().NonLazy();
     }
 }

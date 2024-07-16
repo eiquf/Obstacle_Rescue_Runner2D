@@ -54,11 +54,11 @@ public sealed class PlayerMove : PlayerSystem
     }
     private void GroundCheck()
     {
-        Vector2 rayOrigin = new Vector2(_pos.x - 0.7f, _pos.y);
+        Vector2 rayOrigin = new(_pos.x - 0.7f, _pos.y);
         Vector2 rayDirection = Vector2.up;
         float rayDistance = _velocity.y * Time.fixedDeltaTime;
         if (fall != null)
-            rayDistance = -fall.fallSpeed * Time.fixedDeltaTime;
+            rayDistance = -fall.FallSpeed * Time.fixedDeltaTime;
 
         RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance);
         if (hit2D.collider == null)
@@ -68,26 +68,25 @@ public sealed class PlayerMove : PlayerSystem
     }
     private void ChangePosX()
     {
-        float velocityRatio = _velocity.x / _movementSettings.maxXVelocity;
-        _acceleration = _movementSettings.maxAcceleration * (1 - velocityRatio);
-        _maxHoldJumpTime = _movementSettings.maxMaxHoldJumpTime * velocityRatio;
+        float velocityRatio = _velocity.x / _movementSettings.MaxXVelocity;
+        _acceleration = _movementSettings.MaxAcceleration * (1 - velocityRatio);
+        _maxHoldJumpTime = _movementSettings.MaxMaxHoldJumpTime * velocityRatio;
 
         _velocity.x += _acceleration * Time.fixedDeltaTime;
-        if (_velocity.x >= _movementSettings.maxXVelocity)
-            _velocity.x = _movementSettings.maxXVelocity;
+        if (_velocity.x >= _movementSettings.MaxXVelocity)
+            _velocity.x = _movementSettings.MaxXVelocity;
     }
     private void NotOnGround()
     {
         if (!_isGrounded)
         {
-            Vector2 rayOrigin = new Vector2(_pos.x + 0.7f, _pos.y - (_pos.y / 2));
+            Vector2 rayOrigin = new(_pos.x + 0.7f, _pos.y - (_pos.y / 2));
             Vector2 rayDirection = Vector2.up;
             float rayDistance = _velocity.y * Time.fixedDeltaTime;
-            RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, _movementSettings.groundLayerMask);
+            RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, _movementSettings.GroundLayerMask);
             if (hit2D.collider != null)
             {
-                Ground ground = hit2D.collider.GetComponent<Ground>();
-                if (ground != null)
+                if (hit2D.collider.TryGetComponent<Ground>(out var ground))
                 {
                     if (_pos.y >= ground.Height)
                     {
@@ -97,8 +96,7 @@ public sealed class PlayerMove : PlayerSystem
                         _isGrounded = true;
                     }
 
-                    fall = ground.GetComponent<GroundFall>();
-                    if (fall != null)
+                    if (ground.TryGetComponent<GroundFall>(out fall))
                         Fall();
                 }
             }
@@ -108,19 +106,18 @@ public sealed class PlayerMove : PlayerSystem
     }
     private void Fall()
     {
-        fall.SetPlayer(_player);
-        _height -= fall.fallAmount;
+        fall.Initialize(_player);
+        _height -= fall.FallAmount;
         _mainCamera.IsShaking?.Invoke(true);
     }
     private void WallNotGroundedCheck()
     {
-        Vector2 wallOrigin = new Vector2(_pos.x, _pos.y);
+        Vector2 wallOrigin = new(_pos.x, _pos.y);
         Vector2 wallDir = Vector2.right;
-        RaycastHit2D wallHit = Physics2D.Raycast(wallOrigin, wallDir, _velocity.x * Time.fixedDeltaTime, _movementSettings.groundLayerMask);
+        RaycastHit2D wallHit = Physics2D.Raycast(wallOrigin, wallDir, _velocity.x * Time.fixedDeltaTime, _movementSettings.GroundLayerMask);
         if (wallHit.collider != null)
         {
-            Ground ground = wallHit.collider.GetComponent<Ground>();
-            if (ground != null)
+            if (wallHit.collider.TryGetComponent<Ground>(out var ground))
             {
                 if (_pos.y < ground.Height)
                     _velocity.x = 0;
@@ -138,20 +135,20 @@ public sealed class PlayerMove : PlayerSystem
     }
     private void JumpInput()
     {
-        if (_isGrounded || _height <= _movementSettings.jumpGroundThreshold)
+        if (_isGrounded || _height <= _movementSettings.JumpGroundThreshold)
         {
             if (Input.touchCount == 1)
             {
                 if (Input.GetTouch(0).phase == TouchPhase.Stationary)
                 {
                     _isGrounded = false;
-                    _velocity.y = _movementSettings.jumpVelocity;
+                    _velocity.y = _movementSettings.JumpVelocity;
                     _isHoldingJump = true;
                     _holdJumpTimer = 0;
 
                     if (fall != null)
                     {
-                        fall.SetPlayer(null);
+                        fall.Initialize(null);
                         fall = null;
                         _mainCamera.IsShaking?.Invoke(false);
                     }

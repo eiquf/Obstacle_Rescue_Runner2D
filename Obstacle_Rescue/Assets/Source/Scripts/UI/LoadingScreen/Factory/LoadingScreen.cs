@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-public abstract class LoadingScreen<IEnumerator>
+public abstract class LoadingScreen<T>
 {
     protected const int _additiveTimeToWait = 1;
 
@@ -8,5 +8,5 @@ public abstract class LoadingScreen<IEnumerator>
     protected string[] _loadingDotSequence = { ".", "..", "..." };
     protected int _currentDotIndex = 0;
 
-    public abstract Task Execute();
+    public abstract Task Execute(T thing);
 }

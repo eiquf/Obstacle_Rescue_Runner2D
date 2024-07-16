@@ -17,12 +17,4 @@ public class InjectContainer : MonoBehaviour
         VibrationController = vibrationController;
         LoadingScreen = loadingScreen;
     }
-
-    private void Awake()
-    {
-        if (SoundController == null || VibrationController == null || LoadingScreen == null)
-            Debug.LogError("InjectContainer: One or more dependencies are not injected properly.");
-        else
-            Debug.Log("InjectContainer: All dependencies injected successfully.");
-    }
 }

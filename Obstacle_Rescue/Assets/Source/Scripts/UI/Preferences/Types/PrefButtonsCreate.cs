@@ -91,10 +91,6 @@ public class PrefButtonsCreate : IPreferences
             case "BGMButton":
                 _container.SoundController.IsImagesSet?.Invoke(image);
                 break;
-            case "HomeButton":
-                // If HomeButton should set images, uncomment the following line
-                // _container.SoundController.IsImagesSetted?.Invoke(new[] { image });
-                break;
         }
     }
     private void OnButtonClick(string buttonReference)

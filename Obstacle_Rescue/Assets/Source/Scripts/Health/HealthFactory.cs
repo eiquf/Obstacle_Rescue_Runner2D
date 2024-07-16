@@ -13,8 +13,6 @@ public class HealthFactory : MonoBehaviour
     [SerializeField] private LivesSettings _livesSettings;
     protected List<GameObject> _hurts = new();
     #region Scripts
-    private HurtsInitialization _hurtsInitialize;
-
     private AddHealth _addHealth;
     private RemoveHealth _removeHealth;
     private PlayerDeath _playerDeath;
@@ -50,13 +48,12 @@ public class HealthFactory : MonoBehaviour
     private void FixedUpdate() => _aliveChecker.Execute();
     private void HurtsInitialize()
     {
-        _hurtsInitialize = new HurtsInitialization(this, _livesSettings, _hurts);
-        _hurtsInitialize.Execute();
+        new HurtsInitialization(_livesSettings, null, _hurts, transform).Execute();
 
-        _addHealth = new AddHealth(this, _livesSettings, _hurts);
-        _playerDeath = new PlayerDeath(this, _livesSettings, _hurts);
-        _removeHealth = new RemoveHealth(this, _livesSettings, _hurts, _playerDeath);
-        _aliveChecker = new AliveChecker(this, _livesSettings, _hurts, _playerDeath);
+        _playerDeath = new PlayerDeath(_livesSettings, _hurts, null, _cameraController, _playerAnimation);
+        _addHealth = new AddHealth(_livesSettings, _hurts, null, transform);
+        _removeHealth = new RemoveHealth(_livesSettings, _hurts, _playerDeath);
+        _aliveChecker = new AliveChecker(_livesSettings, _hurts, _playerDeath);
     }
     private void AddHealth() => _addHealth.Execute();
     private void ChangeHealth() => _removeHealth.Execute();

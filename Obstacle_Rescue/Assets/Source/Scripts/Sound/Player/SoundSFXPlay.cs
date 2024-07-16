@@ -1,13 +1,16 @@
-public class SoundSFXPlay
+using System;
+
+public class SoundSFXPlay : IDisposable
 {
-    private SoundController _controller;
-    private int _index;
-    public SoundSFXPlay(SoundController soundController, int index)
+    public Action<int> SFXPlay;
+
+    private readonly SoundController _controller;
+    public SoundSFXPlay(SoundController soundController)
     {
         _controller = soundController;
-        _index = index;
 
-        Execute();
+        SFXPlay += SoundPlay;
     }
-    private void Execute() => _controller.AudioSources[1].PlayOneShot(_controller.AudioClips[_index]);
+    public void Dispose() => SFXPlay -= SoundPlay;
+    private void SoundPlay(int index) => _controller.AudioSources[1].PlayOneShot(_controller.AudioClips[index]);
 }

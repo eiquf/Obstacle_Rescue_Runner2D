@@ -3,22 +3,22 @@ using UnityEngine;
 public sealed class GroundFall : MonoBehaviour
 {
     private bool shouldFall = false;
-    public float fallSpeed { get; private set; } = 5f;
-    public float fallAmount { get; private set; }
+    public float FallSpeed { get; private set; } = 5f;
+    public float FallAmount { get; private set; }
     private Player _player;
-    public void SetPlayer(Player player) => _player = player;
-    private void FixedUpdate()
+    public void Initialize(Player player) => _player = player;
+    public void FixedUpdate()
     {
         if (shouldFall)
         {
             Vector2 pos = transform.position;
-            fallAmount = fallSpeed * Time.fixedDeltaTime;
-            pos.y -= fallAmount;
+            FallAmount = FallSpeed * Time.fixedDeltaTime;
+            pos.y -= FallAmount;
 
             if (_player != null)
             {
                 Vector2 playerPos = _player.transform.position;
-                playerPos.y -= fallAmount;
+                playerPos.y -= FallAmount;
                 _player.transform.position = playerPos;
             }
 

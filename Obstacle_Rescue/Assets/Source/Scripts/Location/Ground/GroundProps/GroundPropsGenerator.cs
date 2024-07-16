@@ -1,36 +1,25 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
-public class GroundPropsGenerator : MonoBehaviour
+public class GroundPropsGenerator : IGround
 {
-    private const int _indexHealsSpawn = 7, _indexObstaclesSpawn = 4;
-    private const string SpawnPointAPI = "SpawnPoint";
+    private readonly string[] _prefabsNames = new string[]
+   {
+        "FluffyHurt",
+        "Stone",
+        "GoldApple"
+   };
 
-    private Transform _spawnPointTransform;
+    private readonly int IndexGroundPropGenerator = 5;
 
-    private GroundPropsSetter _groundPropsSetter;
-    public void Inject(GroundPropsSetter groundPropsSetter) => _groundPropsSetter = groundPropsSetter;
-    private void OnEnable()
+    public void Execute(Transform transform)
     {
-        _spawnPointTransform = transform.Find(SpawnPointAPI).GetComponent<Transform>();
-        PropToInstance();
-    }
-    private void PropToInstance()
-    {
-        int random = Random.Range(0, 10);
-        switch (random)
+        int randomGeneratorIndex = Random.Range(0, 10);
+
+        if (randomGeneratorIndex == IndexGroundPropGenerator)
         {
-            case _indexHealsSpawn: HealsInstantiate(); break;
-            case _indexObstaclesSpawn: ObstacleInstantiate(); break;
+            string randomIndexHeals = _prefabsNames[Random.Range(0, _prefabsNames.Length)];
+            Addressables.InstantiateAsync(randomIndexHeals, transform);
         }
-    }
-    private void HealsInstantiate()
-    {
-        int randomIndexHeals = Random.Range(0, _groundPropsSetter.heals.Length);
-        Heal heal = Instantiate(_groundPropsSetter.heals[randomIndexHeals], _spawnPointTransform);
-    }
-    private void ObstacleInstantiate()
-    {
-        int randomIndexObstacles = Random.Range(0, _groundPropsSetter.obstacles.Length);
-        Instantiate(_groundPropsSetter.obstacles[randomIndexObstacles], _spawnPointTransform);
     }
 }

@@ -482,7 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79bace9be0054f24a955bef6f0125659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonsPanelPos: {fileID: 8998142704053109850}
+  _buttonsPanelPos: {fileID: 8998142702768383252}
   _creatPos:
   - {fileID: 8998142702454825542}
   - {fileID: 8998142702872360059}

@@ -79,7 +79,5 @@ public class ButtonClickHandler : IMenu
     private void Education() => _educationPanel.Execute(_creatPos[1]);
     private void Stop() => _stopMenuPanelActivator.Execute(_creatPos[0]);
     private void Dictionary() => _dictionaryPanelSpawn.Execute(_creatPos[1]);
-    private void Quest() { }
-    private void Result() { }
     private void ButtonsTapAnimation(Transform transform) => new ButtonTapAnimation().Execute(transform);
 }

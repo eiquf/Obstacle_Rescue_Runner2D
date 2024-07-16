@@ -3,15 +3,11 @@ using UnityEngine;
 
 public class RemoveHealth : Health
 {
-    private PlayerDeath _playerDeath;
-
     public RemoveHealth
-        (HealthFactory healthFactory,
-        LivesSettings livesSettings,
+        (LivesSettings livesSettings,
         List<GameObject> hurts,
         PlayerDeath playerDeath)
-        : base(healthFactory, livesSettings, hurts)
-    { _playerDeath = playerDeath; }
+        : base(livesSettings, hurts, playerDeath) { }
 
     public override void Execute()
     {

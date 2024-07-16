@@ -14,11 +14,4 @@ public class LevelInjectContainer : MonoBehaviour
         Player = player;
         CameraFactory = cameraFactory;
     }
-    private void Awake()
-    {
-        if (CameraFactory == null || Player == null)
-            Debug.LogError("InjectContainer: One or more dependencies are not injected properly.");
-        else
-            Debug.Log("InjectContainer: All dependencies injected successfully.");
-    }
 }

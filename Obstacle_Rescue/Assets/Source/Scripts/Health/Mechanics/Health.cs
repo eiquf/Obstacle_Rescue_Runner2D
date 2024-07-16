@@ -5,15 +5,15 @@ public abstract class Health
 {
     protected List<GameObject> _hurts;
 
-    protected HealthFactory _healthFactory;
     protected LivesSettings _livesSettings;
+    protected PlayerDeath _playerDeath;
 
     protected readonly PropUIAnimation _propUIAnim = new();
-    protected Health(HealthFactory healthFactory, LivesSettings livesSettings, List<GameObject> hurts)
+    protected Health(LivesSettings livesSettings, List<GameObject> hurts, PlayerDeath playerDeath)
     {
-        _healthFactory = healthFactory;
         _livesSettings = livesSettings;
         _hurts = hurts;
+        _playerDeath = playerDeath;
     }
 
     public abstract void Execute();

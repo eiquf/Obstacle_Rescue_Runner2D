@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4955235802289068537}
   - component: {fileID: 7789020684008987272}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirstLevelStatic 1_14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4513276542618479713}
   - component: {fileID: 1213348761618228735}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirstLevelStatic 1_7 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 875756527903578752}
   - component: {fileID: 5147967766497471544}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirstLevelStatic 1_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ GameObject:
   - component: {fileID: 2408928808931147275}
   - component: {fileID: 2408928808931147277}
   - component: {fileID: 2408928808931147276}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4892425575708567512}
   - component: {fileID: 5702438014297630072}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ItemsToActivate_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,7 +452,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3306343812212293461}
   - component: {fileID: 2970080733473859199}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bucket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -537,7 +537,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6092572059363630330}
   - component: {fileID: 8562792161762054224}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stone (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -620,7 +620,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4639204305409853090}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -652,7 +652,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6846953156461218422}
   - component: {fileID: 4846522949227772463}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Vetka
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -737,7 +737,7 @@ GameObject:
   - component: {fileID: 8454295399537715017}
   - component: {fileID: 3181195280287684465}
   - component: {fileID: 4683364613362264836}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -842,7 +842,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5371305049251253547}
   - component: {fileID: 5371305049251253544}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'Platform '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1021,7 +1021,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7665331902194627484}
   - component: {fileID: 2001246659389192256}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirstLevelStatic_16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1105,7 +1105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 348907827574379074}
   - component: {fileID: 4213670027583941260}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1273,7 +1273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3017460529724577608}
   - component: {fileID: 414267566752079779}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FirstLevelStatic 1_14 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1356,7 +1356,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8577061488754242965}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Begin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1388,6 +1388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8577061489672881069}
   - component: {fileID: 5757470560945987233}
+  - component: {fileID: 6102788976027939957}
   m_Layer: 6
   m_Name: BucketPlatform
   m_TagString: Untagged
@@ -1442,6 +1443,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 94, y: 20}
   m_EdgeRadius: 0
+--- !u!114 &6102788976027939957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577061489672881067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6adff25276c92a246bbce9d6a95cc192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canChangePointsHeight: 0
 --- !u!1 &8577061490530398647
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,7 +1465,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8577061490530398648}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
