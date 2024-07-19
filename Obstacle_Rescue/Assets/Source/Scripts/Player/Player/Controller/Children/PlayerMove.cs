@@ -152,6 +152,8 @@ public sealed class PlayerMove : PlayerSystem
                         fall = null;
                         _mainCamera.IsShaking?.Invoke(false);
                     }
+
+                    _animation.PlayerJumpAnimation?.Invoke();
                 }
                 if (Input.GetTouch(0).phase == TouchPhase.Ended)
                     _isHoldingJump = false;

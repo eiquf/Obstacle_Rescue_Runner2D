@@ -24,7 +24,7 @@ public sealed class Player : MonoBehaviour
     #endregion
 
     private Player _player => this;
-    private PlayerAnimation _animation = new();
+    private PlayerAnimation _animation;
     private MovementSettings _movementSettings;
     private HealthFactory _health;
     private MainCameraFactory _mainCamera;
@@ -53,13 +53,17 @@ public sealed class Player : MonoBehaviour
     }
     private void Awake()
     {
-        InitializeControlComponents();
-        _shadowTransform = transform.GetChild(0);
         _animator = transform.GetChild(1).GetComponent<Animator>();
+        _shadowTransform = transform.GetChild(0);
+
+        InitializeControlComponents();
+
+        _canMove = true;
     }
-    public void SetVelocity(Vector2 velocity) => Velocity = velocity;
     private void InitializeControlComponents()
     {
+        _animation = new PlayerAnimation(_animator);
+
         Move = new PlayerMove
             (_movementSettings,
             _player,
@@ -85,6 +89,7 @@ public sealed class Player : MonoBehaviour
 
         Shadow = new PlayerShadow(_animation);
     }
+    public void SetVelocity(Vector2 velocity) => Velocity = velocity;
     private void CanMove() => _canMove = true;
     private void Hit() => Obstacle.Execute(transform);
     private void FixedUpdate() => Moves();
@@ -93,7 +98,7 @@ public sealed class Player : MonoBehaviour
         if (_canMove == true)
         {
             Shadow.Execute(_shadowTransform);
-            Trap.Execute(transform);
+            //Trap.Execute(transform);
             Move.Execute(transform);
             Heal.Execute(transform);
             Dead.Execute(transform);

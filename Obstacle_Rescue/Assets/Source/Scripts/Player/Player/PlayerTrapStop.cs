@@ -5,8 +5,9 @@ using UnityEngine;
 [Serializable]
 public sealed class PlayerTrapStop : PlayerSystem
 {
-    private MovementSettings _movementSettings;
-    private Player _player;
+    private readonly MovementSettings _movementSettings;
+    private readonly Player _player;
+
     public PlayerTrapStop
         (MovementSettings movementSettings,
         Player player,
@@ -20,7 +21,8 @@ public sealed class PlayerTrapStop : PlayerSystem
     public override void Execute(Transform transform) => Hit();
     private void Hit()
     {
-        _animation.PlayerStoppedByTrap?.Invoke(true);
-        //_player.Velocity.x *= _movementSettings.stopVelocity;
+        _animation.PlayerIsStop?.Invoke();
+        _velocity.x = _player.Velocity.x * _movementSettings.StopVelocity;
+        _player.SetVelocity(_velocity);
     }
 }
