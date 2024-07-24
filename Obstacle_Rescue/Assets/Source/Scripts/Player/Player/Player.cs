@@ -98,7 +98,7 @@ public sealed class Player : MonoBehaviour
         if (_canMove == true)
         {
             Shadow.Execute(_shadowTransform);
-            //Trap.Execute(transform);
+            Trap.Execute(transform);
             Move.Execute(transform);
             Heal.Execute(transform);
             Dead.Execute(transform);

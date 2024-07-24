@@ -12,8 +12,7 @@ public sealed class PlayerDead : PlayerSystem
         {
             if (_pos.y < -20f)
                 Object.Destroy(transform.gameObject);
-
-            _health.OnPlayerDeath?.Invoke();
         }
+        //else _animation.PlayerIsUpset?.Invoke();
     }
 }

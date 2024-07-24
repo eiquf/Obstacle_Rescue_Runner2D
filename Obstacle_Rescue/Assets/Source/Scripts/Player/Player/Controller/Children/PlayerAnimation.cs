@@ -3,36 +3,32 @@ using UnityEngine;
 
 public class PlayerAnimation : IDisposable
 {
-    public Action PlayerJumpAnimation { get; private set; }
-    public Action PlayerIsStop;
+    public Action<bool> PlayerJumpAnimation;
+    public Action<bool> PlayerIsStop;
     public Action PlayerIsUpset;
-    public Action PlayerGameStartedAnimation;
 
     private readonly Animator _playerAnimator;
 
     public PlayerAnimation(Animator animator)
     {
-        _playerAnimator = animator;
-
         PlayerIsStop += PlayerIdle;
         PlayerJumpAnimation += PlayerJump;
         PlayerIsUpset += PlayerLose;
+
+        _playerAnimator = animator;
     }
-    private void PlayerJump() => SetAnimationState("Jump", true);
-    private void PlayerIdle() => SetAnimationState("Idle", true);
+    private void PlayerJump(bool state) => SetAnimationState("Jump", state);
+    private void PlayerIdle(bool state) => SetAnimationState("Idle", state);
     private void PlayerLose() => SetAnimationState("GameOver", true);
     private void SetAnimationState(string animation, bool activate)
     {
-        if (_playerAnimator != null) return;
-
-        _playerAnimator.SetBool(animation, activate);
+        if (_playerAnimator == null) return;
+        else _playerAnimator.SetBool(animation, activate);
     }
     public void Dispose()
     {
         PlayerIsStop -= PlayerIdle;
         PlayerJumpAnimation -= PlayerJump;
         PlayerIsUpset -= PlayerLose;
-
-        Debug.Log("Hiiiiiiiiiii");
     }
 }

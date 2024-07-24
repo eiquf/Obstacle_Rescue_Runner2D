@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class PlayerSystem
 {
-    protected  PlayerAnimation _animation;
+    protected PlayerAnimation _animation;
 
     protected static Vector2 _pos;
     protected static Vector2 _velocity;

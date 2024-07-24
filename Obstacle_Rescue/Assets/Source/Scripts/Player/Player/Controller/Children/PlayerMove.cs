@@ -96,7 +96,7 @@ public sealed class PlayerMove : PlayerSystem
                         _isGrounded = true;
                     }
 
-                    if (ground.TryGetComponent<GroundFall>(out fall))
+                    if (ground.TryGetComponent(out fall))
                         Fall();
                 }
             }
@@ -137,6 +137,8 @@ public sealed class PlayerMove : PlayerSystem
     {
         if (_isGrounded || _height <= _movementSettings.JumpGroundThreshold)
         {
+            _animation.PlayerJumpAnimation?.Invoke(false);
+
             if (Input.touchCount == 1)
             {
                 if (Input.GetTouch(0).phase == TouchPhase.Stationary)
@@ -153,7 +155,7 @@ public sealed class PlayerMove : PlayerSystem
                         _mainCamera.IsShaking?.Invoke(false);
                     }
 
-                    _animation.PlayerJumpAnimation?.Invoke();
+                    _animation.PlayerJumpAnimation?.Invoke(true);
                 }
                 if (Input.GetTouch(0).phase == TouchPhase.Ended)
                     _isHoldingJump = false;

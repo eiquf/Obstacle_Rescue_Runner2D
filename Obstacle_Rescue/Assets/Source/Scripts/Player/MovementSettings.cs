@@ -21,6 +21,7 @@ public class MovementSettings : ScriptableObject
     [field: Header("Layer Masks")]
     [field: SerializeField] public LayerMask GroundLayerMask { get; private set; }
     [field: SerializeField] public LayerMask ObstacleLayerMask { get; private set; }
+    [field: SerializeField] public LayerMask TrapsLayerMask { get; private set; }
     [field: SerializeField] public LayerMask HealLayerMask { get; private set; }
     [field: SerializeField] public LayerMask LetterLayerMask { get; private set; }
     [field: Header("Bounce")]

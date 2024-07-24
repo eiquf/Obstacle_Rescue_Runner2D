@@ -2,27 +2,22 @@ using UnityEngine;
 
 public sealed class PlayerObstacle : PlayerSystem
 {
-    private MovementSettings _movementSettings;
+    private readonly MovementSettings _movementSettings;
     public PlayerObstacle
         (PlayerAnimation animation,
         MovementSettings movementSettings)
         : base(animation) => _movementSettings = movementSettings;
     public override void Execute(Transform transform)
     {
-        Vector2 obstOrigin = new Vector2(_pos.x, _pos.y);
-        RaycastHit2D obstHitX = Physics2D.Raycast(obstOrigin, Vector2.right, _velocity.x * Time.fixedDeltaTime, _movementSettings.ObstacleLayerMask);
-        if (obstHitX.collider != null)
-        {
-            Obstacle obstacle = obstHitX.collider.GetComponent<Obstacle>();
-            if (obstacle != null)
-                Hit(obstacle);
-        }
+        Vector2 obstOrigin = new(_pos.x, _pos.y);
+        RaycastHit2D[] hits = {
+        Physics2D.Raycast(obstOrigin, Vector2.right, _velocity.x * Time.fixedDeltaTime, _movementSettings.ObstacleLayerMask),
+        Physics2D.Raycast(obstOrigin, Vector2.up, _velocity.y * Time.fixedDeltaTime, _movementSettings.ObstacleLayerMask)
+    };
 
-        RaycastHit2D obstHitY = Physics2D.Raycast(obstOrigin, Vector2.up, _velocity.y * Time.fixedDeltaTime, _movementSettings.ObstacleLayerMask);
-        if (obstHitY.collider != null)
+        foreach (var hit in hits)
         {
-            Obstacle obstacle = obstHitY.collider.GetComponent<Obstacle>();
-            if (obstacle != null)
+            if (hit.collider != null && hit.collider.TryGetComponent(out Obstacle obstacle))
                 Hit(obstacle);
         }
     }
