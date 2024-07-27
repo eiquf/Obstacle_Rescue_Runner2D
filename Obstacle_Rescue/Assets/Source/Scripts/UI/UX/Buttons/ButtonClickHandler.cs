@@ -73,11 +73,12 @@ public class ButtonClickHandler : IMenu
             }
         }
     }
-
+    #region Buttons Logic 
     private void Play() => _play.Execute();
     private void Preferences() => _preferences.Execute(_creatPos[0]);
     private void Education() => _educationPanel.Execute(_creatPos[1]);
     private void Stop() => _stopMenuPanelActivator.Execute(_creatPos[0]);
     private void Dictionary() => _dictionaryPanelSpawn.Execute(_creatPos[1]);
+    #endregion
     private void ButtonsTapAnimation(Transform transform) => new ButtonTapAnimation().Execute(transform);
 }

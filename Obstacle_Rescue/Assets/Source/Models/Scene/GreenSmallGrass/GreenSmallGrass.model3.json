@@ -1,0 +1,10 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "GreenSmallGrass.moc3",
+		"Textures": [
+			"GreenSmallGrass.128/texture_00.png"
+		],
+		"DisplayInfo": "GreenSmallGrass.cdi3.json"
+	}
+}

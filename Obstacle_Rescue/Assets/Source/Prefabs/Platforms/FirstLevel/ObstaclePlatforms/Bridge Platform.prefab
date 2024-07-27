@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3306343810768686361}
   - component: {fileID: 3306343810768686367}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,8 +70,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -706531353
-  m_SortingLayer: 0
+  m_SortingLayerID: -1383157491
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 1532927721, guid: 304c18769ebc72c429aefc8c94814bd3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -93,13 +93,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3306343812212293461}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Bridge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3306343812212293461
 Transform:
   m_ObjectHideFlags: 0
@@ -127,7 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3306343812271544235}
   - component: {fileID: 3306343812271544233}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Front
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -187,8 +187,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 304417705
-  m_SortingLayer: 0
+  m_SortingLayerID: -1383157491
+  m_SortingLayer: 4
   m_SortingOrder: 11
   m_Sprite: {fileID: 1888128889, guid: 304c18769ebc72c429aefc8c94814bd3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -210,7 +210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4639204305409853090}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -242,7 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6846953156461218422}
   - component: {fileID: 4846522949227772463}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: FirstLevelStatic_17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,8 +302,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2145508107
-  m_SortingLayer: 0
+  m_SortingLayerID: -1383157491
+  m_SortingLayer: 4
   m_SortingOrder: -1
   m_Sprite: {fileID: -1797130451, guid: 46a8fa7fa9c91b94894211bc040df330, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -326,7 +326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5371305049251253547}
   - component: {fileID: 5371305049251253544}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Platform left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,8 +388,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -706531353
-  m_SortingLayer: 0
+  m_SortingLayerID: -1383157491
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -2100601503, guid: 46a8fa7fa9c91b94894211bc040df330, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -412,7 +412,7 @@ GameObject:
   m_Component:
   - component: {fileID: 348907827574379074}
   - component: {fileID: 4213670027583941260}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,8 +472,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -706531353
-  m_SortingLayer: 0
+  m_SortingLayerID: -1383157491
+  m_SortingLayer: 4
   m_SortingOrder: -1
   m_Sprite: {fileID: -1917085468, guid: 46a8fa7fa9c91b94894211bc040df330, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -496,7 +496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7845586655351477700}
   - component: {fileID: 7845586655351477707}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Platform right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,8 +556,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -706531353
-  m_SortingLayer: 0
+  m_SortingLayerID: -1383157491
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -2100601503, guid: 46a8fa7fa9c91b94894211bc040df330, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -579,7 +579,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8577061488754242965}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Begin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -614,7 +614,7 @@ GameObject:
   - component: {fileID: 3740324360261392507}
   m_Layer: 6
   m_Name: Bridge Platform
-  m_TagString: Untagged
+  m_TagString: Unfallable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -678,7 +678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6adff25276c92a246bbce9d6a95cc192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canChangePointsHeight: 0
+  _canChangePointsHeight: 1
 --- !u!1 &8577061490530398647
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,7 +688,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8577061490530398648}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}

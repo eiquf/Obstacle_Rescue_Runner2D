@@ -1,0 +1,10 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "FernSecond.moc3",
+		"Textures": [
+			"FernSecond.64/texture_00.png"
+		],
+		"DisplayInfo": "FernSecond.cdi3.json"
+	}
+}

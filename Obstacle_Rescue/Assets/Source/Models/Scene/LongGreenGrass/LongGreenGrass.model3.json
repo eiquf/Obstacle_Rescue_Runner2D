@@ -1,0 +1,10 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "LongGreenGrass.moc3",
+		"Textures": [
+			"LongGreenGrass.128/texture_00.png"
+		],
+		"DisplayInfo": "LongGreenGrass.cdi3.json"
+	}
+}

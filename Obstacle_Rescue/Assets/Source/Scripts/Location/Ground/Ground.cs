@@ -15,8 +15,6 @@ public sealed class Ground : MonoBehaviour
 
     private BoxCollider2D _collider;
 
-    [SerializeField] private bool _canChangePointsHeight;
-
     public void Inject(Player playerController) => _playerController = playerController;
 
     private void Awake()
@@ -46,7 +44,7 @@ public sealed class Ground : MonoBehaviour
     }
     private void TryAddFallPlatform()
     {
-        if (!_isFallPlatformAdded)
+        if (!_isFallPlatformAdded && !CompareTag("Unfallable"))
         {
             int randomIndex = Random.Range(0, 10);
             if (randomIndex == IndexOfFallPlatform)

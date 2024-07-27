@@ -44,9 +44,9 @@ public sealed class GroundGenerator : MonoBehaviour
     }
     private void SpawnPlatform()
     {
-        float randomAddY = UnityEngine.Random.Range(-1.5f, 1.5f);
+        float randomAddY = UnityEngine.Random.Range(-0.5f, 0.5f);
         Ground newChunk = Instantiate(_platforms[_currentIndex], transform).GetComponent<Ground>();
-        newChunk.transform.position = new Vector2(spawnedChunks[^1].End.position.x - newChunk.Begin.position.x, transform.position.y + randomAddY);
+        newChunk.transform.position = new Vector2(spawnedChunks[^1].End.position.x - newChunk.Begin.position.x, newChunk.Begin.position.x + randomAddY);
         spawnedChunks.Add(newChunk);
 
         _currentIndex++;
@@ -60,13 +60,13 @@ public sealed class GroundGenerator : MonoBehaviour
     }
     private void RemoveOldChunks()
     {
-        if (spawnedChunks.Count > MaxSpawnedChunks)
-        {
-            Destroy(spawnedChunks[0].gameObject);
-            spawnedChunks.RemoveAt(0);
-        }
+        if (spawnedChunks.Count <= MaxSpawnedChunks) return;
 
-        if (_currentIndex >= 5)
-            _currentIndex = 0;
+        Destroy(spawnedChunks[0].gameObject);
+        spawnedChunks.RemoveAt(0);
+
+        if (_currentIndex <= 5) return;
+
+        _currentIndex = 0;
     }
 }

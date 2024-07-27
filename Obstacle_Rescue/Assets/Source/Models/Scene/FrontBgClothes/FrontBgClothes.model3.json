@@ -1,0 +1,10 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "FrontBgClothes.moc3",
+		"Textures": [
+			"FrontBgClothes.1024/texture_00.png"
+		],
+		"DisplayInfo": "FrontBgClothes.cdi3.json"
+	}
+}
