@@ -736,7 +736,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8454295399537715017}
   - component: {fileID: 3181195280287684465}
-  - component: {fileID: 4683364613362264836}
+  - component: {fileID: 7741371088869914086}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -753,7 +753,7 @@ Transform:
   m_GameObject: {fileID: 5358350668473158414}
   m_LocalRotation: {x: -0, y: -0, z: 0.8160306, w: 0.5780088}
   m_LocalPosition: {x: 1.5905, y: 3.2046, z: 0}
-  m_LocalScale: {x: 1.0650572, y: 1.221128, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3306343812212293461}
@@ -811,7 +811,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &4683364613362264836
+--- !u!95 &7741371088869914086
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -821,7 +821,7 @@ Animator:
   m_GameObject: {fileID: 5358350668473158414}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 856f8eaabe08d14498a40d14d41fa967, type: 2}
+  m_Controller: {fileID: 9100000, guid: e8309831d7ccdd94a9aef67db6825152, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1455,7 +1455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6adff25276c92a246bbce9d6a95cc192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canChangePointsHeight: 1
 --- !u!1 &8577061490530398647
 GameObject:
   m_ObjectHideFlags: 0

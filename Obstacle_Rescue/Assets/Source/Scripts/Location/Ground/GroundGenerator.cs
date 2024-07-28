@@ -46,7 +46,7 @@ public sealed class GroundGenerator : MonoBehaviour
     {
         float randomAddY = UnityEngine.Random.Range(-0.5f, 0.5f);
         Ground newChunk = Instantiate(_platforms[_currentIndex], transform).GetComponent<Ground>();
-        newChunk.transform.position = new Vector2(spawnedChunks[^1].End.position.x - newChunk.Begin.position.x, newChunk.Begin.position.x + randomAddY);
+        newChunk.transform.position = new Vector2(spawnedChunks[^1].End.position.x - newChunk.Begin.position.x, newChunk.Begin.position.y + randomAddY);
         spawnedChunks.Add(newChunk);
 
         _currentIndex++;
