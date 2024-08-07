@@ -28,10 +28,14 @@ public sealed class PlayerMove : PlayerSystem
     }
     public override void Execute(Transform transform)
     {
-        _pos = transform.position;
-        Move();
-        _player.SetVelocity(_velocity);
-        transform.position = _pos;
+        if (transform.position.y > -20)
+        {
+            _pos = transform.position;
+            Move();
+            _player.SetVelocity(_velocity);
+            transform.position = _pos;
+        }
+        else UnityEngine.Object.Destroy(transform.gameObject);
     }
     private void Move()
     {

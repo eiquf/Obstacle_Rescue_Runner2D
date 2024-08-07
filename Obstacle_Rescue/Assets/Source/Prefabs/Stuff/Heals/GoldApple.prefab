@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3862140551621036818}
   - component: {fileID: 3862140551621036819}
   - component: {fileID: 8390620338103805586}
-  m_Layer: 11
+  m_Layer: 8
   m_Name: GoldApple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,9 +71,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 304417705
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1383157491
+  m_SortingLayer: 4
+  m_SortingOrder: 100
   m_Sprite: {fileID: -1610862568, guid: 304c18769ebc72c429aefc8c94814bd3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,7 +95,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -109,5 +109,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.02, y: 3.3906267}
+  m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0

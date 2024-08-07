@@ -1,18 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class PlayerDead : PlayerSystem
+public sealed class PlayerDead : Health
 {
-    private readonly HealthFactory _health;
-    public PlayerDead(PlayerAnimation animation, HealthFactory health)
-        : base(animation) { _health = health; }
+    private readonly MainCameraFactory _mainCameraFactory;
+    private readonly PlayerAnimation _animation;
 
-    public override void Execute(Transform transform)
+    public PlayerDead
+        (LivesSettings livesSettings, 
+        List<GameObject> hurts,
+        PlayerAnimation animation,
+        MainCameraFactory factory) : base(livesSettings, hurts)
     {
-        if (_pos.y < -20)
-        {
-            if (_pos.y < -20f)
-                Object.Destroy(transform.gameObject);
-        }
-        //else _animation.PlayerIsUpset?.Invoke();
+        _animation = animation;
+        _mainCameraFactory = factory;
+    }
+
+    public override void Execute()
+    {
+        _hurts.Clear();
+        _mainCameraFactory.IsZoomed?.Invoke(true);
+        _animation.PlayerIsUpset?.Invoke();
     }
 }

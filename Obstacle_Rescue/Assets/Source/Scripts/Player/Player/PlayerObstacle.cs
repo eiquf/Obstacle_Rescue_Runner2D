@@ -17,13 +17,13 @@ public sealed class PlayerObstacle : PlayerSystem
 
         foreach (var hit in hits)
         {
-            if (hit.collider != null && hit.collider.TryGetComponent(out Obstacle obstacle))
-                Hit(obstacle);
+            if (hit.collider != null)
+                Hit(hit.collider.gameObject);
         }
     }
-    private void Hit(Obstacle obstacle)
+    private void Hit(GameObject trap)
     {
-        obstacle.IsDestroyed?.Invoke();
+        Object.Destroy(trap);
         _velocity.x *= _movementSettings.StopVelocity;
     }
 }

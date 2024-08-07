@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class RemoveHealth : Health
 {
+    private readonly PlayerDead _dead;
     public RemoveHealth
         (LivesSettings livesSettings,
         List<GameObject> hurts,
-        PlayerDeath playerDeath)
-        : base(livesSettings, hurts, playerDeath) { }
+        PlayerDead dead)
+        : base(livesSettings, hurts) => _dead = dead;
 
     public override void Execute()
     {
@@ -17,7 +18,6 @@ public class RemoveHealth : Health
             _propUIAnim.OnDisable(_hurts[0].transform);
             _hurts.Remove(_hurts[0]);
         }
-        else
-            _playerDeath.Execute();
+        else _dead.Execute();
     }
 }

@@ -18,7 +18,6 @@ public sealed class Player : MonoBehaviour
     private PlayerMove Move { get; set; }
     private PlayerObstacle Obstacle { get; set; }
     private PlayerTrapStop Trap { get; set; }
-    private PlayerDead Dead { get; set; }
     private PlayerTakeHealth Heal { get; set; }
     private PlayerShadow Shadow { get; set; }
     #endregion
@@ -79,13 +78,10 @@ public sealed class Player : MonoBehaviour
             _player,
             _animation);
 
-        Dead = new PlayerDead
-            (_animation,
-            _health);
-
         Heal = new PlayerTakeHealth
             (_animation,
-            _movementSettings);
+            _movementSettings,
+            _health);
 
         Shadow = new PlayerShadow(_animation);
     }
@@ -101,7 +97,6 @@ public sealed class Player : MonoBehaviour
             Trap.Execute(transform);
             Move.Execute(transform);
             Heal.Execute(transform);
-            Dead.Execute(transform);
         }
     }
 }

@@ -9,9 +9,8 @@ public class AddHealth : Health
     public AddHealth
         (LivesSettings livesSettings,
         List<GameObject> hurts,
-        PlayerDeath playerDeath,
         Transform transform)
-        : base(livesSettings, hurts, playerDeath)
+        : base(livesSettings, hurts)
     {
         _spawn = transform;
         LoadHurt();
