@@ -5,68 +5,69 @@ using Zenject;
 
 public sealed class GroundGenerator : MonoBehaviour
 {
-    public Action<int> IsWordComplete;
+    public event Action<int> OnWordComplete;
 
-    private const int MaxSpawnedChunks = 7;
-    private const float PlayerPosXAllowence = 40f;
+    private const int MaxChunks = 7;
+    private const float PlayerBuffer = 40f;
 
-    private int _currentIndex;
-
-    private bool _wordIsComplete = false;
+    private bool _wordIsComplete;
     public bool WordIsComplete
     {
         get => _wordIsComplete;
         set => _wordIsComplete = value;
     }
 
-    private Ground _firstChunk;
+    [SerializeField] private List<Ground> _groundPool = new();
+    private readonly List<Ground> _activeChunks = new();
 
-    private readonly List<Ground> spawnedChunks = new();
-    private GameObject[] _platforms;
+    [Inject] private Player _player;
 
-    [Inject] private readonly Player _player;
-    private void OnEnable() => _platforms = new GroundPlatformsSetter().Execute();
-    private void Awake()
-    {
-        _firstChunk = transform.GetChild(0).GetComponent<Ground>();
-        spawnedChunks.Add(_firstChunk);
+    private void Awake() => InitializePlatforms();
 
-        _currentIndex = 0;
-    }
     private void FixedUpdate()
     {
-        if (_platforms == null || _player == null) return;
+        if (_player == null) return;
 
-        if (_player.transform.position.x + PlayerPosXAllowence > spawnedChunks[^1].End.position.x)
-            SpawnPlatform();
+        if (ShouldSpawnNextChunk())
+            ActivateChunk();
 
-        RemoveOldChunks();
+        RemoveOldChunk();
     }
-    private void SpawnPlatform()
+
+    private void InitializePlatforms()
     {
-        float randomAddY = UnityEngine.Random.Range(-0.5f, 0.5f);
-        Ground newChunk = Instantiate(_platforms[_currentIndex], transform).GetComponent<Ground>();
-        newChunk.transform.position = new Vector2(spawnedChunks[^1].End.position.x - newChunk.Begin.position.x, newChunk.Begin.position.y + randomAddY);
-        spawnedChunks.Add(newChunk);
+        _groundPool.AddRange(GetComponentsInChildren<Ground>());
+        _activeChunks.Add(_groundPool[0]);
 
-        _currentIndex++;
-
-        InjectComponentsInChunks();
+        for (int i = 1; i < _groundPool.Count; i++)
+            _groundPool[i].gameObject.SetActive(false);
     }
-    private void InjectComponentsInChunks()
+
+    private bool ShouldSpawnNextChunk() =>
+        _player.transform.position.x + PlayerBuffer > _activeChunks[^1].End.position.x;
+
+    private void ActivateChunk()
     {
-        foreach (Ground ground in spawnedChunks)
-            ground.Inject(_player);
+        var randomGround = _groundPool[UnityEngine.Random.Range(1, _groundPool.Count)];
+        randomGround.transform.position = GetNextChunkPosition(randomGround);
+        randomGround.gameObject.SetActive(true);
+        _activeChunks.Add(randomGround);
     }
-    private void RemoveOldChunks()
+
+    private Vector2 GetNextChunkPosition(Ground nextGround)
     {
-        if (spawnedChunks.Count <= MaxSpawnedChunks) return;
+        float randomOffset = UnityEngine.Random.Range(-0.5f, 0.5f);
+        return new Vector2(
+            _activeChunks[^1].End.position.x - nextGround.Begin.position.x + randomOffset,
+            nextGround.Begin.position.y + randomOffset);
+    }
 
-        Destroy(spawnedChunks[0].gameObject);
-        spawnedChunks.RemoveAt(0);
+    private void RemoveOldChunk()
+    {
+        if (_activeChunks.Count <= MaxChunks) return;
 
-        if (_currentIndex <= 5) return;
-
-        _currentIndex = 0;
+        var oldGround = _activeChunks[0];
+        _activeChunks.RemoveAt(0);
+        _groundPool.Add(oldGround);
     }
 }

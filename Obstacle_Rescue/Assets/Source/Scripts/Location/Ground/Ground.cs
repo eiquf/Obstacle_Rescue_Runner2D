@@ -1,13 +1,13 @@
 using UnityEngine;
+using Zenject;
 
 public sealed class Ground : MonoBehaviour
 {
-    private const int IndexOfFallPlatform = 4;
-    private const int HidePos = -200;
-    private bool _isFallPlatformAdded = false;
+    private const int FallPlatformChance = 4;
+    private const float HidePositionX = -200f;
 
+    private bool _fallPlatformAdded;
     private Transform _spawnPropTransform;
-    private Player _playerController;
 
     public Transform Begin { get; private set; }
     public Transform End { get; private set; }
@@ -15,7 +15,7 @@ public sealed class Ground : MonoBehaviour
 
     private BoxCollider2D _collider;
 
-    public void Inject(Player playerController) => _playerController = playerController;
+    [Inject] private Player _player;
 
     private void Awake()
     {
@@ -23,46 +23,47 @@ public sealed class Ground : MonoBehaviour
         CalculateHeight();
         GenerateProps();
     }
+
+    private void FixedUpdate()
+    {
+        if (_player == null) return;
+
+        AddFallPlatformIfNeeded();
+        MoveGround();
+    }
+
     private void CacheComponents()
     {
         Begin = transform.GetChild(0);
         End = transform.GetChild(1);
         _collider = GetComponent<BoxCollider2D>();
     }
-    private void CalculateHeight() => Height = transform.position.y + (_collider.size.y / 2);
+
+    private void CalculateHeight() => Height = transform.position.y + (_collider.size.y * 0.5f);
+
     private void GenerateProps()
     {
-        if (transform.Find("SpawnPoint").TryGetComponent(out _spawnPropTransform))
+        if (transform.Find("SpawnPoint")?.TryGetComponent(out _spawnPropTransform) == true)
             new GroundPropsGenerator().Execute(_spawnPropTransform);
     }
-    private void FixedUpdate()
-    {
-        if (_playerController == null) return;
 
-        TryAddFallPlatform();
-        MoveGround();
-    }
-    private void TryAddFallPlatform()
+    private void AddFallPlatformIfNeeded()
     {
-        if (!_isFallPlatformAdded && !CompareTag("Unfallable"))
+        if (!_fallPlatformAdded && !CompareTag("Unfallable") && Random.Range(0, 10) == FallPlatformChance)
         {
-            int randomIndex = Random.Range(0, 10);
-            if (randomIndex == IndexOfFallPlatform)
+            if (transform.position.x - 5 == _player.transform.position.x)
             {
-                GroundFall groundFall = gameObject.AddComponent<GroundFall>();
-                groundFall.Initialize(_playerController);
+                gameObject.AddComponent<GroundFall>().Initialize(_player);
+                _fallPlatformAdded = true;
             }
-
-            _isFallPlatformAdded = true;
         }
     }
+
     private void MoveGround()
     {
-        Vector2 pos = transform.position;
-        pos.x -= _playerController.Velocity.x * Time.fixedDeltaTime;
-        transform.position = pos;
+        transform.Translate(_player.Velocity.x * Time.fixedDeltaTime * Vector2.left);
 
-        if (transform.position.x < HidePos)
-            Destroy(gameObject);
+        if (transform.position.x < HidePositionX)
+            gameObject.SetActive(false);
     }
 }
