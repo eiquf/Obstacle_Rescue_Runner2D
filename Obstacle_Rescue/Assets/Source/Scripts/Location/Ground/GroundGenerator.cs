@@ -17,12 +17,12 @@ public sealed class GroundGenerator : MonoBehaviour
         set => _wordIsComplete = value;
     }
 
-    [SerializeField] private List<Ground> _groundPool = new();
-    private readonly List<Ground> _activeChunks = new();
+    [SerializeField] private List<Ground> _groundPool;
+    private List<Ground> _activeChunks = new();
 
     [Inject] private Player _player;
 
-    private void Awake() => InitializePlatforms();
+    private void Start() => _activeChunks.Add(_groundPool[0]);
 
     private void FixedUpdate()
     {
@@ -34,39 +34,29 @@ public sealed class GroundGenerator : MonoBehaviour
         RemoveOldChunk();
     }
 
-    private void InitializePlatforms()
-    {
-        _groundPool.AddRange(GetComponentsInChildren<Ground>());
-        _activeChunks.Add(_groundPool[0]);
-
-        for (int i = 1; i < _groundPool.Count; i++)
-            _groundPool[i].gameObject.SetActive(false);
-    }
-
     private bool ShouldSpawnNextChunk() =>
         _player.transform.position.x + PlayerBuffer > _activeChunks[^1].End.position.x;
 
     private void ActivateChunk()
     {
-        var randomGround = _groundPool[UnityEngine.Random.Range(1, _groundPool.Count)];
-        randomGround.transform.position = GetNextChunkPosition(randomGround);
+        Ground randomGround = _groundPool[UnityEngine.Random.Range(1, _groundPool.Count)];
         randomGround.gameObject.SetActive(true);
+        randomGround.transform.position = GetNextChunkPosition(randomGround);
         _activeChunks.Add(randomGround);
     }
 
     private Vector2 GetNextChunkPosition(Ground nextGround)
     {
-        float randomOffset = UnityEngine.Random.Range(-0.5f, 0.5f);
-        return new Vector2(
-            _activeChunks[^1].End.position.x - nextGround.Begin.position.x + randomOffset,
-            nextGround.Begin.position.y + randomOffset);
-    }
+        float randomOffset = UnityEngine.Random.Range(-0.2f, 0.2f);
 
+        return new Vector2(_activeChunks[^1].End.position.x - nextGround.Begin.position.x,
+                nextGround.transform.position.y + randomOffset);
+    }
     private void RemoveOldChunk()
     {
         if (_activeChunks.Count <= MaxChunks) return;
 
-        var oldGround = _activeChunks[0];
+        Ground oldGround = _activeChunks[0];
         _activeChunks.RemoveAt(0);
         _groundPool.Add(oldGround);
     }

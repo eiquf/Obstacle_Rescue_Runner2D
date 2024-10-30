@@ -1,14 +1,18 @@
+using System;
 using UnityEngine;
 using Zenject;
 
 public sealed class Ground : MonoBehaviour
 {
+    public Action IsMoving;
+
     private const int FallPlatformChance = 4;
     private const float HidePositionX = -200f;
 
     private bool _fallPlatformAdded;
     private Transform _spawnPropTransform;
 
+    [field: SerializeField] public bool isChangableY { get; private set; }
     public Transform Begin { get; private set; }
     public Transform End { get; private set; }
     public float Height { get; private set; }
@@ -38,9 +42,14 @@ public sealed class Ground : MonoBehaviour
         End = transform.GetChild(1);
         _collider = GetComponent<BoxCollider2D>();
     }
-
     private void CalculateHeight() => Height = transform.position.y + (_collider.size.y * 0.5f);
+    private void MoveGround()
+    {
+        transform.Translate(_player.Velocity.x * Time.fixedDeltaTime * Vector2.left);
 
+        if (transform.position.x < HidePositionX)
+            gameObject.SetActive(false);
+    }
     private void GenerateProps()
     {
         if (transform.Find("SpawnPoint")?.TryGetComponent(out _spawnPropTransform) == true)
@@ -49,7 +58,7 @@ public sealed class Ground : MonoBehaviour
 
     private void AddFallPlatformIfNeeded()
     {
-        if (!_fallPlatformAdded && !CompareTag("Unfallable") && Random.Range(0, 10) == FallPlatformChance)
+        if (!_fallPlatformAdded && !CompareTag("Unfallable") && UnityEngine.Random.Range(0, 10) == FallPlatformChance)
         {
             if (transform.position.x - 5 == _player.transform.position.x)
             {
@@ -57,13 +66,5 @@ public sealed class Ground : MonoBehaviour
                 _fallPlatformAdded = true;
             }
         }
-    }
-
-    private void MoveGround()
-    {
-        transform.Translate(_player.Velocity.x * Time.fixedDeltaTime * Vector2.left);
-
-        if (transform.position.x < HidePositionX)
-            gameObject.SetActive(false);
     }
 }
