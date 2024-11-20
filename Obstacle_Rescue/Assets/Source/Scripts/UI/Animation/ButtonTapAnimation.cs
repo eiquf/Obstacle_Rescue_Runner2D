@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class ButtonTapAnimation
 {
-    private Vector3 _pressedScale = new Vector3(0.9f, 0.9f, 0.9f);
-    private float _animationDuration = 0.1f;
+    private Vector3 _pressedScale = new(0.9f, 0.9f, 0.9f);
+    private readonly float _animationDuration = 0.1f;
 
     private Transform _transform;
     public void Execute(Transform transform)

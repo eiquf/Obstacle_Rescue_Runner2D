@@ -11,4 +11,8 @@
 
     public const int Dictionary = 1;
     public const int Stop = 0;
+
+    public const int Inst = 0;
+    public const int Twitter = 1;
+    public const int Telegram = 2;
 }

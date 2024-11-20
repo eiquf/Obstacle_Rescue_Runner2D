@@ -5,14 +5,12 @@ using UnityEngine.UI;
 public class ButtonInitializer : IComponentsInitialize<Button>
 {
     private readonly Transform _buttonsPanelPos;
-    private readonly Action<int> _onButtonClick;
-    private readonly Action _onPlaySound;
+    private Action<int> _onButtonClick;
 
-    public ButtonInitializer(Transform buttonsPanelPos, Action<int> onButtonClick, Action soundPlay)
+    public ButtonInitializer(Transform buttonsPanelPos, Action<int> onButtonClick)
     {
         _buttonsPanelPos = buttonsPanelPos;
         _onButtonClick = onButtonClick;
-        _onPlaySound = soundPlay;
     }
 
     public Button[] Execute()
@@ -21,19 +19,10 @@ public class ButtonInitializer : IComponentsInitialize<Button>
         Button[] buttons = new Button[buttonCount];
         for (int i = 0; i < buttonCount; i++)
         {
-            buttons[i] = _buttonsPanelPos.GetChild(i).GetComponent<Button>();
-        }
-
-        for (int i = 0; i < buttonCount; i++)
-        {
             int index = i;
-            buttons[i].onClick.AddListener(() => 
-            {
-                _onButtonClick(index); 
-                _onPlaySound();
-            });
+            buttons[i] = _buttonsPanelPos.GetChild(i).GetComponent<Button>();
+            buttons[i].onClick.AddListener(() => _onButtonClick(index));
         }
-
         return buttons;
     }
 }

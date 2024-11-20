@@ -1,6 +1,6 @@
-public class Play : IMenu
+public class Play : IButtonAction
 {
-    private InjectContainer _container;
+    private readonly InjectContainer _container;
     public Play(InjectContainer injector) => _container = injector;
     public void Execute()
     {

@@ -6,13 +6,11 @@ public sealed class Ground : MonoBehaviour
 {
     public Action IsMoving;
 
-    private const int FallPlatformChance = 4;
-    private const float HidePositionX = -200f;
-
+    [SerializeField] private GroundSettings settings;
     private bool _fallPlatformAdded;
     private Transform _spawnPropTransform;
 
-    [field: SerializeField] public bool isChangableY { get; private set; }
+    private Transform _initialPos;
     public Transform Begin { get; private set; }
     public Transform End { get; private set; }
     public float Height { get; private set; }
@@ -38,6 +36,7 @@ public sealed class Ground : MonoBehaviour
 
     private void CacheComponents()
     {
+        _initialPos = transform;
         Begin = transform.GetChild(0);
         End = transform.GetChild(1);
         _collider = GetComponent<BoxCollider2D>();
@@ -47,18 +46,18 @@ public sealed class Ground : MonoBehaviour
     {
         transform.Translate(_player.Velocity.x * Time.fixedDeltaTime * Vector2.left);
 
-        if (transform.position.x < HidePositionX)
+        if (transform.position.x < settings.HidePositionX)
             gameObject.SetActive(false);
     }
     private void GenerateProps()
     {
         if (transform.Find("SpawnPoint")?.TryGetComponent(out _spawnPropTransform) == true)
-            new GroundPropsGenerator().Execute(_spawnPropTransform);
+            settings.PropsGenerator.Execute(_spawnPropTransform);
     }
 
     private void AddFallPlatformIfNeeded()
     {
-        if (!_fallPlatformAdded && !CompareTag("Unfallable") && UnityEngine.Random.Range(0, 10) == FallPlatformChance)
+        if (!_fallPlatformAdded && !CompareTag("Unfallable") && UnityEngine.Random.Range(0, 10) == settings.FallPlatformChance)
         {
             if (transform.position.x - 5 == _player.transform.position.x)
             {
@@ -67,4 +66,5 @@ public sealed class Ground : MonoBehaviour
             }
         }
     }
+    private void OnDisable() => transform.position = new(0, _initialPos.position.y, 0);
 }

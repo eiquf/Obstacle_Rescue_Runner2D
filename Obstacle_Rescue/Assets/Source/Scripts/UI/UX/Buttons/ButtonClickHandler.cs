@@ -1,84 +1,41 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[Serializable]
 public class ButtonClickHandler : IMenu
 {
-    private const bool _isAnimationUpsideDown = false;
-
     private Button[] _defaultButtons;
-    private readonly Transform[] _creatPos;
+    private ButtonInitializer _buttonInitializer;
     private readonly Transform _buttonsPanelPos;
 
-    #region Scripts
-    private readonly InjectContainer _container;
+    private readonly ButtonActionsFactory _buttonActionsFactory = new();
+    private readonly SoundController _soundController;
 
-    private readonly Play _play;
-    private readonly Preferences _preferences;
-    private readonly EducationPanelSpawn _educationPanel = new();
-    private readonly StopMenuPanelActivator _stopMenuPanelActivator = new();
-    private readonly DictionaryPanelSpawn _dictionaryPanelSpawn;
-
-    private ButtonInitializer _buttonInitializer;
-    #endregion
-
-    public ButtonClickHandler(Transform buttonsPanelPos, Transform[] creatPos, InjectContainer container, bool canSpawn)
+    private readonly string _sceneName;
+    public ButtonClickHandler(Transform buttonsPanelPos, Transform[] createPos, InjectContainer container)
     {
-        _creatPos = creatPos;
-
-        _container = container;
         _buttonsPanelPos = buttonsPanelPos;
+        _soundController = container.SoundController;
 
-        _play = new Play(_container);
-        _preferences = new Preferences(_isAnimationUpsideDown, _container, canSpawn);
-        _dictionaryPanelSpawn = new DictionaryPanelSpawn(_container, _buttonsPanelPos);
+        _buttonActionsFactory.SetComponents(container, createPos);
+        _sceneName = SceneManager.GetActiveScene().name;
     }
 
     public void Execute()
     {
-        _buttonInitializer = new ButtonInitializer(_buttonsPanelPos, OnButtonClick, SoundPlay);
+        _buttonInitializer = new ButtonInitializer(_buttonsPanelPos, OnButtonClick);
         _defaultButtons = _buttonInitializer.Execute();
     }
 
-    private void SoundPlay() => _container.SoundController.IsSoundPlay?.Invoke(0);
     private void OnButtonClick(int index)
     {
-        ButtonsTapAnimation(_defaultButtons[index].transform);
+        IButtonAction action = _buttonActionsFactory.GetMenuButtonAction(index, _sceneName);
+        action?.Execute();
 
-        if (SceneManager.GetActiveScene().name == "Menu")
-        {
-            switch (index)
-            {
-                case UIButtonsCount.Play:
-                    Play();
-                    break;
-                case UIButtonsCount.Preferences:
-                    Preferences();
-                    break;
-                case UIButtonsCount.Education:
-                    Education();
-                    break;
-            }
-        }
-        else
-        {
-            switch (index)
-            {
-                case UIButtonsCount.Stop:
-                    Stop();
-                    break;
-                case UIButtonsCount.Dictionary:
-                    Dictionary();
-                    break;
-            }
-        }
+        ButtonsTapAnimation(_defaultButtons[index].transform);
+        _soundController.IsSoundPlay?.Invoke(index);
     }
-    #region Buttons Logic 
-    private void Play() => _play.Execute();
-    private void Preferences() => _preferences.Execute(_creatPos[0]);
-    private void Education() => _educationPanel.Execute(_creatPos[1]);
-    private void Stop() => _stopMenuPanelActivator.Execute(_creatPos[0]);
-    private void Dictionary() => _dictionaryPanelSpawn.Execute(_creatPos[1]);
-    #endregion
     private void ButtonsTapAnimation(Transform transform) => new ButtonTapAnimation().Execute(transform);
 }

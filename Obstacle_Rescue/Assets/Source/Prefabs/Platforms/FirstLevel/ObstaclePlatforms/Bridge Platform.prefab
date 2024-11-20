@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 6846953156461218422}
   - component: {fileID: 4846522949227772463}
   m_Layer: 0
-  m_Name: FirstLevelStatic_17
+  m_Name: Branch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -678,6 +678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6adff25276c92a246bbce9d6a95cc192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settings: {fileID: 0}
 --- !u!1 &8577061490530398647
 GameObject:
   m_ObjectHideFlags: 0

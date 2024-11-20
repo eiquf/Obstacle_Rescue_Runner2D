@@ -1,71 +1,50 @@
-using DG.Tweening;
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.Video;
 
 public class NewsPanel : MonoBehaviour
 {
     public Action<bool> IsActivated;
-    private RectTransform _panelRect;
 
-    public float popOutDuration = 1f;
-    public float popOutDistance = 200f;
+    [SerializeField] private float popOutDuration = 1f;
+    [SerializeField] private float popOutDistance = 200f;
+    [SerializeField] private float fadeInDuration = 1f;
+    [SerializeField] private bool _isFromTheLeft = false;
+    private Transform SmPos => transform.GetChild(3);
 
-    private float _fadeInDuration = 1f;
-    private CanvasGroup _canvasGroup;
+    private ButtonActionsFactory _buttonActionsFactory = new();
+    private ButtonInitializer _buttonInitializer;
+    private Button[] _smButtons;
 
-    private string _url;
-    private string[] _urls = new string[]
-    {
-        "", "",""
-    };
-    private VideoPlayer _videoPlayer;
-    private Button _button;
-    private enum Scene { FirstLevel = 0, SecondLevel = 1, ThirdLevel = 2 }
-    private void OnEnable() => IsActivated += Animation;
-    private void OnDisable() => IsActivated -= Animation;
+    private PopOutAnimation _panelAnimator;
     private void Awake()
     {
-        _panelRect = GetComponent<RectTransform>();
-        _canvasGroup = GetComponent<CanvasGroup>();
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
 
-        Animation(true);
+        _panelAnimator = new PopOutAnimation
+            (rectTransform, 
+            canvasGroup, 
+            fadeInDuration, 
+            popOutDuration, 
+            _isFromTheLeft);
+
+        IsActivated += _panelAnimator.PlayAnimation;
     }
+
     private void Start()
     {
-        DOTween.timeScale = 1;
-
-        _videoPlayer = GetComponentInChildren<VideoPlayer>();
-        _button = GetComponentInChildren<Button>();
-
-        switch (SceneManager.GetActiveScene().buildIndex)
-        {
-            case (int)Scene.FirstLevel: _url = _urls[0]; break;
-            case (int)Scene.SecondLevel: _url = _urls[1]; break;
-            case (int)Scene.ThirdLevel: _url = _urls[2]; break;
-        }
-        _videoPlayer.url = _url;
-        _button.onClick.AddListener(OpenYouTubeVideo);
+        _buttonInitializer = new ButtonInitializer(SmPos, OnButtonClick);
+        _smButtons = _buttonInitializer.Execute();
     }
-    private void OpenYouTubeVideo()
+    private void OnButtonClick(int index)
     {
-        if (!string.IsNullOrEmpty(_url))
-            Application.OpenURL(_url);
+        IButtonAction action = _buttonActionsFactory.GetSMButtonAction(index);
+        action?.Execute();
+
+        ButtonsTapAnimation(_smButtons[index].transform);
     }
-    private void Animation(bool activation)
-    {
-        _canvasGroup.alpha = activation ? 0 : 1;
-        float endValue = activation ? 1 : 0;
-        _canvasGroup.DOFade(endValue, _fadeInDuration);
-
-        Vector2 startPosition = activation ? new Vector2(Screen.width, 0f) : new Vector2(0f, 0f);
-        _panelRect.anchoredPosition = startPosition;
-
-        Vector2 targetPosition = activation ? new Vector2(0f, 0f) : new Vector2(Screen.width, 0f);
-
-        DOTween.Sequence().Append(_panelRect.DOJump(targetPosition, 1f, 1, popOutDuration))
-            .Join(_panelRect.DOAnchorPos(targetPosition, popOutDuration).SetEase(Ease.OutBack));
-    }
+    private void ButtonsTapAnimation(Transform transform) => new ButtonTapAnimation().Execute(transform);
+    private void OnEnable() => IsActivated += _panelAnimator.PlayAnimation;
+    private void OnDisable() => IsActivated -= _panelAnimator.PlayAnimation;
 }

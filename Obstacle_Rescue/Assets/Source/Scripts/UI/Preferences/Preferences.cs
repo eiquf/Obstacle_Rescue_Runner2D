@@ -1,48 +1,29 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public sealed class Preferences : IUIPanelsInstantiate
+public sealed class Preferences : IButtonAction
 {
-    private bool _isFirstTap = false;
+    private readonly PrefButtonsCreate _prefButtonsCreate;
+    private readonly bool _isUpsideDown;
     private bool _buttonsActivated;
 
-    private readonly bool _canSpawnHomeButton;
-    private readonly bool _isUpsideDown;
-    private readonly InjectContainer _inject;
-
-    private PrefButtonsCreate _prefButtonsCreate;
-
-    public Preferences(bool isUpsideDown, InjectContainer inject, bool canSpawnHome)
+    public Preferences(InjectContainer inject, Transform spawnPosition)
     {
-        _isUpsideDown = isUpsideDown;
-        _inject = inject;
-        _canSpawnHomeButton = canSpawnHome;
-    }
-
-    public void Execute(Transform transform)
-    {
-        if (_isFirstTap)
-            TogglePreferences();
-        else
-            InitializeComponents(transform);
-    }
-
-    private void InitializeComponents(Transform pos)
-    {
-        _prefButtonsCreate = new PrefButtonsCreate(_canSpawnHomeButton, pos, _inject);
+        _prefButtonsCreate = new PrefButtonsCreate(spawnPosition, inject);
         _prefButtonsCreate.Execute();
-        _isFirstTap = true;
+
+        bool isMenuScene = SceneManager.GetActiveScene().name == "Menu";
+        _isUpsideDown = !isMenuScene;
+        _buttonsActivated = !isMenuScene;
     }
 
-    private void TogglePreferences()
+    public void Execute()
     {
         _buttonsActivated = !_buttonsActivated;
-        UpdateButtonsAnimation(_buttonsActivated);
-    }
-
-    private void UpdateButtonsAnimation(bool activate) =>
-        new PreferencesAnimation
-        (_prefButtonsCreate.ButtonsRectTransform,
+        new PreferencesAnimation(
+            _prefButtonsCreate.ButtonsRectTransform,
             _isUpsideDown,
-            activate)
-        .Execute();
+            _buttonsActivated
+        ).Execute();
+    }
 }

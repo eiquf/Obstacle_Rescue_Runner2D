@@ -20,6 +20,6 @@ public sealed class PlayerDead : Health
     {
         _hurts.Clear();
         _mainCameraFactory.IsZoomed?.Invoke(true);
-        _animation.PlayerIsUpset?.Invoke();
+        _animation.PlayerIsStop?.Invoke(true);
     }
 }

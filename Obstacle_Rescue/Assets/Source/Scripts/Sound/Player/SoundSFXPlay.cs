@@ -2,7 +2,7 @@ using System;
 
 public class SoundSFXPlay : IDisposable
 {
-    public Action<int> SFXPlay;
+    public Action<int> SFXPlay { get; set; }
 
     private readonly SoundController _controller;
     public SoundSFXPlay(SoundController soundController)

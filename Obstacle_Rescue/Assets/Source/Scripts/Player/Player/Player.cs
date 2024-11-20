@@ -52,7 +52,7 @@ public sealed class Player : MonoBehaviour
     }
     private void Awake()
     {
-        _animator = transform.GetChild(1).GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         _shadowTransform = transform.GetChild(0);
 
         InitializeControlComponents();

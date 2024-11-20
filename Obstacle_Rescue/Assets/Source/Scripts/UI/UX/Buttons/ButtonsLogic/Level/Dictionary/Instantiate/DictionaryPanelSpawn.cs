@@ -3,32 +3,24 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
-public class DictionaryPanelSpawn : IUIPanelsInstantiate
+public class DictionaryPanelSpawn : IButtonAction
 {
     private const string NAME = "DictionaryPanel";
     private const int MINTAPS = 0;
 
     private bool _isFirstActivation = false;
     private int _currentTapsCount = 6;
-    private Transform _spawnPos;
+    private Transform _spawnPosition;
     private GameObject _pref;
     private Text _text;
     private Button _button;
 
     private readonly Transform _buttonsPanelPos;
-    private readonly InjectContainer _container;
-
-    public DictionaryPanelSpawn(InjectContainer container, Transform buttonsPanelPos)
-    {
-        _container = container;
-        _buttonsPanelPos = buttonsPanelPos;
-    }
-
-    public void Execute(Transform transform)
+    public DictionaryPanelSpawn(Transform spawnPosition) => _spawnPosition = spawnPosition;
+    public void Execute()
     {
         if (_currentTapsCount == MINTAPS) return;
 
-        _spawnPos = transform;
         _currentTapsCount--;
 
         if (!_isFirstActivation)
@@ -49,14 +41,13 @@ public class DictionaryPanelSpawn : IUIPanelsInstantiate
     {
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
-            _pref = Object.Instantiate(obj.Result, _spawnPos);
+            _pref = Object.Instantiate(obj.Result, _spawnPosition);
             _pref.SetActive(true);
         }
     }
 
     private void UpdateTaps()
     {
-        //_container.SoundController.IsSoundPlay?.Invoke(SoundsCount.DICTIONARY);
         _text.text = "x" + (_currentTapsCount - 3);
 
         //if (_currentTapsCount == 0)

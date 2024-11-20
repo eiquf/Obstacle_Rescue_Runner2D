@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public sealed class SoundController : MonoBehaviour
 {
-    public Action<int> IsSoundPlay;
+    public Action<int> IsSoundPlay { get; private set; }
     public Action<int> IsSoundVolumeChanged;
-    public Action<Image> IsImagesSet;
+    public Action<Image> IsImagesSet { get; private set; }
 
     private readonly BGM _bgm = new();
     private readonly SFX _sfx = new();
@@ -19,12 +19,14 @@ public sealed class SoundController : MonoBehaviour
     public Sprite[] Sprites { get; private set; }
     public AudioClip[] AudioClips { get; private set; }
     [field: SerializeField] public AudioSource[] AudioSources { get; private set; }
+    private SceneChecker _sceneChecker = new();
 
     private void OnEnable()
     {
         IsSoundPlay += SoundPlay;
         IsSoundVolumeChanged += ChangeSoundVolume;
         IsImagesSet += LoadImage;
+        _sceneChecker.OnNotify += Clear;
     }
 
     private void OnDisable()
@@ -32,14 +34,16 @@ public sealed class SoundController : MonoBehaviour
         IsSoundPlay -= SoundPlay;
         IsSoundVolumeChanged -= ChangeSoundVolume;
         IsImagesSet -= LoadImage;
+        _sceneChecker.OnNotify -= Clear;
     }
 
     private void Awake()
     {
+        _sceneChecker.Execute();
         LoadComponents();
         new SoundInitialization().Execute(this);
     }
-
+    private void FixedUpdate() => _sceneChecker.Execute();
     private void LoadComponents()
     {
         Sprites = new SoundSpritesLoader().Execute();
@@ -62,5 +66,10 @@ public sealed class SoundController : MonoBehaviour
     {
         if (index == UIButtonsCount.SFX) _sfx.Execute(this);
         else if (index == UIButtonsCount.BGM) _bgm.Execute(this);
+    }
+    private void Clear()
+    {
+        if (ButtonsImages.Count == Amount)
+            ButtonsImages.Clear();
     }
 }
