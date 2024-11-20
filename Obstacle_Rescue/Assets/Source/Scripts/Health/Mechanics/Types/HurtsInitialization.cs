@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class HurtsInitialization : Health
 {
+    private readonly AnimationContext _animator = new();
+
     private readonly Transform _spawn;
     private GameObject[] startHurts;
     public HurtsInitialization
@@ -20,7 +22,10 @@ public class HurtsInitialization : Health
             startHurts[i] = transform.GetChild(i).gameObject;
 
         foreach (GameObject hurt in startHurts)
-            _propUIAnim.OnEnable(hurt.transform);
+        {
+            _animator.SetAnimationStrategy(new PropUIAnimation(true));
+            _animator.PlayAnimation(hurt.transform);
+        }
 
         _hurts.AddRange(startHurts);
     }

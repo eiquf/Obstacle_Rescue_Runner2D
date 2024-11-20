@@ -4,6 +4,7 @@ using UnityEngine;
 public class AddHealth : Health
 {
     private readonly HealthPrefabsLoader _healthPrefabLoader = new();
+    private readonly AnimationContext _animator = new();
     private readonly Transform _spawn;
     private GameObject hurt;
     public AddHealth
@@ -20,7 +21,10 @@ public class AddHealth : Health
         if (_hurts.Count < _livesSettings.MaxLives && _hurts.Count != _livesSettings.MinLives)
         {
             GameObject hurtPref = Object.Instantiate(hurt, _spawn.transform);
-            _propUIAnim.OnEnable(hurtPref.transform);
+
+            _animator.SetAnimationStrategy(new PropUIAnimation(true));
+            _animator.PlayAnimation(hurtPref.transform);
+
             _hurts.Add(hurtPref);
         }
     }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6082643233926207323}
   - component: {fileID: 1922067123106610224}
   - component: {fileID: 8130471941667949673}
-  - component: {fileID: 2151216205328154698}
   m_Layer: 5
   m_Name: Attenuation
   m_TagString: Untagged
@@ -90,15 +89,3 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &2151216205328154698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1887589437085369425}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd370cd3bd47bec4e9a8736bf9cbb3c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -1,11 +1,8 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NewsPanel : MonoBehaviour
 {
-    public Action<bool> IsActivated;
-
     [SerializeField] private float popOutDuration = 1f;
     [SerializeField] private float popOutDistance = 200f;
     [SerializeField] private float fadeInDuration = 1f;
@@ -16,20 +13,20 @@ public class NewsPanel : MonoBehaviour
     private ButtonInitializer _buttonInitializer;
     private Button[] _smButtons;
 
-    private PopOutAnimation _panelAnimator;
+    private readonly AnimationContext _animationContext = new();
     private void Awake()
     {
         RectTransform rectTransform = GetComponent<RectTransform>();
         CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
 
-        _panelAnimator = new PopOutAnimation
-            (rectTransform, 
-            canvasGroup, 
-            fadeInDuration, 
-            popOutDuration, 
-            _isFromTheLeft);
+        _animationContext.SetAnimationStrategy(new PopOutAnimation
+            (rectTransform,
+            canvasGroup,
+            fadeInDuration,
+            popOutDuration,
+            _isFromTheLeft));
 
-        IsActivated += _panelAnimator.PlayAnimation;
+        _animationContext.PlayAnimation(transform);
     }
 
     private void Start()
@@ -44,7 +41,11 @@ public class NewsPanel : MonoBehaviour
 
         ButtonsTapAnimation(_smButtons[index].transform);
     }
-    private void ButtonsTapAnimation(Transform transform) => new ButtonTapAnimation().Execute(transform);
-    private void OnEnable() => IsActivated += _panelAnimator.PlayAnimation;
-    private void OnDisable() => IsActivated -= _panelAnimator.PlayAnimation;
+    private void ButtonsTapAnimation(Transform transform)
+    {
+        _animationContext.SetAnimationStrategy(new ButtonTapAnimation());
+        _animationContext.PlayAnimation(transform);
+    }
+    private void OnEnable() => _animationContext.PlayAnimation(transform);
+    private void OnDisable() => _animationContext.PlayAnimation(transform);
 }

@@ -1,23 +1,15 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class ButtonTapAnimation
+public class ButtonTapAnimation : IUIAnimation
 {
-    private Vector3 _pressedScale = new(0.9f, 0.9f, 0.9f);
+    private readonly Vector3 _pressedScale = new(0.9f, 0.9f, 0.9f);
     private readonly float _animationDuration = 0.1f;
 
-    private Transform _transform;
-    public void Execute(Transform transform)
+    public void PlayAnimation(Transform transform)
     {
-        _transform = transform;
-
         transform.DOScale(_pressedScale, _animationDuration)
-           .SetEase(Ease.OutCirc)
-           .OnComplete(() => ResetButtonScale());
-    }
-    private void ResetButtonScale()
-    {
-        _transform.DOScale(Vector3.one, _animationDuration)
-            .SetEase(Ease.InOutCirc);
+            .SetEase(Ease.OutCirc)
+            .OnComplete(() => transform.DOScale(Vector3.one, _animationDuration).SetEase(Ease.InOutCirc));
     }
 }

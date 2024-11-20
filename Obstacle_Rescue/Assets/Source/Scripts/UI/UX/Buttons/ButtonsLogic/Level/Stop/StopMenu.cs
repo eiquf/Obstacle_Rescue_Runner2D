@@ -31,12 +31,12 @@ public class StopMenu : MonoBehaviour
     }
     private void Active()
     {
-        _newsPanel.IsActivated?.Invoke(true);
+        _newsPanel.gameObject.SetActive(true);
         _preferences.Execute();
     }
     private void Deactivate()
     {
-        _newsPanel.IsActivated?.Invoke(false);
+        _newsPanel.gameObject.SetActive(false);
         _preferences.Execute();
         gameObject.SetActive(false);
     }

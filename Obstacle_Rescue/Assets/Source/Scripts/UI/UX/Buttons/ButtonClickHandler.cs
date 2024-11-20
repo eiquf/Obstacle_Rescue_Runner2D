@@ -11,6 +11,7 @@ public class ButtonClickHandler : IMenu
     private readonly Transform _buttonsPanelPos;
 
     private readonly ButtonActionsFactory _buttonActionsFactory = new();
+    private readonly AnimationContext _animationContext = new();
     private readonly SoundController _soundController;
 
     private readonly string _sceneName;
@@ -37,5 +38,9 @@ public class ButtonClickHandler : IMenu
         ButtonsTapAnimation(_defaultButtons[index].transform);
         _soundController.IsSoundPlay?.Invoke(index);
     }
-    private void ButtonsTapAnimation(Transform transform) => new ButtonTapAnimation().Execute(transform);
+    private void ButtonsTapAnimation(Transform transform)
+    {
+        _animationContext.SetAnimationStrategy(new ButtonTapAnimation());
+        _animationContext.PlayAnimation(transform);
+    }
 }

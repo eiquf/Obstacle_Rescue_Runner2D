@@ -24,6 +24,7 @@ public class PrefButtonsCreate : IPreferences
         "BGMButton",
         "HomeButton"
     };
+    private readonly AnimationContext _animationContext = new();
 
     public PrefButtonsCreate(Transform preferencesCreatePos, InjectContainer container)
     {
@@ -62,7 +63,9 @@ public class PrefButtonsCreate : IPreferences
                 button.onClick.AddListener(() =>
                 {
                     OnButtonClick(_buttonsReferences[index]);
-                    new ButtonTapAnimation().Execute(button.transform);
+
+                    _animationContext.SetAnimationStrategy(new ButtonTapAnimation());
+                    _animationContext.PlayAnimation(button.transform);
                 });
 
                 if (_buttons.All(b => b != null))

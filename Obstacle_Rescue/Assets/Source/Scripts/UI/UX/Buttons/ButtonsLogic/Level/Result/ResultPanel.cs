@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class ResultPanel : MonoBehaviour
 {
+    private readonly AnimationContext _animationContext = new();
+
     private const int HomeIndex = 0;
 
     private int _score;
@@ -17,6 +19,7 @@ public class ResultPanel : MonoBehaviour
 
     private LoadingScreenFactory _lvlChanger;
     private ScoreCounter _scoreCounter;
+
 
     public void Inject(ScoreCounter scoreCounter, LoadingScreenFactory loadingScreen)
     {
@@ -71,7 +74,11 @@ public class ResultPanel : MonoBehaviour
         if (index == HomeIndex) Home();
         else Restart();
     }
-    private void ButtonsTapAnimation(Transform transform) => new ButtonTapAnimation().Execute(transform);
+    private void ButtonsTapAnimation(Transform transform)
+    {
+        _animationContext.SetAnimationStrategy(new ButtonTapAnimation());
+        _animationContext.PlayAnimation(transform);
+    }
     #region Buttons logic
     private void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     private void Home() => _lvlChanger.OnChangeScene?.Invoke(LevelsKeys.mainMenuLevelKey);

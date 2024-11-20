@@ -4,6 +4,7 @@ using UnityEngine;
 public class RemoveHealth : Health
 {
     private readonly PlayerDead _dead;
+    private readonly AnimationContext _animator = new();
     public RemoveHealth
         (LivesSettings livesSettings,
         List<GameObject> hurts,
@@ -15,7 +16,10 @@ public class RemoveHealth : Health
         if (_hurts.Count <= _livesSettings.MaxLives && _hurts.Count != _livesSettings.MinLives)
         {
             Object.Destroy(_hurts[0], 0.25f);
-            _propUIAnim.OnDisable(_hurts[0].transform);
+
+            _animator.SetAnimationStrategy(new PropUIAnimation(false));
+            _animator.PlayAnimation(_hurts[0].transform);
+
             _hurts.Remove(_hurts[0]);
         }
         else _dead.Execute();

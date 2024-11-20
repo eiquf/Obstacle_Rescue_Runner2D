@@ -6,8 +6,6 @@ public abstract class Health
     protected List<GameObject> _hurts;
 
     protected LivesSettings _livesSettings;
-
-    protected readonly PropUIAnimation _propUIAnim = new();
     protected Health(LivesSettings livesSettings, List<GameObject> hurts)
     {
         _livesSettings = livesSettings;
