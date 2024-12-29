@@ -1,26 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AddHealth : Health
+public sealed class AddHealth : HealthSystem
 {
-    private readonly HealthPrefabsLoader _healthPrefabLoader = new();
+    private readonly HealthSystemPrefabsLoader _prefabLoader = new();
+
     private readonly AnimationContext _animator = new();
     private readonly Transform _spawn;
-    private GameObject hurt;
-    public AddHealth
-        (LivesSettings livesSettings,
-        List<GameObject> hurts,
-        Transform transform)
-        : base(livesSettings, hurts)
-    {
-        _spawn = transform;
-        LoadHurt();
-    }
+
+    public AddHealth(LivesSettings livesSettings, List<GameObject> hurts, Transform spwan) : base(livesSettings, hurts) => _spawn = spwan;
     public override void Execute()
     {
         if (_hurts.Count < _livesSettings.MaxLives && _hurts.Count != _livesSettings.MinLives)
         {
-            GameObject hurtPref = Object.Instantiate(hurt, _spawn.transform);
+            GameObject heart = _prefabLoader.Execute();
+            GameObject hurtPref = Object.Instantiate(heart, _spawn.transform);
 
             _animator.SetAnimationStrategy(new PropUIAnimation(true));
             _animator.PlayAnimation(hurtPref.transform);
@@ -28,5 +22,4 @@ public class AddHealth : Health
             _hurts.Add(hurtPref);
         }
     }
-    private void LoadHurt() => hurt = _healthPrefabLoader.Execute();
 }

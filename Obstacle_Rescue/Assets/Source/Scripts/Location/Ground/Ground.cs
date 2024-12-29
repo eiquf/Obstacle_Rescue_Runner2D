@@ -41,7 +41,7 @@ public sealed class Ground : MonoBehaviour
         End = transform.GetChild(1);
         _collider = GetComponent<BoxCollider2D>();
     }
-    private void CalculateHeight() => Height = transform.position.y + (_collider.size.y * 0.5f);
+    private void CalculateHeight() => Height = transform.position.y + (_collider.bounds.extents.y);
     private void MoveGround()
     {
         transform.Translate(_player.Velocity.x * Time.fixedDeltaTime * Vector2.left);

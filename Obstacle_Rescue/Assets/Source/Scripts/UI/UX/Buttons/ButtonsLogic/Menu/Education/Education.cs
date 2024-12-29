@@ -34,7 +34,7 @@ public sealed class Education : MonoBehaviour
     private string[] _videosAPI = new string[]
     {
         "JumpTutorial",
-        "HealthTutorial",
+        "HealthSystemTutorial",
         "DictionaryTutorial",
         "InputWordsTutorial"
     };

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HealthPrefabsLoader: IComponentLoader<GameObject>
+public sealed class HealthSystemPrefabsLoader: IComponentLoader<GameObject>
 {
     private readonly string _prefabName = "Hurt";
 

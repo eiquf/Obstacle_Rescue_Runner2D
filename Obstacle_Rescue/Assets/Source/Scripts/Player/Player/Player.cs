@@ -5,98 +5,79 @@ using Zenject;
 public sealed class Player : MonoBehaviour
 {
     #region Actions
-    public Action IsHitted { get; private set; }
-    public Action IsRun { get; private set; }
-    public Action<bool> ShouldStop { get; private set; }
-    public Action IsMove { get; private set; }
+    public Action<bool> IsStop { get; private set; }
+    public Action<Transform> IsSlowDown { get; private set; }
     #endregion
-    [SerializeField] private bool _canMove = false;
+    [field: SerializeField] public MovementSettings MovementSettings { get; private set; }
+    private readonly CharacterAnimation _animation = new();
+    public CharacterAnimation Animation
+    {
+        get { return _animation; }
+        private set { Animation = _animation; }
+    }
+
+    [SerializeField] private bool _cantMove = false;
     public Vector2 Velocity { get; private set; }
     private Transform _shadowTransform;
     private Animator _animator;
-    #region Components
-    private PlayerMove Move { get; set; }
-    private PlayerObstacle Obstacle { get; set; }
-    private PlayerTrapStop Trap { get; set; }
-    private PlayerTakeHealth Heal { get; set; }
-    private PlayerShadow Shadow { get; set; }
-    #endregion
 
+    #region Components
+    private readonly PlayerShadow _shadow = new();
+
+    private PlayerMove _move;
+    private PlayerObstacle _slowDown;
+    private PlayerStop _stop;
+    private PlayerInjure _heal;
+
+    #endregion  
     private Player _player => this;
-    private PlayerAnimation _animation;
-    private MovementSettings _movementSettings;
-    private HealthFactory _health;
-    private MainCameraFactory _mainCamera;
+    private Health _health;
+    private GameCamera _mainCamera;
 
     [Inject]
     private void Construct
-        (MovementSettings movementSettings,
-        HealthFactory health,
-        MainCameraFactory mainCamera)
+        (Health health,
+        GameCamera mainCamera)
     {
-        _movementSettings = movementSettings;
         _health = health;
         _mainCamera = mainCamera;
     }
     private void OnEnable()
     {
-        IsHitted += Hit;
-        IsRun += CanMove;
-        IsMove += Moves;
+        IsSlowDown += Slow;
+        IsStop += Stop;
     }
     private void OnDisable()
     {
-        IsHitted -= Hit;
-        IsRun -= CanMove;
-        IsMove -= Moves;
+        IsSlowDown -= Slow;
+        IsStop -= Stop;
     }
-    private void Awake()
+    private void Start()
     {
         _animator = GetComponent<Animator>();
         _shadowTransform = transform.GetChild(0);
 
-        InitializeControlComponents();
-
-        _canMove = true;
+        Initialize();
     }
-    private void InitializeControlComponents()
-    {
-        _animation = new PlayerAnimation(_animator);
-
-        Move = new PlayerMove
-            (_movementSettings,
-            _player,
-            _animation,
-            _mainCamera);
-
-        Obstacle = new PlayerObstacle
-            (_animation,
-            _movementSettings);
-
-        Trap = new PlayerTrapStop
-            (_movementSettings,
-            _player,
-            _animation);
-
-        Heal = new PlayerTakeHealth
-            (_animation,
-            _movementSettings,
-            _health);
-
-        Shadow = new PlayerShadow(_animation);
-    }
-    public void SetVelocity(Vector2 velocity) => Velocity = velocity;
-    private void CanMove() => _canMove = true;
-    private void Hit() => Obstacle.Execute(transform);
     private void FixedUpdate() => Moves();
+    private void Initialize()
+    {
+        _move = new(_player, _mainCamera);
+        _slowDown = new(_player);
+        _stop = new(_player);
+        _heal = new(_player, _health);
+        Animation.Inject(_animator);
+    }
     private void Moves()
     {
-        if (_canMove == true)
+        if (_cantMove != true)
         {
-            Shadow.Execute(_shadowTransform);
-            Trap.Execute(transform);
-            Move.Execute(transform);
-            Heal.Execute(transform);
+            _shadow.Execute(_shadowTransform);
+            _move.Execute(transform);
+            _heal.Execute(transform);
         }
     }
+    public void SetVelocity(Vector2 velocity) => Velocity = velocity;
+    private void Stop(bool statement) => _stop.Execute(transform);
+    private void Slow(Transform trap) => _slowDown.Execute(trap);
 }

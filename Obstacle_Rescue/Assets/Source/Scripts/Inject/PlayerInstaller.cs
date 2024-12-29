@@ -9,42 +9,29 @@ namespace ObstacleRescue.Installers
 
         [SerializeField] private Player _player;
 
-        [SerializeField] private HealthFactory _healthFactory;
+        [SerializeField] private Health _health;
 
-        [SerializeField] private MovementSettings _movementSettings;
-        [SerializeField] private MainCameraFactory _mainCamera;
-
-        [Header("Components")]
-        [SerializeField] private Animator _animator;
+        [SerializeField] private GameCamera _mainCamera;
         public override void InstallBindings()
         {
             BindInterfaces();
-            BindComponents();
             Bind();
-            BindHealth();
+            BindHealthSystem();
         }
         private void Bind()
         {
             Container.Bind<Player>().FromInstance(_player).AsSingle();
 
-            Container.Bind<MovementSettings>().FromInstance(_movementSettings).AsSingle();
-            Container.Bind<MainCameraFactory>().FromInstance(_mainCamera).AsSingle();
+            Container.Bind<GameCamera>().FromInstance(_mainCamera).AsSingle();
 
         }
-        private void BindHealth()
+        private void BindHealthSystem()
         {
-            _healthFactory = FindFirstObjectByType<HealthFactory>();
-
-            Container.Bind<HealthFactory>().FromInstance(_healthFactory).AsSingle();
+            Container.Bind<Health>().FromInstance(_health).AsSingle();
         }
         private void BindInterfaces()
         {
-            Container.BindInterfacesAndSelfTo<PlayerAnimation>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<CharacterAnimation>().AsSingle();
         }
-        private void BindComponents()
-        {
-            Container.Bind<Animator>().FromInstance(_animator).AsSingle();
-        }
-
     }
 }

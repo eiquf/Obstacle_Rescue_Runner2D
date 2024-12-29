@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class PopOutAnimation : IUIAnimation
+public class PopOutAnimation : IAnimation
 {
     private readonly RectTransform _panelRect;
     private readonly CanvasGroup _canvasGroup;

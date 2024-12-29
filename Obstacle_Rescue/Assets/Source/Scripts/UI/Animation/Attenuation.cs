@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class Attenuation : IUIAnimation
+public class Attenuation : IAnimation
 {
     private readonly float _fadeDuration;
 

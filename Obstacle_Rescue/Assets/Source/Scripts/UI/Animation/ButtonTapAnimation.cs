@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class ButtonTapAnimation : IUIAnimation
+public class ButtonTapAnimation : IAnimation
 {
     private readonly Vector3 _pressedScale = new(0.9f, 0.9f, 0.9f);
     private readonly float _animationDuration = 0.1f;

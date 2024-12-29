@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class PropUIAnimation : IUIAnimation
+public class PropUIAnimation : IAnimation
 {
     private readonly float _endValue, _duration, _overshoot = 10f;
     private readonly Ease _ease;

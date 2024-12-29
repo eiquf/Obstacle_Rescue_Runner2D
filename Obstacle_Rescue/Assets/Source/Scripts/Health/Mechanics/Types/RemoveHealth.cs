@@ -1,16 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RemoveHealth : Health
+public class RemoveHealth : HealthSystem
 {
-    private readonly PlayerDead _dead;
+    private readonly Death _dead;
     private readonly AnimationContext _animator = new();
-    public RemoveHealth
-        (LivesSettings livesSettings,
-        List<GameObject> hurts,
-        PlayerDead dead)
-        : base(livesSettings, hurts) => _dead = dead;
 
+    public RemoveHealth(LivesSettings livesSettings, List<GameObject> hurts, Death dead) : base(livesSettings, hurts) => _dead = dead;
     public override void Execute()
     {
         if (_hurts.Count <= _livesSettings.MaxLives && _hurts.Count != _livesSettings.MinLives)

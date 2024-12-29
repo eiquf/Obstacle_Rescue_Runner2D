@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public sealed class CanvasSettings : MonoBehaviour
 {
     private CanvasScaler _canvasScaler;
-    private void Start()
+    private void OnEnable()
     {
         _canvasScaler = GetComponent<CanvasScaler>();
         _canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;

@@ -11,21 +11,14 @@ public sealed class PlayerMove : PlayerSystem
 
     private bool _isHoldingJump = false;
 
-    private readonly MainCameraFactory _mainCamera;
-    private readonly MovementSettings _movementSettings;
-    private readonly Player _player;
+    private readonly GameCamera _mainCamera;
+
     private GroundFall fall;
+
     public PlayerMove
-        (MovementSettings movementSettings,
-        Player player,
-        PlayerAnimation animation,
-        MainCameraFactory mainCamera)
-        : base(animation)
-    {
-        _mainCamera = mainCamera;
-        _movementSettings = movementSettings;
-        _player = player;
-    }
+        (Player player,
+        GameCamera mainCamera) : base(player) => _mainCamera = mainCamera;
+
     public override void Execute(Transform transform)
     {
         if (transform.position.y > -20)
@@ -58,27 +51,37 @@ public sealed class PlayerMove : PlayerSystem
     }
     private void GroundCheck()
     {
-        Vector2 rayOrigin = new(_pos.x - 0.7f, _pos.y);
-        Vector2 rayDirection = Vector2.up;
-        float rayDistance = _velocity.y * Time.fixedDeltaTime;
-        if (fall != null)
-            rayDistance = -fall.FallSpeed * Time.fixedDeltaTime;
+        Vector2 rayOrigin = new(_pos.x, _pos.y - 0.1f);
+        Vector2 rayDirection = Vector2.down;
+        float rayDistance = 0.5f;
+        RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, _player.MovementSettings.GroundLayerMask);
 
-        RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance);
-        if (hit2D.collider == null)
+        if (hit2D.collider != null)
+        {
+            if (hit2D.collider.TryGetComponent<Ground>(out var ground))
+            {
+                _isGrounded = true;
+                _height = ground.Height;
+                _pos.y = _height;
+            }
+        }
+        else
+        {
             _isGrounded = false;
+        }
 
         Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.yellow);
     }
+
     private void ChangePosX()
     {
-        float velocityRatio = _velocity.x / _movementSettings.MaxXVelocity;
-        _acceleration = _movementSettings.MaxAcceleration * (1 - velocityRatio);
-        _maxHoldJumpTime = _movementSettings.MaxMaxHoldJumpTime * velocityRatio;
+        float velocityRatio = _velocity.x / _player.MovementSettings.MaxXVelocity;
+        _acceleration = _player.MovementSettings.MaxAcceleration * (1 - velocityRatio);
+        _maxHoldJumpTime = _player.MovementSettings.MaxMaxHoldJumpTime * velocityRatio;
 
         _velocity.x += _acceleration * Time.fixedDeltaTime;
-        if (_velocity.x >= _movementSettings.MaxXVelocity)
-            _velocity.x = _movementSettings.MaxXVelocity;
+        if (_velocity.x >= _player.MovementSettings.MaxXVelocity)
+            _velocity.x = _player.MovementSettings.MaxXVelocity;
     }
     private void NotOnGround()
     {
@@ -87,7 +90,7 @@ public sealed class PlayerMove : PlayerSystem
             Vector2 rayOrigin = new(_pos.x + 0.7f, _pos.y - (_pos.y / 2));
             Vector2 rayDirection = Vector2.up;
             float rayDistance = _velocity.y * Time.fixedDeltaTime;
-            RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, _movementSettings.GroundLayerMask);
+            RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, _player.MovementSettings.GroundLayerMask);
             if (hit2D.collider != null)
             {
                 if (hit2D.collider.TryGetComponent<Ground>(out var ground))
@@ -105,9 +108,30 @@ public sealed class PlayerMove : PlayerSystem
                 }
             }
             Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.red);
+
+            Vector2 obstOrigin = new(_pos.x, _pos.y);
+            RaycastHit2D[] hits = {
+            Physics2D.Raycast(obstOrigin, Vector2.right, _velocity.x * Time.fixedDeltaTime, _player.MovementSettings.ObstacleLayerMask),
+            Physics2D.Raycast(obstOrigin, Vector2.up, _velocity.y * Time.fixedDeltaTime, _player.MovementSettings.ObstacleLayerMask)
+        };
+
+            foreach (var hit in hits)
+            {
+                if (hit.collider != null)
+                    _player.IsSlowDown?.Invoke(hit.transform);
+            }
+
+            Vector2 healOrigin = new(_pos.x, _pos.y);
+            bool isStack = Physics2D.Raycast(healOrigin, Vector2.right, _velocity.x * Time.fixedDeltaTime, _player.MovementSettings.StopLayerMask).collider != null ||
+                           Physics2D.Raycast(healOrigin, Vector2.up, _velocity.y * Time.fixedDeltaTime, _player.MovementSettings.StopLayerMask).collider != null;
+
+            if (isStack) _player.IsStop?.Invoke(true);
+
             WallNotGroundedCheck();
         }
     }
+
+
     private void Fall()
     {
         fall.Initialize(_player);
@@ -118,7 +142,7 @@ public sealed class PlayerMove : PlayerSystem
     {
         Vector2 wallOrigin = new(_pos.x, _pos.y);
         Vector2 wallDir = Vector2.right;
-        RaycastHit2D wallHit = Physics2D.Raycast(wallOrigin, wallDir, _velocity.x * Time.fixedDeltaTime, _movementSettings.GroundLayerMask);
+        RaycastHit2D wallHit = Physics2D.Raycast(wallOrigin, wallDir, _velocity.x * Time.fixedDeltaTime, _player.MovementSettings.GroundLayerMask);
         if (wallHit.collider != null)
         {
             if (wallHit.collider.TryGetComponent<Ground>(out var ground))
@@ -139,16 +163,16 @@ public sealed class PlayerMove : PlayerSystem
     }
     private void JumpInput()
     {
-        if (_isGrounded || _height <= _movementSettings.JumpGroundThreshold)
+        if (_isGrounded || _height <= _player.MovementSettings.JumpGroundThreshold)
         {
-            _animation.PlayerJumpAnimation?.Invoke(false);
+            _player.Animation.IsJump?.Invoke(false);
 
             if (Input.touchCount == 1)
             {
                 if (Input.GetTouch(0).phase == TouchPhase.Stationary)
                 {
                     _isGrounded = false;
-                    _velocity.y = _movementSettings.JumpVelocity;
+                    _velocity.y = _player.MovementSettings.JumpVelocity;
                     _isHoldingJump = true;
                     _holdJumpTimer = 0;
 
@@ -159,7 +183,7 @@ public sealed class PlayerMove : PlayerSystem
                         _mainCamera.IsShaking?.Invoke(false);
                     }
 
-                    _animation.PlayerJumpAnimation?.Invoke(true);
+                    _player.Animation.IsJump?.Invoke(true);
                 }
                 if (Input.GetTouch(0).phase == TouchPhase.Ended)
                     _isHoldingJump = false;
@@ -176,7 +200,7 @@ public sealed class PlayerMove : PlayerSystem
                 if (_holdJumpTimer >= _maxHoldJumpTime)
                     _isHoldingJump = false;
             }
-            else _velocity.y += _movementSettings.gravity * Time.fixedDeltaTime;
+            else _velocity.y += _player.MovementSettings.gravity * Time.fixedDeltaTime;
 
             _pos.y += _velocity.y * Time.fixedDeltaTime;
         }

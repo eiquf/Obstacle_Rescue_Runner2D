@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerShadow : PlayerSystem
 {
-    public PlayerShadow(PlayerAnimation animation) : base(animation) { }
+    public PlayerShadow(Player player = null) : base(player) { }
     public override void Execute(Transform transform)
     {
         transform.gameObject.SetActive(_isGrounded);

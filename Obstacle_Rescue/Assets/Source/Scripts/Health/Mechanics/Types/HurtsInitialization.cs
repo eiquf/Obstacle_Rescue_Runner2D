@@ -1,17 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HurtsInitialization : Health
+public class HurtsInitialization : HealthSystem
 {
     private readonly AnimationContext _animator = new();
 
     private readonly Transform _spawn;
     private GameObject[] startHurts;
+
     public HurtsInitialization
-        (LivesSettings livesSettings,
-        List<GameObject> hurts,
-        Transform transform)
-        : base(livesSettings, hurts) => _spawn = transform;
+        (List<GameObject> hurts, Transform spawn, LivesSettings livesSettings = null) : base(livesSettings, hurts) => _spawn = spawn;
 
     public override void Execute()
     {

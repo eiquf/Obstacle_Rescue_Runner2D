@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class MainCameraFactory : MonoBehaviour
+public sealed class GameCamera : MonoBehaviour
 {
     public Action<bool> IsZoomed;
     public Action<bool> IsShaking;
