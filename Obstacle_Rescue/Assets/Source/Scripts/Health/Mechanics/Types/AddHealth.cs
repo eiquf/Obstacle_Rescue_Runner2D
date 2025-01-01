@@ -13,12 +13,9 @@ public sealed class AddHealth : HealthSystem
     {
         if (_hurts.Count < _livesSettings.MaxLives && _hurts.Count != _livesSettings.MinLives)
         {
-            GameObject heart = _prefabLoader.Execute();
-            GameObject hurtPref = Object.Instantiate(heart, _spawn.transform);
-
+            var hurtPref = Object.Instantiate(_prefabLoader.Execute(), _spawn);
             _animator.SetAnimationStrategy(new PropUIAnimation(true));
             _animator.PlayAnimation(hurtPref.transform);
-
             _hurts.Add(hurtPref);
         }
     }

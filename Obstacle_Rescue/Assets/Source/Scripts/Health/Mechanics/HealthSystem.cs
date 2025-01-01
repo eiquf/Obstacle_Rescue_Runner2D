@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class HealthSystem
 {
-    protected List<GameObject> _hurts;
+    protected static List<GameObject> _hurts;
     protected LivesSettings _livesSettings;
     protected HealthSystem
         (LivesSettings livesSettings,

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -13,11 +14,17 @@ public sealed class PlayerMove : PlayerSystem
 
     private readonly GameCamera _mainCamera;
 
+    private Health _health;
     private GroundFall fall;
 
     public PlayerMove
         (Player player,
-        GameCamera mainCamera) : base(player) => _mainCamera = mainCamera;
+        GameCamera mainCamera, 
+        Health health) : base(player)
+    {
+        _mainCamera = mainCamera;
+        _health = health;
+    }
 
     public override void Execute(Transform transform)
     {
@@ -28,7 +35,7 @@ public sealed class PlayerMove : PlayerSystem
             _player.SetVelocity(_velocity);
             transform.position = _pos;
         }
-        else UnityEngine.Object.Destroy(transform.gameObject);
+        else _health.OnDeath?.Invoke();
     }
     private void Move()
     {

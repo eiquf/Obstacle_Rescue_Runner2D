@@ -11,7 +11,7 @@ public class Health : MonoBehaviour
     public Action OnDeath;
     #endregion
     [SerializeField] private LivesSettings _livesSettings;
-    [SerializeField] private readonly List<GameObject> _hurts = new();
+    [SerializeField] private List<GameObject> _hurts;
     #region Scripts
     private AddHealth _addHealthSystem;
     private RemoveHealth _removeHealthSystem;
@@ -28,6 +28,8 @@ public class Health : MonoBehaviour
     }
     private void OnEnable()
     {
+        new HurtsInitialization(_hurts, transform).Execute();
+
         OnDamaged += RemoveHealth;
         OnHealed += AddHealth;
         OnDeath += Dead;
@@ -41,8 +43,6 @@ public class Health : MonoBehaviour
     private void Start() => Initialize();
     private void Initialize()
     {
-        new HurtsInitialization(_hurts, transform).Execute();
-
         _dead = new Death(_hurts, _camera, _player);
         _addHealthSystem = new AddHealth(_livesSettings, _hurts, transform);
         _removeHealthSystem = new RemoveHealth(_livesSettings, _hurts, _dead);

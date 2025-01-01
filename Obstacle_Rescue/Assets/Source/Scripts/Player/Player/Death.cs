@@ -13,7 +13,12 @@ public sealed class Death : HealthSystem
     }
     public override void Execute()
     {
-        _player.IsStop?.Invoke(true);
+        if (_player.transform.position.y < -20f)
+            Object.Destroy(_player.gameObject);
+        else
+            _player.IsStop?.Invoke(true);
+
+        _hurts.ForEach(hurt => { if (hurt != null) Object.Destroy(hurt); });
         _hurts.Clear();
         _camera.IsZoomed?.Invoke(true);
     }
