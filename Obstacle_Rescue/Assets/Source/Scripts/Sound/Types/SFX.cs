@@ -1,29 +1,32 @@
-public class SFX : SoundType
+public class SFX : SoundType, IButtonAction
 {
-    public SFX()
-    {
-        minVolume = 0;
-        maxVolume = 1;
-        onButtonImageIndex = 2;
-        offButtonImageIndex = 3;
-    }
-
+    private SoundController _controller;
+    private SoundData _data;
+    
     public override void Execute(SoundController soundController)
     {
-        SoundData soundData = LoadSoundSettings();
+        onButtonImageIndex = 0;
+        offButtonImageIndex = 1;
 
-        if (soundData.SFXVolume == maxVolume)
-            soundData.SFXVolume = minVolume;
-        else
-            soundData.SFXVolume = maxVolume;
-
-        ApplyChanges(soundData, soundController);
+        _controller = soundController;
+        _data = LoadSoundSettings();
     }
 
-    private void ApplyChanges(SoundData soundData, SoundController soundController)
+    public void Execute()
     {
-        soundController.AudioSources[UIButtonsCount.SFX].volume = soundData.SFXVolume;
-        soundController.ButtonsImages[UIButtonsCount.SFX].sprite = soundController.Sprites[soundData.SFXVolume == maxVolume ? onButtonImageIndex : offButtonImageIndex];
-        SaveSoundSettings(soundData);
+        if (_data.SFXVolume == maxVolume)
+            _data.SFXVolume = minVolume;
+        else
+            _data.SFXVolume = maxVolume;
+
+        ApplyChanges(_data, _controller);
+    }
+
+    private void ApplyChanges(SoundData _data, SoundController soundController)
+    {
+        soundController.AudioSources[UIButtonsCount.SFX].volume = _data.SFXVolume;
+        _data.SFXButtonImageIndex = _data.SFXVolume == maxVolume ? onButtonImageIndex : offButtonImageIndex;
+        soundController.ButtonsImages[UIButtonsCount.SFX].sprite = soundController.Sprites[_data.SFXButtonImageIndex];
+        SaveSoundSettings(_data);
     }
 }

@@ -1,29 +1,21 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public sealed class Preferences : IButtonAction
 {
-    private readonly PrefButtonsCreate _prefButtonsCreate;
-    private readonly bool _isUpsideDown;
-    private bool _buttonsActivated;
+    private readonly AnimationContext _animation = new();
+    private readonly Transform _spawnPos;
+    private bool _buttonsActivated = false;
 
-    public Preferences(InjectContainer inject, Transform spawnPosition)
+    public Preferences(Transform spawnPos)
     {
-        _prefButtonsCreate = new PrefButtonsCreate(spawnPosition, inject);
-        _prefButtonsCreate.Execute();
-
-        bool isMenuScene = SceneManager.GetActiveScene().name == "Menu";
-        _isUpsideDown = !isMenuScene;
-        _buttonsActivated = !isMenuScene;
+        _buttonsActivated = false;
+        _spawnPos = spawnPos;
+        _animation.SetAnimationStrategy(new PreferencesAnimation(_spawnPos));
     }
 
     public void Execute()
     {
         _buttonsActivated = !_buttonsActivated;
-        new PreferencesAnimation(
-            _prefButtonsCreate.ButtonsRectTransform,
-            _isUpsideDown,
-            _buttonsActivated
-        ).Execute();
+        _animation.PlayAnimation(null);
     }
 }

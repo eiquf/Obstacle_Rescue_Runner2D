@@ -1,10 +1,6 @@
 public class Play : IButtonAction
 {
-    private readonly InjectContainer _container;
-    public Play(InjectContainer injector) => _container = injector;
-    public void Execute()
-    {
-        _container.LoadingScreen.gameObject.SetActive(true);
-        _container.LoadingScreen.OnChangeScene?.Invoke(LevelsKeys.levelKey);
-    }
+    private readonly Load _load;
+    public Play(InjectContainer injector) => _load = new(injector.LoadingScreen);
+    public void Execute() => _load.Execute();
 }

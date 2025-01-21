@@ -1,7 +1,7 @@
 public abstract class SoundType : SoundSettings, ISound
 {
-    protected int minVolume;
-    protected int maxVolume;
+    protected const int minVolume = 0;
+    protected const int maxVolume = 1;
     protected int onButtonImageIndex;
     protected int offButtonImageIndex;
 

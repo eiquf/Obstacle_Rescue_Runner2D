@@ -10,7 +10,7 @@ public sealed class GroundGenerator : MonoBehaviour
     [SerializeField] private List<Ground> _groundPool;
     private List<Ground> _activeChunks = new();
 
-    [Inject] private Player _player;
+    [Inject] private readonly Player _player;
 
     private void Start() => _activeChunks.Add(_groundPool[0]);
 

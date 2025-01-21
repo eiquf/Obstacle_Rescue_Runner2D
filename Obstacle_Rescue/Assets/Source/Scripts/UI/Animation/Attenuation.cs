@@ -9,8 +9,7 @@ public class Attenuation : IAnimation
 
     public void PlayAnimation(Transform transform)
     {
-        var canvasGroup = transform.GetComponent<CanvasGroup>();
-        if (canvasGroup == null) return;
+        if (!transform.TryGetComponent<CanvasGroup>(out var canvasGroup)) return;
 
         canvasGroup.alpha = 1;
         canvasGroup.DOFade(0f, _fadeDuration)

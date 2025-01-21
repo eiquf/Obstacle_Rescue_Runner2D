@@ -3,34 +3,25 @@ using UnityEngine.UI;
 
 public class NewsPanel : MonoBehaviour
 {
-    [SerializeField] private float popOutDuration = 1f;
-    [SerializeField] private float popOutDistance = 200f;
-    [SerializeField] private float fadeInDuration = 1f;
-    [SerializeField] private bool _isFromTheLeft = false;
+    private readonly bool _isFromTheLeft = false;
+    [SerializeField] private Transform EiquifPos;
     private Transform SmPos => transform.GetChild(3);
 
-    private ButtonActionsFactory _buttonActionsFactory = new();
+    private readonly AnimationContext _animationContext = new();
+    private readonly AnimationContext _animationContextEiquif = new();
+
+    private readonly ButtonsActions _buttonActionsFactory = new();
+    private CanvasGroup _canvasGroup;
     private ButtonInitializer _buttonInitializer;
     private Button[] _smButtons;
 
-    private readonly AnimationContext _animationContext = new();
-    private void Awake()
-    {
-        RectTransform rectTransform = GetComponent<RectTransform>();
-        CanvasGroup canvasGroup = GetComponent<CanvasGroup>();
-
-        _animationContext.SetAnimationStrategy(new PopOutAnimation
-            (rectTransform,
-            canvasGroup,
-            fadeInDuration,
-            popOutDuration,
-            _isFromTheLeft));
-
-        _animationContext.PlayAnimation(transform);
-    }
-
     private void Start()
     {
+        _canvasGroup = GetComponent<CanvasGroup>();
+
+        _animationContext.SetAnimationStrategy(new PopOutAnimation(_isFromTheLeft, _canvasGroup));
+        _animationContextEiquif.SetAnimationStrategy(new PopOutAnimation(!_isFromTheLeft));
+
         _buttonInitializer = new ButtonInitializer(SmPos, OnButtonClick);
         _smButtons = _buttonInitializer.Execute();
     }
@@ -46,6 +37,9 @@ public class NewsPanel : MonoBehaviour
         _animationContext.SetAnimationStrategy(new ButtonTapAnimation());
         _animationContext.PlayAnimation(transform);
     }
-    private void OnEnable() => _animationContext.PlayAnimation(transform);
-    private void OnDisable() => _animationContext.PlayAnimation(transform);
+    private void OnEnable()
+    {
+        _animationContext.PlayAnimation(transform);
+        _animationContextEiquif.PlayAnimation(EiquifPos);
+    }
 }

@@ -4,23 +4,10 @@ using UnityEngine;
 public class StopMenu : MonoBehaviour
 {
     public Action<bool> IsPanelActivated { get; set; }
-    private Transform PreferencesCreatePos => transform.GetChild(0);
     private NewsPanel _newsPanel;
-
-    private InjectContainer _container;
-    private Preferences _preferences;
-    private void OnEnable()
-    {
-        IsPanelActivated += ActivatePanel;
-    }
+    private void OnEnable() => IsPanelActivated += ActivatePanel;
     private void OnDisable() => IsPanelActivated -= ActivatePanel;
-    private void Start()
-    {
-        _container = FindFirstObjectByType<InjectContainer>();
-        _newsPanel = transform.GetChild(1).GetComponent<NewsPanel>();
-
-        _preferences = new(_container, PreferencesCreatePos);
-    }
+    private void Start() => _newsPanel = transform.GetChild(1).GetComponent<NewsPanel>();
     private void ActivatePanel(bool activate)
     {
         switch (activate)
@@ -29,15 +16,10 @@ public class StopMenu : MonoBehaviour
             case false: Deactivate(); break;
         }
     }
-    private void Active()
-    {
-        _newsPanel.gameObject.SetActive(true);
-        _preferences.Execute();
-    }
+    private void Active() => _newsPanel.gameObject.SetActive(true);
     private void Deactivate()
     {
         _newsPanel.gameObject.SetActive(false);
-        _preferences.Execute();
         gameObject.SetActive(false);
     }
 }

@@ -6,70 +6,67 @@ using UnityEngine.UI;
 public sealed class SoundController : MonoBehaviour
 {
     public Action<int> IsSoundPlay { get; private set; }
-    public Action<int> IsSoundVolumeChanged;
-    public Action<Image> IsImagesSet { get; private set; }
+    public Action<Transform> IsImagesSet { get; private set; }
 
-    private readonly BGM _bgm = new();
-    private readonly SFX _sfx = new();
+    public readonly BGM _bgm = new();
+    public readonly SFX _sfx = new();
     private SoundSFXPlay _sfxPlay;
 
     private const int Amount = 2;
 
     public List<Image> ButtonsImages { get; private set; } = new();
-    public Sprite[] Sprites { get; private set; }
+    [field: SerializeField] public Sprite[] Sprites { get; private set; }
     public AudioClip[] AudioClips { get; private set; }
     [field: SerializeField] public AudioSource[] AudioSources { get; private set; }
-    private SceneChecker _sceneChecker = new();
+
 
     private void OnEnable()
     {
         IsSoundPlay += SoundPlay;
-        IsSoundVolumeChanged += ChangeSoundVolume;
-        IsImagesSet += LoadImage;
-        _sceneChecker.OnNotify += Clear;
+        IsImagesSet += InitializeImages;
     }
 
     private void OnDisable()
     {
         IsSoundPlay -= SoundPlay;
-        IsSoundVolumeChanged -= ChangeSoundVolume;
-        IsImagesSet -= LoadImage;
-        _sceneChecker.OnNotify -= Clear;
+        IsImagesSet -= InitializeImages;
     }
 
     private void Awake()
     {
-        _sceneChecker.Execute();
         LoadComponents();
         new SoundInitialization().Execute(this);
+
+        _bgm.Execute(this);
+        _sfx.Execute(this);
     }
-    private void FixedUpdate() => _sceneChecker.Execute();
+
     private void LoadComponents()
     {
-        Sprites = new SoundSpritesLoader().Execute();
+        //Sprites = new SoundSpritesLoader().Execute();
         AudioClips = new SoundLoader().Execute();
 
         _sfxPlay = new(this);
     }
 
-    private void LoadImage(Image image)
+    private void InitializeImages(Transform buttonsParent)
     {
-        ButtonsImages.Add(image);
+        ButtonsImages.Clear();
+
+        if (buttonsParent == null) return;
+
+        Image SFX = buttonsParent.GetChild(1).GetComponent<Image>();
+        Image BGM = buttonsParent.GetChild(2).GetComponent<Image>();
+
+        List<Image> buttons = new()
+        {
+            SFX,
+            BGM
+        };
+        ButtonsImages.AddRange(buttons);
 
         if (ButtonsImages.Count == Amount)
             new SoundImagesInitialization().Execute(this);
     }
-
     private void SoundPlay(int index) => _sfxPlay.SFXPlay?.Invoke(index);
-
-    private void ChangeSoundVolume(int index)
-    {
-        if (index == UIButtonsCount.SFX) _sfx.Execute(this);
-        else if (index == UIButtonsCount.BGM) _bgm.Execute(this);
-    }
-    private void Clear()
-    {
-        if (ButtonsImages.Count == Amount)
-            ButtonsImages.Clear();
-    }
 }

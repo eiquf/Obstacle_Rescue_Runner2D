@@ -9,6 +9,8 @@ public class SoundInitialization : SoundType
         if (soundData.FirstPlay != -1)
         {
             soundData.BGMVolume = soundData.SFXVolume = MaxSound;
+            soundData.BGMButtonImageIndex = 2;
+            soundData.SFXButtonImageIndex = 0;
             soundData.FirstPlay = -1;
         }
 

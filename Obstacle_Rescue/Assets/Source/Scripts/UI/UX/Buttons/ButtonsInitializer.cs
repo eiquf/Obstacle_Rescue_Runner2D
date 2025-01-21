@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class ButtonInitializer : IComponentsInitialize<Button>
 {
     private readonly Transform _buttonsPanelPos;
-    private Action<int> _onButtonClick;
+    private readonly Action<int> _onButtonClick;
 
     public ButtonInitializer(Transform buttonsPanelPos, Action<int> onButtonClick)
     {

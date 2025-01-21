@@ -1,45 +1,28 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MenuActions
 {
-    private readonly Play _play;
-    private readonly Preferences _preferences;
-    private readonly EducationPanelSpawn _educPanelSpawn;
-    private readonly StopMenuPanelActivator _stop;
-    private readonly DictionaryPanelSpawn _dictionary;
+    private readonly Dictionary<int, IButtonAction> _buttonActions = new();
 
     public MenuActions(InjectContainer container, Transform[] createPos)
     {
-        _play = new Play(container);
+        var sceneChecker = new SceneChecker();
+        sceneChecker.Execute();
 
-        if (SceneManager.GetActiveScene().name == "Menu")
-            _preferences = new Preferences(container, createPos[0]);
-
-        _educPanelSpawn = new EducationPanelSpawn(createPos[1]);
-
-        _stop = new StopMenuPanelActivator(createPos[0]);
-        _dictionary = new DictionaryPanelSpawn(createPos[1]);
-    }
-
-    public IButtonAction GetMainMenuAction(int index)
-    {
-        return index switch
+        if (sceneChecker.CurrentScene.name == "Menu")
         {
-            UIButtonsCount.Play => _play,
-            UIButtonsCount.Preferences => _preferences,
-            UIButtonsCount.Education => _educPanelSpawn,
-            _ => null
-        };
+            _buttonActions[UIButtonsCount.Play] = new Play(container);
+            _buttonActions[UIButtonsCount.Preferences] = new Preferences(createPos[0]);
+            _buttonActions[UIButtonsCount.Education] = new EducationPanelSpawn(createPos[1]);
+        }
+        else
+        {
+            _buttonActions[UIButtonsCount.Stop] = new StopMenuPanelActivator(createPos[1]);
+            _buttonActions[UIButtonsCount.Stop] = new Preferences(createPos[0]);
+            _buttonActions[UIButtonsCount.Dictionary] = new DictionaryPanelSpawn(createPos[2]);
+        }
     }
 
-    public IButtonAction GetOtherMenuAction(int index)
-    {
-        return index switch
-        {
-            UIButtonsCount.Stop => _stop,
-            UIButtonsCount.Dictionary => _dictionary,
-            _ => null
-        };
-    }
+    public IButtonAction GetAction(int index) => _buttonActions.ContainsKey(index) ? _buttonActions[index] : null;
 }

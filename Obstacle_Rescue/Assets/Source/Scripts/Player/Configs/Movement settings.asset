@@ -16,7 +16,7 @@ MonoBehaviour:
   <MaxXVelocity>k__BackingField: 50
   <MaxAcceleration>k__BackingField: 10
   <JumpVelocity>k__BackingField: 30
-  <MaxMaxHoldJumpTime>k__BackingField: 0.4
+  <MaxMaxHoldJumpTime>k__BackingField: 0.5
   <JumpGroundThreshold>k__BackingField: -2.26
   <DeadLine>k__BackingField: -25
   <StopVelocity>k__BackingField: 0.7
@@ -27,9 +27,9 @@ MonoBehaviour:
   <ObstacleLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
-  <TrapsLayerMask>k__BackingField:
+  <StopLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
   <HealLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256

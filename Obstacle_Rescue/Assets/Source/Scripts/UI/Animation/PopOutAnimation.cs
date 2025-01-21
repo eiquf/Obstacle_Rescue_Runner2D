@@ -3,32 +3,36 @@ using UnityEngine;
 
 public class PopOutAnimation : IAnimation
 {
-    private readonly RectTransform _panelRect;
     private readonly CanvasGroup _canvasGroup;
-    private readonly float _fadeInDuration;
-    private readonly float _popOutDuration;
+    private readonly float _fadeInDuration = 1f;
+    private readonly float _popOutDuration = 0.5f;
     private readonly bool _fromTheLeft;
+    private Vector2 _targetPos;
+    private bool _isSetPos = false;
 
-    public PopOutAnimation(RectTransform panelRect, CanvasGroup canvasGroup, float fadeInDuration, float popOutDuration, bool fromTheLeft)
+    public PopOutAnimation(bool fromTheLeft, CanvasGroup canvasGroup = null)
     {
-        _panelRect = panelRect;
         _canvasGroup = canvasGroup;
-        _fadeInDuration = fadeInDuration;
-        _popOutDuration = popOutDuration;
         _fromTheLeft = fromTheLeft;
     }
 
     public void PlayAnimation(Transform transform)
     {
-        _canvasGroup.alpha = 0;
-        _canvasGroup.DOFade(1, _fadeInDuration);
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.alpha = 0;
+            _canvasGroup.DOFade(1, _fadeInDuration);
+        }
 
         Vector2 startPos = _fromTheLeft ? new Vector2(-Screen.width, 0f) : new Vector2(Screen.width, 0f);
-        Vector2 targetPos = Vector2.zero;
+        if (_isSetPos == false)
+        {
+            _targetPos = transform.position;
+            _isSetPos = true;
+        }
 
-        _panelRect.anchoredPosition = startPos;
-
+        transform.position = startPos;
         DOTween.Sequence()
-            .Append(_panelRect.DOAnchorPos(targetPos, _popOutDuration).SetEase(Ease.OutBack));
+            .Append(transform.DOMove(_targetPos, _popOutDuration).SetEase(Ease.OutBack));
     }
 }

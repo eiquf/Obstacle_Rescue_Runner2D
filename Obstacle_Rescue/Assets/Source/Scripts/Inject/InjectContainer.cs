@@ -5,13 +5,12 @@ public class InjectContainer : MonoBehaviour
 {
     public SoundController SoundController { get; private set; }
     public VibrationController VibrationController { get; private set; }
-    public LoadingScreenFactory LoadingScreen { get; private set; }
-
+    public LoadingScreen LoadingScreen { get; private set; }
     [Inject]
     private void Container
         (SoundController soundController,
          VibrationController vibrationController,
-         LoadingScreenFactory loadingScreen)
+         LoadingScreen loadingScreen)
     {
         SoundController = soundController;
         VibrationController = vibrationController;

@@ -17,14 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: c1b43434c46a609428069591a564844a
   m_SerializeEntries:
-  - m_GUID: 2101b6a3f75b6044590078d8f0eab1ac
-    m_Address: LevelUI
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 6330cf87827fce84aadede2368258b76
-    m_Address: MainMenuUI
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: a887501c36c4ad045b144a9535112e09
     m_Address: DictionaryPanel
     m_ReadOnly: 0

@@ -1,5 +1,5 @@
 ﻿public struct LevelsKeys
 {
     public const string levelKey = "GameLevel";
-    public const string mainMenuLevelKey = "MainMenu";
+    public const string mainMenuLevelKey = "Menu";
 }

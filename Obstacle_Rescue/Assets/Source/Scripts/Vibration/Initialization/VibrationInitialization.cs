@@ -1,6 +1,6 @@
 public sealed class VibrationInitialization : VibrationSettings, IVibration
 {
-    private int _maxIndex = 1;
+    private readonly int _maxIndex = 1;
     private int _vibrationIndex;
 
     public void Execute(VibrationController controller)
@@ -9,6 +9,7 @@ public sealed class VibrationInitialization : VibrationSettings, IVibration
         if (data.FirstPlay != -1)
         {
             _vibrationIndex = _maxIndex;
+            data.VibrationImageIndex = 0;
             data.FirstPlay = -1;
         }
         else

@@ -120,9 +120,9 @@ GameObject:
   m_Component:
   - component: {fileID: 321565087711015051}
   - component: {fileID: 321565087711015046}
-  - component: {fileID: 5266847666609459116}
   - component: {fileID: 321565087711015049}
   - component: {fileID: 1098815130631559831}
+  - component: {fileID: 3578149131672045645}
   m_Layer: 5
   m_Name: LoadingScreen
   m_TagString: Untagged
@@ -159,18 +159,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 321565087711015050}
   m_CullTransparentMesh: 1
---- !u!114 &5266847666609459116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 321565087711015050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 343405acb40281d40a66d3c2dc4e5744, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &321565087711015049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +201,18 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3578149131672045645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321565087711015050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1078d575572c30148acbebb2b0d092b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2518316925698656967
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +243,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 991803250498069577}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4718506187077390984
 MonoBehaviour:
@@ -288,7 +288,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 991803250498069577}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6944248993154193940
 MonoBehaviour:
@@ -472,8 +472,8 @@ Transform:
   - {fileID: 8751502746235794391}
   - {fileID: 1010652970732166294}
   - {fileID: 5175624864990147608}
-  - {fileID: 1286904321465427423}
   - {fileID: 7330882755130675640}
+  - {fileID: 1286904321465427423}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -519,6 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 4926091317063552442}
+  _loadingScreen: {fileID: 3578149131672045645}
 --- !u!1 &5537224541659556215
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,6 +902,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f8b6dc076343c640b3e78be221bfa54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Sprites>k__BackingField:
+  - {fileID: 21300000, guid: 77d7617f7ca31e847946e3b3f6ade5d6, type: 2}
+  - {fileID: 21300000, guid: c1759fb3936721f4db920af7c162ce39, type: 2}
+  - {fileID: 21300000, guid: 6eb8756c5be10c6468a06d4347287b1f, type: 2}
+  - {fileID: 21300000, guid: 2e6a82430b4457f43891f4c697e47417, type: 2}
   <AudioSources>k__BackingField:
   - {fileID: 403198128168120924}
   - {fileID: 1659713240101592960}
