@@ -32,37 +32,22 @@ public sealed class SoundController : MonoBehaviour
         IsImagesSet -= InitializeImages;
     }
 
-    private void Awake()
+    private void Start()
     {
-        LoadComponents();
         new SoundInitialization().Execute(this);
-
-        _bgm.Execute(this);
-        _sfx.Execute(this);
-    }
-
-    private void LoadComponents()
-    {
-        //Sprites = new SoundSpritesLoader().Execute();
-        AudioClips = new SoundLoader().Execute();
-
         _sfxPlay = new(this);
-    }
+        _sfx.Execute(this);
+        _bgm.Execute(this);
 
+    }
     private void InitializeImages(Transform buttonsParent)
     {
         ButtonsImages.Clear();
 
-        if (buttonsParent == null) return;
-
         Image SFX = buttonsParent.GetChild(1).GetComponent<Image>();
         Image BGM = buttonsParent.GetChild(2).GetComponent<Image>();
 
-        List<Image> buttons = new()
-        {
-            SFX,
-            BGM
-        };
+        List<Image> buttons = new() { SFX, BGM};
         ButtonsImages.AddRange(buttons);
 
         if (ButtonsImages.Count == Amount)

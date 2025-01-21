@@ -11,17 +11,16 @@ public class PrefButtonsCreate : IPreferences
 
     private readonly InjectContainer _container;
     private readonly AnimationContext _animationContext = new();
-    private SoundController _contirlle;
-    public PrefButtonsCreate(Transform preferencesCreatePos, InjectContainer container, SoundController s)
+    public PrefButtonsCreate(Transform preferencesCreatePos, InjectContainer container)
     {
         _preferencesCreatePos = preferencesCreatePos;
         _container = container;
-        _contirlle = s;
     }
 
     public void Execute()
     {
-        _contirlle.IsImagesSet?.Invoke(_preferencesCreatePos);
+        _container.VibrationController.IsImageSet?.Invoke(_preferencesCreatePos);
+        _container.SoundController.IsImagesSet?.Invoke(_preferencesCreatePos);
 
         _buttons = _preferencesCreatePos.GetComponentsInChildren<Button>();
 

@@ -922,3 +922,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ba446210b68eb4f97831454b2c2382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Sprites>k__BackingField:
+  - {fileID: 21300000, guid: 74450246de59b2249a49c7d35aae76c7, type: 2}
+  - {fileID: 21300000, guid: 6078b7e3b73118a4baf55acf5cd0761c, type: 2}

@@ -28,7 +28,7 @@ public sealed class MenuController : MonoBehaviour
         ButtonClickHandler buttonClickHandler = new(_buttonsPanelPos, _creatPos, _container);
         buttonClickHandler.Execute();
 
-        _prefButtonsCreate = new PrefButtonsCreate(_creatPos[0], _container, _soundController);
+        _prefButtonsCreate = new PrefButtonsCreate(_creatPos[0], _container);
         _prefButtonsCreate.Execute();
     }
 }

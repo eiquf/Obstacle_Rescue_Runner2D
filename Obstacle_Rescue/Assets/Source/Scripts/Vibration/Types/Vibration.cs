@@ -1,29 +1,10 @@
-using UnityEngine.UI;
-
-public sealed class Vibration : VibrationSettings, IButtonAction
+public sealed class Vibration : VibrationSettings, IVibration, IButtonAction
 {
-    private Image _image;
-    private readonly SceneChecker _sceneChecker = new();
-
-    private readonly VibrationController _controller;
-    private readonly int _maxVibration = 1;
-    private readonly int _minVibration = 0;
-
-    public Vibration(VibrationController controller)
-    {
-        _controller = controller;
-        _sceneChecker.OnNotify += Clear;
-    }
-    public void SetImage(Image image)
-    {
-        _image = image;
-        _image.sprite = _controller.ButtonsSprites[LoadVibrationSettings().VibrationImageIndex];
-        _sceneChecker.OnNotify -= Clear;
-    }
+    private VibrationController _controller;
+    private readonly int _maxVibration = 1, _minVibration = 0;
+    public void Execute(VibrationController controller) => _controller = controller;
     public void Execute()
     {
-        _sceneChecker.Execute();
-
         VibrationData data = LoadVibrationSettings();
 
         if (data.VibrationVolume == _maxVibration)
@@ -36,9 +17,9 @@ public sealed class Vibration : VibrationSettings, IButtonAction
             data.VibrationVolume = _maxVibration;
             data.VibrationImageIndex = 0;
         }
-        _image.sprite = _controller.ButtonsSprites[data.VibrationImageIndex];
+        _controller.Image.sprite = _controller.Sprites[data.VibrationImageIndex];
+        _controller.SetIndex(data.VibrationVolume);
 
         SaveVibrationSettings(data);
     }
-    private void Clear() => _image = null;
 }
