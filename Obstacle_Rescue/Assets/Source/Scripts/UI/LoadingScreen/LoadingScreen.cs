@@ -25,6 +25,7 @@ public class LoadingScreen : MonoBehaviour
     }
     async void Loading()
     {
+        _sceneChecker.Execute();
         var loadOperation = _loadScene.Execute(_sceneChecker.CurrentScene.name);
         await loadOperation;
         gameObject.SetActive(false);

@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [Serializable]
@@ -14,12 +13,12 @@ public sealed class PlayerMove : PlayerSystem
 
     private readonly GameCamera _mainCamera;
 
-    private Health _health;
+    private readonly Health _health;
     private GroundFall fall;
 
     public PlayerMove
         (Player player,
-        GameCamera mainCamera, 
+        GameCamera mainCamera,
         Health health) : base(player)
     {
         _mainCamera = mainCamera;
@@ -73,9 +72,7 @@ public sealed class PlayerMove : PlayerSystem
             }
         }
         else
-        {
             _isGrounded = false;
-        }
 
         Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.yellow);
     }
@@ -115,24 +112,6 @@ public sealed class PlayerMove : PlayerSystem
                 }
             }
             Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.red);
-
-            Vector2 obstOrigin = new(_pos.x, _pos.y);
-            RaycastHit2D[] hits = {
-            Physics2D.Raycast(obstOrigin, Vector2.right, _velocity.x * Time.fixedDeltaTime, _player.MovementSettings.ObstacleLayerMask),
-            Physics2D.Raycast(obstOrigin, Vector2.up, _velocity.y * Time.fixedDeltaTime, _player.MovementSettings.ObstacleLayerMask)
-        };
-
-            foreach (var hit in hits)
-            {
-                if (hit.collider != null)
-                    _player.IsSlowDown?.Invoke(hit.transform);
-            }
-
-            Vector2 healOrigin = new(_pos.x, _pos.y);
-            bool isStack = Physics2D.Raycast(healOrigin, Vector2.right, _velocity.x * Time.fixedDeltaTime, _player.MovementSettings.StopLayerMask).collider != null ||
-                           Physics2D.Raycast(healOrigin, Vector2.up, _velocity.y * Time.fixedDeltaTime, _player.MovementSettings.StopLayerMask).collider != null;
-
-            if (isStack) _player.IsStop?.Invoke(true);
 
             WallNotGroundedCheck();
         }
@@ -189,7 +168,6 @@ public sealed class PlayerMove : PlayerSystem
                         fall = null;
                         _mainCamera.IsShaking?.Invoke(false);
                     }
-
                     _player.Animation.IsJump?.Invoke(true);
                 }
                 if (Input.GetTouch(0).phase == TouchPhase.Ended)

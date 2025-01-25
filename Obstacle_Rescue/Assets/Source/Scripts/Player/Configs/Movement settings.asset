@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf4cb35a1734794cad53bc5d3b5b331, type: 3}
   m_Name: Movement settings
   m_EditorClassIdentifier: 
-  <gravity>k__BackingField: -200
+  <gravity>k__BackingField: -160
   <MaxXVelocity>k__BackingField: 50
   <MaxAcceleration>k__BackingField: 10
-  <JumpVelocity>k__BackingField: 30
+  <JumpVelocity>k__BackingField: 35
   <MaxMaxHoldJumpTime>k__BackingField: 0.5
   <JumpGroundThreshold>k__BackingField: -2.26
   <DeadLine>k__BackingField: -25
@@ -29,7 +29,7 @@ MonoBehaviour:
     m_Bits: 128
   <StopLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   <HealLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256

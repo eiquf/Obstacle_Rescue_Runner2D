@@ -520,6 +520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _container: {fileID: 4926091317063552442}
   _loadingScreen: {fileID: 3578149131672045645}
+  _injector: {fileID: 4718506187077390984}
 --- !u!1 &5537224541659556215
 GameObject:
   m_ObjectHideFlags: 0

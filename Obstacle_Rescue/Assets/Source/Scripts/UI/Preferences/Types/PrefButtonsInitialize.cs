@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class PrefButtonsCreate : IPreferences
+public class PrefButtonsInitialize : IPreferences
 {
     private readonly ButtonsActions _actions = new();
     private readonly Transform _preferencesCreatePos;
@@ -11,7 +11,7 @@ public class PrefButtonsCreate : IPreferences
 
     private readonly InjectContainer _container;
     private readonly AnimationContext _animationContext = new();
-    public PrefButtonsCreate(Transform preferencesCreatePos, InjectContainer container)
+    public PrefButtonsInitialize(Transform preferencesCreatePos, InjectContainer container)
     {
         _preferencesCreatePos = preferencesCreatePos;
         _container = container;

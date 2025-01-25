@@ -1,5 +1,4 @@
 using UnityEngine;
-using Zenject;
 
 public sealed class MenuController : MonoBehaviour
 {
@@ -9,9 +8,8 @@ public sealed class MenuController : MonoBehaviour
 
     private readonly AnimationContext _animationContext = new();
 
-    [Inject] SoundController _soundController;
     private InjectContainer _container;
-    private PrefButtonsCreate _prefButtonsCreate;
+    private PrefButtonsInitialize _prefButtonsCreate;
 
     private void OnEnable()
     {
@@ -20,7 +18,7 @@ public sealed class MenuController : MonoBehaviour
     }
     private void Start()
     {
-        _container = FindFirstObjectByType<InjectContainer>();
+        _container = FindAnyObjectByType<InjectContainer>();
         ButtonInitialize();
     }
     private void ButtonInitialize()
@@ -28,7 +26,7 @@ public sealed class MenuController : MonoBehaviour
         ButtonClickHandler buttonClickHandler = new(_buttonsPanelPos, _creatPos, _container);
         buttonClickHandler.Execute();
 
-        _prefButtonsCreate = new PrefButtonsCreate(_creatPos[0], _container);
+        _prefButtonsCreate = new PrefButtonsInitialize(_creatPos[0], _container);
         _prefButtonsCreate.Execute();
     }
 }

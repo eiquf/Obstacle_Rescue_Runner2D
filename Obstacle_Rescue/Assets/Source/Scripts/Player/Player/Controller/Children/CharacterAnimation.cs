@@ -1,42 +1,52 @@
+using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
-public class CharacterAnimation : IDisposable, IInitializable
+public sealed class CharacterAnimation
 {
     public Action<bool> IsJump;
     public Action<bool> IsStop;
+    public Action IsInjured;
+    public enum Keys { Jump, Idle, Run, Injure }
+
+    [Header("Injury Effect Settings")]
+    private Color originalColor = new(1, 1, 1);
+    private SpriteRenderer _spriteRenderer;
+    public float flashDuration = 0.1f;
+    public int flashCount = 3;
 
     private Animator _animator;
 
-    private const string JumpAnimation = "Jump";
-    private const string IdleAnimation = "Idle";
+    private readonly Dictionary<Keys, string> keys = new() { { Keys.Jump, "Jump" }, { Keys.Idle, "Idle" } };
+    public void Inject(Animator animator, SpriteRenderer spriteRenderer)
+    {
+        _animator = animator;
+        _spriteRenderer = spriteRenderer;
 
-    public void Inject(Animator animator) => _animator = animator;
+        IsStop += Idle;
+        IsJump += Jump;
+        IsInjured += Injure;
+    }
     public void Dispose()
     {
         IsStop -= Idle;
         IsJump -= Jump;
+        IsInjured -= Injure;
     }
-
-    public void Initialize()
+    private void Jump(bool state) => SetAnimationState(keys[Keys.Jump], state);
+    private void Idle(bool state) => SetAnimationState(keys[Keys.Idle], state);
+    private void Injure()
     {
-        IsStop += Idle;
-        IsJump += Jump;
-    }
+        Sequence injurySequence = DOTween.Sequence();
 
-    private void Jump(bool state) => SetAnimationState(JumpAnimation, state);
-    private void Idle(bool state) => SetAnimationState(IdleAnimation, state);
-
-    private void SetAnimationState(string animation, bool activate)
-    {
-        if (_animator == null)
+        for (int i = 0; i < flashCount; i++)
         {
-            Debug.LogWarning("Animator is not set in CharacterAnimation.");
-            return;
+            injurySequence.Append(_spriteRenderer.DOColor(Color.red, flashDuration / 2));
+            injurySequence.Append(_spriteRenderer.DOColor(originalColor, flashDuration / 2));
         }
 
-        _animator.SetBool(animation, activate);
+        injurySequence.Play();
     }
-
+    private void SetAnimationState(string animation, bool activate) => _animator.SetBool(animation, activate);
 }

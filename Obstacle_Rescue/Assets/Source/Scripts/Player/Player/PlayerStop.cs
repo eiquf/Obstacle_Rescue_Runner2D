@@ -8,6 +8,6 @@ public sealed class PlayerStop : PlayerSystem
     {
         _velocity.x = _player.Velocity.x * _player.MovementSettings.StopVelocity;
         _player.SetVelocity(_velocity);
-        _player.Animation.IsStop?.Invoke(true);
+        //_player.Animation.Trigger(CharacterAnimation.Keys.Stop, true);
     }
 }
