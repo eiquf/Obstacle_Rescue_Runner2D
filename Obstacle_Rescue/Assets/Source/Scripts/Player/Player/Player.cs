@@ -5,11 +5,12 @@ using Zenject;
 public sealed class Player : MonoBehaviour
 {
     #region Actions
+    public Action OnSlowDown;
     public Action<bool> IsStop { get; private set; }
     #endregion
 
     [field: SerializeField] public MovementSettings MovementSettings { get; private set; }
-    public readonly CharacterAnimation Animation = new();
+    public CharacterAnimation Animation { get; private set; }
 
     private Animator _animator;
     private Transform _shadowTransform;
@@ -21,7 +22,7 @@ public sealed class Player : MonoBehaviour
     private PlayerStop _stop;
     private PlayerInjure _heal;
 
-    private bool _cantMove;
+    private bool _cantMove = false;
     public Vector2 Velocity { get; private set; }
 
     private Health _health;
@@ -47,11 +48,10 @@ public sealed class Player : MonoBehaviour
 
     private void Start()
     {
+        _cantMove = false;
         _animator = GetComponent<Animator>();
         _shadowTransform = transform.GetChild(0);
         _spriteRenderer = GetComponent<SpriteRenderer>();
-
-        Animation.Inject(_animator, _spriteRenderer);
 
         Initialize();
     }
@@ -60,6 +60,9 @@ public sealed class Player : MonoBehaviour
 
     private void Initialize()
     {
+        Animation = new(_animator, _spriteRenderer);
+        Animation.Initialize();
+
         _move = new PlayerMove(this, _mainCamera, _health);
         _obstacle = new PlayerObstacle(this);
         _stop = new PlayerStop(this);

@@ -10,7 +10,6 @@ public sealed class PlayerMove : PlayerSystem
     private float _maxHoldJumpTime = 0.4f;
 
     private bool _isHoldingJump = false;
-
     private readonly GameCamera _mainCamera;
 
     private readonly Health _health;
