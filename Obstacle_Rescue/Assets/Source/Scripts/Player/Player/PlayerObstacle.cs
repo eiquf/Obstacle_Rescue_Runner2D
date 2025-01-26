@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class PlayerObstacle : PlayerSystem
 {
     private readonly AnimationContext _context = new();
     private readonly ItemPopAnimation _anim = new();
+    private HashSet<Collider2D> _processedColliders = new();
     public PlayerObstacle(Player player) : base(player) { }
     public override void Execute(Transform transform)
     {
@@ -19,23 +21,23 @@ public sealed class PlayerObstacle : PlayerSystem
         Vector2 rayDirectionX = Vector2.right;
         Vector2 rayDirectionY = Vector2.down;
 
-        RaycastHit2D[] hits =
-        {
-            Physics2D.Raycast(rayOrigin, rayDirectionX, rayDistance, _player.MovementSettings.ObstacleLayerMask),
-             Physics2D.Raycast(rayOrigin, rayDirectionY, rayDistance, _player.MovementSettings.ObstacleLayerMask)
-        };
+        RaycastHit2D hitX = Physics2D.Raycast(rayOrigin, rayDirectionX, rayDistance, _player.MovementSettings.ObstacleLayerMask);
+        RaycastHit2D hitY = Physics2D.Raycast(rayOrigin, rayDirectionY, rayDistance, _player.MovementSettings.ObstacleLayerMask);
 
-        foreach (RaycastHit2D hit in hits)
+        HashSet<Collider2D> uniqueHits = new();
+        if (hitX.collider != null) uniqueHits.Add(hitX.collider);
+        if (hitY.collider != null) uniqueHits.Add(hitY.collider);
+
+        foreach (Collider2D collider in uniqueHits)
         {
-            if (hit.collider != null)
-            {
-                _player.Animation.IsInjured();
-                _context.PlayAnimation(hit.collider.transform);
-                ChangeVelocity();
-            }
+            if (_processedColliders.Contains(collider)) continue;
+
+            _processedColliders.Add(collider);
+            _player.OnNotify?.Invoke(PlayerStates.Injure);
+            _player.Animation.IsInjured();
+            _context.PlayAnimation(collider.transform);
+            ChangeVelocity();
         }
-
-        Debug.DrawRay(rayOrigin, rayDirectionX * rayDistance, Color.green);
     }
     private void ChangeVelocity()
     {

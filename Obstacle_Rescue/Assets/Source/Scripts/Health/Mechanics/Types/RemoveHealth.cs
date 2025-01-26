@@ -9,7 +9,7 @@ public class RemoveHealth : HealthSystem
     public RemoveHealth(LivesSettings livesSettings, List<GameObject> hurts, Death dead) : base(livesSettings, hurts) => _dead = dead;
     public override void Execute()
     {
-        if (_hurts.Count <= _livesSettings.MaxLives && _hurts.Count != _livesSettings.MinLives)
+        if (_hurts.Count > _livesSettings.MinLives)
         {
             Object.Destroy(_hurts[0], 0.25f);
 

@@ -12,16 +12,13 @@ public sealed class PlayerMove : PlayerSystem
     private bool _isHoldingJump = false;
     private readonly GameCamera _mainCamera;
 
-    private readonly Health _health;
     private GroundFall fall;
 
     public PlayerMove
         (Player player,
-        GameCamera mainCamera,
-        Health health) : base(player)
+        GameCamera mainCamera) : base(player)
     {
         _mainCamera = mainCamera;
-        _health = health;
     }
 
     public override void Execute(Transform transform)
@@ -33,7 +30,7 @@ public sealed class PlayerMove : PlayerSystem
             _player.SetVelocity(_velocity);
             transform.position = _pos;
         }
-        else _health.OnDeath?.Invoke();
+        else _player.OnNotify(PlayerStates.Dead);
     }
     private void Move()
     {

@@ -9,5 +9,6 @@ public sealed class PlayerStop : PlayerSystem
         _velocity.x = 0;
         _player.SetVelocity(_velocity);
         _player.Animation.IsStop?.Invoke(true);
+        _player.OnNotify(PlayerStates.Stop);
     }
 }

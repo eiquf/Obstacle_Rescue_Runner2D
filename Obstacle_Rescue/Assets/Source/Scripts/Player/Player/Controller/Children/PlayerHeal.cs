@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public sealed class PlayerInjure : PlayerSystem
+public sealed class PlayerHeal : PlayerSystem
 {
-    private readonly Health _health;
-    public PlayerInjure(Player player, Health health) : base(player) => _health = health;
+    public PlayerHeal(Player player) : base(player) { }
     public override void Execute(Transform transform)
     {
         Vector2 healOrigin = new(_pos.x, _pos.y);
@@ -14,7 +13,7 @@ public sealed class PlayerInjure : PlayerSystem
             RaycastHit2D healHit = Physics2D.Raycast(healOrigin, direction, Vector2.Dot(_velocity, direction) * Time.fixedDeltaTime, _player.MovementSettings.HealLayerMask);
             if (healHit.collider != null)
             {
-                _health.OnHealed?.Invoke();
+                _player.OnNotify(PlayerStates.Heal);
                 break;
             }
         }

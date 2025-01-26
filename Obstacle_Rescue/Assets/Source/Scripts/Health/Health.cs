@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IPlayerObserver
 {
-    #region Actions
-    public Action OnDamaged;
-    public Action OnHealed;
-    public Action OnDeath;
-    #endregion
     [SerializeField] private LivesSettings _livesSettings;
     [SerializeField] private List<GameObject> _hurts;
+
+    private readonly Dictionary<PlayerStates, Action> actions = new();
     #region Scripts
     private AddHealth _addHealthSystem;
     private RemoveHealth _removeHealthSystem;
@@ -30,15 +27,15 @@ public class Health : MonoBehaviour
     {
         new HurtsInitialization(_hurts, transform).Execute();
 
-        OnDamaged += RemoveHealth;
-        OnHealed += AddHealth;
-        OnDeath += Dead;
+        RegisterAction(PlayerStates.Dead, Dead);
+        RegisterAction(PlayerStates.Heal, AddHealth);
+        RegisterAction(PlayerStates.Injure, RemoveHealth);
     }
     private void OnDisable()
     {
-        OnDamaged -= RemoveHealth;
-        OnHealed -= AddHealth;
-        OnDeath -= Dead;
+        UnregisterAction(PlayerStates.Dead, Dead);
+        UnregisterAction(PlayerStates.Heal, AddHealth);
+        UnregisterAction(PlayerStates.Injure, RemoveHealth);
     }
     private void Start() => Initialize();
     private void Initialize()
@@ -50,4 +47,27 @@ public class Health : MonoBehaviour
     private void AddHealth() => _addHealthSystem.Execute();
     private void RemoveHealth() => _removeHealthSystem.Execute();
     private void Dead() => _dead.Execute();
+
+    #region Actions
+    private void RegisterAction(PlayerStates state, Action action)
+    {
+        if (!actions.ContainsKey(state)) actions[state] = action;
+        else actions[state] += action;
+    }
+    private void UnregisterAction(PlayerStates state, Action action)
+    {
+        if (actions.ContainsKey(state))
+        {
+            actions[state] -= action;
+
+            if (actions[state] == null)
+                actions.Remove(state);
+        }
+    }
+    public void OnNotify(PlayerStates state)
+    {
+        if (actions.TryGetValue(state, out var action))
+            action.Invoke();
+    }
+    #endregion
 }
