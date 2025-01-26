@@ -10,6 +10,7 @@ public sealed class Player : MonoBehaviour
     #endregion
 
     [field: SerializeField] public MovementSettings MovementSettings { get; private set; }
+    private bool _cantMove = false;
     public CharacterAnimation Animation { get; private set; }
 
     private Animator _animator;
@@ -22,7 +23,6 @@ public sealed class Player : MonoBehaviour
     private PlayerStop _stop;
     private PlayerInjure _heal;
 
-    private bool _cantMove = false;
     public Vector2 Velocity { get; private set; }
 
     private Health _health;
@@ -35,10 +35,7 @@ public sealed class Player : MonoBehaviour
         _mainCamera = mainCamera;
     }
 
-    private void OnEnable()
-    {
-        IsStop += Stop;
-    }
+    private void OnEnable() => IsStop += Stop;
 
     private void OnDisable()
     {
@@ -48,7 +45,8 @@ public sealed class Player : MonoBehaviour
 
     private void Start()
     {
-        _cantMove = false;
+        Velocity = Vector2.zero;
+
         _animator = GetComponent<Animator>();
         _shadowTransform = transform.GetChild(0);
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -68,19 +66,20 @@ public sealed class Player : MonoBehaviour
         _stop = new PlayerStop(this);
         _heal = new PlayerInjure(this, _health);
     }
-
     private void Moves()
     {
-        if (!_cantMove)
-        {
-            _shadow.Execute(_shadowTransform);
-            _move.Execute(transform);
-            _heal.Execute(transform);
-            _obstacle.Execute(transform);
-        }
+        if (_cantMove == true) return;
+
+        _shadow.Execute(_shadowTransform);
+        _move.Execute(transform);
+        _heal.Execute(transform);
+        _obstacle.Execute(transform);
     }
-
     public void SetVelocity(Vector2 velocity) => Velocity = velocity;
-
-    private void Stop(bool statement) => _stop.Execute(transform);
+    private void Stop(bool statement)
+    {
+        _cantMove = statement;
+        if (statement)
+            _stop.Execute(transform);
+    }
 }

@@ -6,8 +6,8 @@ public sealed class PlayerStop : PlayerSystem
     public override void Execute(Transform transform) => Hit();
     private void Hit()
     {
-        _velocity.x = _player.Velocity.x * _player.MovementSettings.StopVelocity;
+        _velocity.x = 0;
         _player.SetVelocity(_velocity);
-        //_player.Animation.Trigger(CharacterAnimation.Keys.Stop, true);
+        _player.Animation.IsStop?.Invoke(true);
     }
 }

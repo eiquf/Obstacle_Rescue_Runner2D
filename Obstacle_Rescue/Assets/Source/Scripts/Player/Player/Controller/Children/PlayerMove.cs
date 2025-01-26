@@ -68,6 +68,7 @@ public sealed class PlayerMove : PlayerSystem
                 _isGrounded = true;
                 _height = ground.Height;
                 _pos.y = _height;
+                _player.Animation.IsStop?.Invoke(false);
             }
         }
         else

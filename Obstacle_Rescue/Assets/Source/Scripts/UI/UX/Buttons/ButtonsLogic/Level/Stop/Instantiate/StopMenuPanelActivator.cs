@@ -12,9 +12,15 @@ public class StopMenuPanelActivator : IButtonAction
     private bool _panelIsCreated = false;
 
     private StopMenu _stopMenu;
-    public StopMenuPanelActivator(Transform spawnPosition) => _spawnPosition = spawnPosition;
+    private Preferences _preferences;
+    public StopMenuPanelActivator(Transform spawnPosition, Transform prefPos)
+    {
+        _spawnPosition = spawnPosition;
+        _preferences = new(prefPos);
+    }
     public void Execute()
     {
+                _preferences.Execute();
         if (!_gameIsStopped)
         {
             if (!_panelIsCreated)
@@ -24,12 +30,16 @@ public class StopMenuPanelActivator : IButtonAction
                 _stopMenu.gameObject.SetActive(true);
                 _stopMenu.IsPanelActivated?.Invoke(true);
             }
+
         }
         else _stopMenu.IsPanelActivated?.Invoke(false);
 
         _gameIsStopped = !_gameIsStopped;
     }
-    private void LoadPanel() => Addressables.LoadAssetAsync<GameObject>(NAME).Completed += OnLoadDone;
+    private void LoadPanel()
+    {
+        Addressables.LoadAssetAsync<GameObject>(NAME).Completed += OnLoadDone;
+    }
     private void OnLoadDone(AsyncOperationHandle<GameObject> obj)
     {
         if (obj.Status == AsyncOperationStatus.Succeeded)

@@ -7,8 +7,9 @@ public sealed class Ground : MonoBehaviour
     public Action IsMoving;
 
     [SerializeField] private GroundSettings settings;
+    [SerializeField]private Transform _spawnPropTransform;
+    
     private bool _fallPlatformAdded;
-    private Transform _spawnPropTransform;
 
     private Transform _initialPos;
     public Transform Begin { get; private set; }
@@ -51,7 +52,7 @@ public sealed class Ground : MonoBehaviour
     }
     private void GenerateProps()
     {
-        if (transform.Find("SpawnPoint")?.TryGetComponent(out _spawnPropTransform) == true)
+        if (transform.GetChild(3).TryGetComponent(out _spawnPropTransform) == true)
             settings.PropsGenerator.Execute(_spawnPropTransform);
     }
 

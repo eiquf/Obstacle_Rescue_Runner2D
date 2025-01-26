@@ -7,12 +7,16 @@ public sealed class PlayerInjure : PlayerSystem
     public override void Execute(Transform transform)
     {
         Vector2 healOrigin = new(_pos.x, _pos.y);
-        RaycastHit2D healHitX = Physics2D.Raycast(healOrigin, Vector2.right, _velocity.x * Time.fixedDeltaTime, _player.MovementSettings.HealLayerMask);
-        if (healHitX.collider != null)
-            _health.OnHealed?.Invoke();
+        Vector2[] directions = { Vector2.right, Vector2.up };
 
-        RaycastHit2D healHitY = Physics2D.Raycast(healOrigin, Vector2.up, _velocity.y * Time.fixedDeltaTime, _player.MovementSettings.HealLayerMask);
-        if (healHitY.collider != null)
-            _health.OnHealed?.Invoke();
+        foreach (Vector2 direction in directions)
+        {
+            RaycastHit2D healHit = Physics2D.Raycast(healOrigin, direction, Vector2.Dot(_velocity, direction) * Time.fixedDeltaTime, _player.MovementSettings.HealLayerMask);
+            if (healHit.collider != null)
+            {
+                _health.OnHealed?.Invoke();
+                break;
+            }
+        }
     }
 }
