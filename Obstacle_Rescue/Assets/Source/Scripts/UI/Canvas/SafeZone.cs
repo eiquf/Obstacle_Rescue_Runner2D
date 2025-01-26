@@ -1,51 +1,45 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(RectTransform))]
 public class SafeZone : MonoBehaviour
 {
-    private Canvas _canvas;
-    private RectTransform _panelSafeArea;
+    [Tooltip("Put panels that should be in Safe Zone"), Header("Панели для Safe Zone")]
+    [SerializeField] private List<RectTransform> _rectTransforms = new();
 
-    private Rect _currentSafeArea = new Rect();
-    private ScreenOrientation _currentOrientation = ScreenOrientation.AutoRotation;
+    private Rect _lastSafeArea;
+    private CanvasScaler _canvasScaler;
 
-    private void Start()
+    private readonly DeviceChecker _checker = new();
+
+    private void Awake()
     {
-        _canvas = GetComponentInParent<Canvas>();
-        _panelSafeArea = GetComponent<RectTransform>();
-
-        _currentOrientation = Screen.orientation;
-        _currentSafeArea = Screen.safeArea;
-
-        ApplySafeArea();
+        _canvasScaler = GetComponent<CanvasScaler>();
+        _checker.OnChangedMatch?.Invoke(_canvasScaler);
     }
-    private void ApplySafeArea()
+    private void LateUpdate()
     {
-        if (_panelSafeArea == null)
+        if (_lastSafeArea != Screen.safeArea)
         {
-            Debug.LogError("Exception in SafeArea: ApplySafeArea");
-            return;
+            _lastSafeArea = Screen.safeArea;
+            Refresh();
         }
-
-        Rect safeArea = Screen.safeArea;
-
-        Vector2 anchorMin = safeArea.position;
-        Vector2 anchorMax = safeArea.position + safeArea.size;
-
-        anchorMin.x /= _canvas.pixelRect.width;
-        anchorMin.y /= _canvas.pixelRect.height;
-
-        anchorMax.x /= _canvas.pixelRect.width;
-        anchorMax.y /= _canvas.pixelRect.height;
-
-        _panelSafeArea.anchorMin = anchorMin;
-        _panelSafeArea.anchorMax = anchorMax;
-
-        _currentOrientation = Screen.orientation;
-        _currentSafeArea = Screen.safeArea;
     }
-    private void Update()
+
+    public void Refresh()
     {
-        if ((_currentOrientation != Screen.orientation) || (_currentSafeArea != Screen.safeArea))
-            ApplySafeArea();
+        Vector2 anchorMin = _lastSafeArea.position;
+        Vector2 anchorMax = _lastSafeArea.position + _lastSafeArea.size;
+        anchorMin.x /= Screen.width;
+        anchorMin.y /= Screen.height;
+        anchorMax.x /= Screen.width;
+        anchorMax.y /= Screen.height;
+
+        foreach (var rectTransform in _rectTransforms)
+        {
+            rectTransform.anchorMin = anchorMin;
+            rectTransform.anchorMax = anchorMax;
+        }
     }
 }

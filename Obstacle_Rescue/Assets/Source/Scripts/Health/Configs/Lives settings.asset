@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79eb42d0ac0589446b741027e6414916, type: 3}
   m_Name: Lives settings
   m_EditorClassIdentifier: 
-  <maxLives>k__BackingField: 3
-  <minLives>k__BackingField: 0
+  <MaxLives>k__BackingField: 3
+  <MinLives>k__BackingField: 0
