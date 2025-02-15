@@ -10,27 +10,15 @@ public sealed class PlayerMove : PlayerSystem
     private float _maxHoldJumpTime = 0.4f;
 
     private bool _isHoldingJump = false;
-    private readonly GameCamera _mainCamera;
-
     private GroundFall fall;
 
-    public PlayerMove
-        (Player player,
-        GameCamera mainCamera) : base(player)
-    {
-        _mainCamera = mainCamera;
-    }
-
+    public PlayerMove(Player player) : base(player) { }
     public override void Execute(Transform transform)
     {
-        if (transform.position.y > -20)
-        {
-            _pos = transform.position;
-            Move();
-            _player.SetVelocity(_velocity);
-            transform.position = _pos;
-        }
-        else _player.OnNotify(PlayerStates.Dead);
+        _pos = transform.position;
+        Move();
+        _player.SetVelocity(_velocity);
+        transform.position = _pos;
     }
     private void Move()
     {
@@ -40,22 +28,20 @@ public sealed class PlayerMove : PlayerSystem
     #region Run
     private void Run()
     {
+        GroundCheck();
+
         OnTheGround();
         NotOnGround();
     }
     private void OnTheGround()
     {
-        if (_isGrounded)
-        {
-            ChangePosX();
-            GroundCheck();
-        }
+        if (_isGrounded) ChangePosX();
     }
     private void GroundCheck()
     {
         Vector2 rayOrigin = new(_pos.x, _pos.y - 0.1f);
-        Vector2 rayDirection = Vector2.down;
-        float rayDistance = 0.5f;
+        Vector2 rayDirection = Vector2.up;
+        float rayDistance = 3f;
         RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, _player.MovementSettings.GroundLayerMask);
 
         if (hit2D.collider != null)
@@ -113,13 +99,11 @@ public sealed class PlayerMove : PlayerSystem
             WallNotGroundedCheck();
         }
     }
-
-
     private void Fall()
     {
         fall.Initialize(_player);
         _height -= fall.FallAmount;
-        _mainCamera.IsShaking?.Invoke(true);
+        _player.OnNotify?.Invoke(PlayerStates.Fall);
     }
     private void WallNotGroundedCheck()
     {
@@ -135,7 +119,6 @@ public sealed class PlayerMove : PlayerSystem
             }
         }
     }
-
     #endregion
     #region Jump
     private void Jump()
@@ -163,7 +146,7 @@ public sealed class PlayerMove : PlayerSystem
                     {
                         fall.Initialize(null);
                         fall = null;
-                        _mainCamera.IsShaking?.Invoke(false);
+                        _player.OnNotify?.Invoke(PlayerStates.Move);
                     }
                     _player.Animation.IsJump?.Invoke(true);
                 }

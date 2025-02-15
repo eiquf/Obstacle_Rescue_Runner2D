@@ -67,11 +67,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: fa1520540c5c5114eb5e7ef2346ebb5a, type: 3}
+    m_Font: {fileID: 12800000, guid: 44855569d9d7a634f90bef0192e8607d, type: 3}
     m_FontSize: 46
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 6
+    m_MinSize: 3
     m_MaxSize: 46
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -397,7 +397,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: fa1520540c5c5114eb5e7ef2346ebb5a, type: 3}
+    m_Font: {fileID: 12800000, guid: 44855569d9d7a634f90bef0192e8607d, type: 3}
     m_FontSize: 54
     m_FontStyle: 0
     m_BestFit: 0
@@ -469,6 +469,7 @@ GameObject:
   - component: {fileID: 3153951707629191024}
   - component: {fileID: 3153951707629191027}
   - component: {fileID: 3153951707629191025}
+  - component: {fileID: 7210419973432961696}
   m_Layer: 5
   m_Name: ResultPanel
   m_TagString: Untagged
@@ -545,6 +546,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9652f92471de0b34a8c7dfc10862e71a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreText: {fileID: 3153951707112144951}
+  _titleText: {fileID: 1355335110248095892}
+  _moneyText: {fileID: 3153951707456063455}
+  _scoreCounter: {fileID: 0}
+--- !u!114 &7210419973432961696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3153951707629191036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e970c3fb14e4f7f40bfd0027f66ec254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3153951707728501757

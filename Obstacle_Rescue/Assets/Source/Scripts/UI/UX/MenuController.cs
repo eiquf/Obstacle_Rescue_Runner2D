@@ -3,7 +3,7 @@ using UnityEngine;
 public sealed class MenuController : MonoBehaviour
 {
     [SerializeField] private Transform _buttonsPanelPos;
-    [SerializeField] private Transform[] _creatPos;
+    [SerializeField] private Transform[] _pos;
     [SerializeField] private GameObject Attenuation;
 
     private readonly AnimationContext _animationContext = new();
@@ -23,10 +23,10 @@ public sealed class MenuController : MonoBehaviour
     }
     private void ButtonInitialize()
     {
-        ButtonClickHandler buttonClickHandler = new(_buttonsPanelPos, _creatPos, _container);
+        ButtonClickHandler buttonClickHandler = new(_buttonsPanelPos, _pos, _container);
         buttonClickHandler.Execute();
 
-        _prefButtonsCreate = new PrefButtonsInitialize(_creatPos[0], _container);
+        _prefButtonsCreate = new PrefButtonsInitialize(_pos[0], _container);
         _prefButtonsCreate.Execute();
     }
 }

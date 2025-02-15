@@ -18,8 +18,8 @@ public class MenuActions
         }
         else
         {
-            _buttonActions[UIButtonsCount.Stop] = new StopMenuPanelActivator(createPos[1], createPos[0]);
-            _buttonActions[UIButtonsCount.Dictionary] = new DictionaryPanelSpawn(createPos[2]);
+            _buttonActions[UIButtonsCount.Stop] = new StopMenu(createPos[1], createPos[0]);
+            _buttonActions[UIButtonsCount.Dictionary] = new Dictionary(createPos[2], createPos[3]);
         }
     }
 

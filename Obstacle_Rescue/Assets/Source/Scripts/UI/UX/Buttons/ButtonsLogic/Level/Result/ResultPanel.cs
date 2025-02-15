@@ -1,86 +1,67 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
-public class ResultPanel : MonoBehaviour
+public class ResultPanel : MonoBehaviour, IPlayerObserver
 {
-    //private readonly AnimationContext _animationContext = new();
+    [SerializeField] private Text _scoreText, _titleText, _moneyText;
+    private readonly string[] _supportTitle = new string[] { "Great!", "Wow!", "Nice!", "Perfect!", "Good!" };
 
-    //private const int HomeIndex = 0;
+    private Transform _buttonsPanelTransform;
+    private Button[] _buttons;
 
-    //private int _score;
+    [SerializeField] private ScoreCounter _scoreCounter;
+    private InjectContainer _container;
 
-    //private readonly string[] _supportTitle = new string[] { "Great!", "Wow!", "Nice!", "Perfect!", "Good!" };
+    private readonly AnimationContext _animationContext = new();
+    private readonly ButtonsActions _actions = new();
 
-    //private Transform _buttonsPanelTransform;
-    //private Text _scoreText, _titleText, _moneyText;
+    [Inject]
+    private void Construct(InjectContainer container, Player player)
+    {
+        _container = container;
+        player.AddObserver(this);
+    }
+    private void Start()
+    {
+        _buttonsPanelTransform = transform.GetChild(0).GetChild(1);
+        _animationContext.SetAnimationStrategy(new ButtonTapAnimation());
 
-    //private Button[] _buttons;
+        AccessButtons();
+        gameObject.SetActive(false);
+        EventBus.RaiseGameStopped(false);
+    }
+    private void Results()
+    {
+        gameObject.SetActive(true);
+        _titleText.name = Title();
+        _scoreCounter.OnShow?.Invoke(_scoreText);
+        EventBus.RaiseGameStopped(true);
+    }
+    private string Title()
+    {
+        int random = Random.Range(0, _supportTitle.Length);
+        return _supportTitle[random];
+    }
+    private void AccessButtons()
+    {
+        _buttons = new Button[_buttonsPanelTransform.childCount];
+        _buttons = _buttonsPanelTransform.GetComponentsInChildren<Button>();
 
-    //private LoadingScreen _lvlChanger;
-    //private ScoreCounter _scoreCounter;
+        for (int i = 0; i < _buttons.Length; i++)
+        {
+            int index = i;
+            _buttons[i].onClick.AddListener(() => { OnButtonClick(index); _animationContext.PlayAnimation(_buttons[index].transform); });
+        }
+    }
+    private void OnButtonClick(int index)
+    {
+        IButtonAction action = _actions.GetResultActions(index, _container);
+        action?.Execute();
+    }
 
-
-    //public void Inject(ScoreCounter scoreCounter, LoadingScreen loadingScreen)
-    //{
-    //    _lvlChanger = loadingScreen;
-    //    _scoreCounter = scoreCounter;
-    //}
-    //private void Awake()
-    //{
-    //    _buttonsPanelTransform = transform.GetChild(0).GetChild(1);
-    //    TextComponentsInitialization();
-    //}
-    //private void Start()
-    //{
-    //    AccessButtons();
-    //    Results();
-    //}
-    //private void TextComponentsInitialization()
-    //{
-    //    _titleText = transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>();
-    //    _moneyText = transform.GetChild(0).GetChild(3).GetChild(1).GetComponent<Text>();
-    //    _scoreText = transform.GetChild(0).GetChild(2).GetChild(2).GetComponent<Text>();
-    //}
-    //private void Results()
-    //{
-    //    Title();
-    //    _scoreText.text = _scoreCounter.distance.ToString();
-    //    MoneyResult();
-    //}
-    //private void Title()
-    //{
-    //    int random = Random.Range(0, _supportTitle.Length);
-    //    _titleText.text = _supportTitle[random];
-    //}
-    //private void MoneyResult()
-    //{
-    //    _score = _scoreCounter.distance / 500;
-    //    _moneyText.text = _score.ToString();
-    //}
-    //private void AccessButtons()
-    //{
-    //    _buttons = new Button[_buttonsPanelTransform.childCount];
-    //    _buttons = _buttonsPanelTransform.GetComponentsInChildren<Button>();
-
-    //    for (int i = 0; i < _buttons.Length; i++)
-    //    {
-    //        int index = i;
-    //        _buttons[i].onClick.AddListener(() => { OnAddedButtonClick(index); ButtonsTapAnimation(_buttons[index].transform); });
-    //    }
-    //}
-    //private void OnAddedButtonClick(int index)
-    //{
-    //    if (index == HomeIndex) Home();
-    //    else Restart();
-    //}
-    //private void ButtonsTapAnimation(Transform transform)
-    //{
-    //    _animationContext.SetAnimationStrategy(new ButtonTapAnimation());
-    //    _animationContext.PlayAnimation(transform);
-    //}
-    //#region Buttons logic
-    //private void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    //private void Home() => _lvlChanger.OnChangeScene?.Invoke(LevelsKeys.mainMenuLevelKey);
-    //#endregion
+    public void OnNotify(PlayerStates state)
+    {
+        if (state == PlayerStates.Dead) Results();
+    }
 }

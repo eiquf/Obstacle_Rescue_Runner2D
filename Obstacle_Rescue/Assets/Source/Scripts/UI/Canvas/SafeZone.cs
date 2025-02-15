@@ -27,7 +27,7 @@ public class SafeZone : MonoBehaviour
         }
     }
 
-    public void Refresh()
+    private void Refresh()
     {
         Vector2 anchorMin = _lastSafeArea.position;
         Vector2 anchorMax = _lastSafeArea.position + _lastSafeArea.size;

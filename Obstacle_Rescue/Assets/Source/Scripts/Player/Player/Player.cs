@@ -1,18 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 public sealed class Player : MonoBehaviour
 {
-    #region Actions
-    public Action OnSlowDown;
-    public Action<PlayerStates> OnNotify;
-    public Action<bool> IsStop { get; private set; }
-    #endregion
+    public Action<PlayerStates> OnNotify { get; private set; }
     private readonly List<IPlayerObserver> observers = new();
     [field: SerializeField] public MovementSettings MovementSettings { get; private set; }
-    private bool _cantMove = false;
+    [SerializeField] private bool _cantMove = false;
     public CharacterAnimation Animation { get; private set; }
 
     private Animator _animator;
@@ -24,29 +19,19 @@ public sealed class Player : MonoBehaviour
     private PlayerMove _move;
     private PlayerObstacle _obstacle;
     private PlayerStop _stop;
-    private PlayerHeal _heal;
+    private PlayerGet _stuff;
+    private PlayerDead _dead;
     #endregion
     public Vector2 Velocity { get; private set; }
 
-    private Health _health;
-    private GameCamera _mainCamera;
-
-    [Inject]
-    private void Construct(Health health, GameCamera mainCamera)
-    {
-        _health = health;
-        _mainCamera = mainCamera;
-    }
-
     private void OnEnable()
     {
-        IsStop += Stop;
+        EventBus.OnGameStopped += Stop;
         OnNotify += NotifyObservers;
     }
-
     private void OnDisable()
     {
-        IsStop -= Stop;
+        EventBus.OnGameStopped -= Stop;
 
         OnNotify -= NotifyObservers;
         Animation.Dispose();
@@ -61,8 +46,6 @@ public sealed class Player : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         Initialize();
-
-        AddObserver(_health);
     }
 
     private void FixedUpdate() => Moves();
@@ -72,10 +55,11 @@ public sealed class Player : MonoBehaviour
         Animation = new(_animator, _spriteRenderer);
         Animation.Initialize();
 
-        _move = new(this, _mainCamera);
+        _move = new(this);
         _obstacle = new(this);
         _stop = new(this);
-        _heal = new(this);
+        _stuff = new(this);
+        _dead = new(this);
     }
     private void Moves()
     {
@@ -83,8 +67,9 @@ public sealed class Player : MonoBehaviour
 
         _shadow.Execute(_shadowTransform);
         _move.Execute(transform);
-        _heal.Execute(transform);
+        _stuff.Execute(transform);
         _obstacle.Execute(transform);
+        _dead.Execute(transform);
     }
     public void SetVelocity(Vector2 velocity) => Velocity = velocity;
     private void Stop(bool statement)
@@ -97,15 +82,10 @@ public sealed class Player : MonoBehaviour
         }
     }
     #region Observers
-    private void AddObserver(IPlayerObserver observer)
+    public void AddObserver(IPlayerObserver observer)
     {
         if (!observers.Contains(observer))
             observers.Add(observer);
-    }
-    private void RemoveObserver(IPlayerObserver observer)
-    {
-        if (observers.Contains(observer))
-            observers.Remove(observer);
     }
     private void NotifyObservers(PlayerStates state)
     {
@@ -120,5 +100,5 @@ public interface IPlayerObserver
 }
 public enum PlayerStates
 {
-    Dead, Stop, Move, Heal, Injure
+    Dead, Stop, Move, Heal, Injure, Fall, Complete
 }

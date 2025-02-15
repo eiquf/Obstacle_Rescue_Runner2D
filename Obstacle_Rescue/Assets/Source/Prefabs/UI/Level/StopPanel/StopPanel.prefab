@@ -416,64 +416,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &7518623275753979880
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2217599526007224406}
-  - component: {fileID: 9011928660198466263}
-  - component: {fileID: 7590246449949558137}
-  m_Layer: 5
-  m_Name: PreferencesPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2217599526007224406
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7518623275753979880}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8311344187162972113}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -90, y: -200}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &9011928660198466263
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7518623275753979880}
-  m_CullTransparentMesh: 1
---- !u!225 &7590246449949558137
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7518623275753979880}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &7617819801758639851
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,7 +621,6 @@ GameObject:
   - component: {fileID: 8311344187162972113}
   - component: {fileID: 8311344187162972111}
   - component: {fileID: 8311344187162972112}
-  - component: {fileID: 8311344187162972110}
   m_Layer: 5
   m_Name: StopPanel
   m_TagString: Untagged
@@ -699,7 +640,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2217599526007224406}
   - {fileID: 8311344188199394563}
   - {fileID: 4903705009712138916}
   m_Father: {fileID: 0}
@@ -748,18 +688,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8311344187162972110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8311344187162972114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0bdb3e4d1651b4ba921344ec7fc3ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8311344187242215898
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,7 +778,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8311344188199394563}
   - component: {fileID: 8311344188199394561}
-  - component: {fileID: 8311344188199394560}
   - component: {fileID: 189260152266992993}
   m_Layer: 5
   m_Name: NewsPanel
@@ -876,7 +803,7 @@ RectTransform:
   - {fileID: 6674032937832694960}
   - {fileID: 3400719921340756564}
   m_Father: {fileID: 8311344187162972113}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -891,20 +818,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8311344188199394564}
   m_CullTransparentMesh: 1
---- !u!114 &8311344188199394560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8311344188199394564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60f768eebc1f39845a53bccc5ee9fb27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popOutDistance: 200
-  EiquifPos: {fileID: 4903705009712138916}
 --- !u!225 &189260152266992993
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -949,7 +862,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8311344187162972113}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

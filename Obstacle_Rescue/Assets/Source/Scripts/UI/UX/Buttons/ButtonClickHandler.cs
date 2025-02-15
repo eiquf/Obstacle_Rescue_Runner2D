@@ -18,15 +18,12 @@ public class ButtonClickHandler : IMenu
         _container = container;
         _createPos = createPos;
     }
-
     public void Execute()
     {
         _sceneChecker.Execute();
         _defaultButtons = new ButtonInitializer(_buttonsPanelPos, OnButtonClick).Execute();
         _animationContext.SetAnimationStrategy(new ButtonTapAnimation());
     }
-
-
     private void OnButtonClick(int index)
     {
         IButtonAction action = _buttonActionsFactory.GetMenuButtonAction(index, _createPos, _container);

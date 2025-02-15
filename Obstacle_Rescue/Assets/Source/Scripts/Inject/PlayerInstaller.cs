@@ -10,10 +10,7 @@ namespace ObstacleRescue.Installers
         [SerializeField] private Player _player;
         [SerializeField] private Health _health;
         [SerializeField] private GameCamera _mainCamera;
-        public override void InstallBindings()
-        {
-            Bind();
-        }
+        public override void InstallBindings() => Bind();
         private void Bind()
         {
             Container.Bind<Player>().FromInstance(_player).AsSingle();

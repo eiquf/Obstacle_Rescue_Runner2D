@@ -1,45 +1,49 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewsPanel : MonoBehaviour
+public class NewsPanel
 {
+    private readonly Transform _panel;
+    private readonly Transform _eiquif;
+
+    private readonly Transform _buttonContainer;
+    private readonly Button[] _buttons;
+    private readonly ButtonsActions _buttonActions;
+
+    private readonly CanvasGroup _canvasGroup;
+    private readonly AnimationContext _eiquifAnim = new();
+    private readonly AnimationContext _animation = new();
     private readonly bool _isFromTheLeft = false;
-    [SerializeField] private Transform EiquifPos;
-    private Transform SmPos => transform.GetChild(3);
 
-    private readonly AnimationContext _animationContext = new();
-    private readonly AnimationContext _animationContextEiquif = new();
-
-    private readonly ButtonsActions _buttonActionsFactory = new();
-    private CanvasGroup _canvasGroup;
-    private ButtonInitializer _buttonInitializer;
-    private Button[] _smButtons;
-
-    private void Start()
+    public NewsPanel(Transform panel, Transform eiquif)
     {
-        _canvasGroup = GetComponent<CanvasGroup>();
+        _panel = panel;
+        _buttonContainer = panel.GetChild(3);
+        _canvasGroup = _panel.GetComponent<CanvasGroup>();
+        _animation.SetAnimationStrategy(new PopOutAnimation(_isFromTheLeft, _canvasGroup));
+        _eiquifAnim.SetAnimationStrategy(new PopOutAnimation(!_isFromTheLeft));
+        _buttonActions = new ButtonsActions();
+        _buttons = InitializeButtons();
+        _eiquif = eiquif;
 
-        _animationContext.SetAnimationStrategy(new PopOutAnimation(_isFromTheLeft, _canvasGroup));
-        _animationContextEiquif.SetAnimationStrategy(new PopOutAnimation(!_isFromTheLeft));
-
-        _buttonInitializer = new ButtonInitializer(SmPos, OnButtonClick);
-        _smButtons = _buttonInitializer.Execute();
     }
+
+    private Button[] InitializeButtons() => new ButtonInitializer(_buttonContainer, OnButtonClick).Execute();
+    public void Toggle(bool isVisible)
+    {
+        _panel.gameObject.SetActive(isVisible);
+        if (isVisible)
+        {
+            _animation.PlayAnimation(_panel);
+            _eiquifAnim.PlayAnimation(_eiquif);
+        }
+    }
+
     private void OnButtonClick(int index)
     {
-        IButtonAction action = _buttonActionsFactory.GetSMButtonAction(index);
-        action?.Execute();
-
-        ButtonsTapAnimation(_smButtons[index].transform);
-    }
-    private void ButtonsTapAnimation(Transform transform)
-    {
-        _animationContext.SetAnimationStrategy(new ButtonTapAnimation());
-        _animationContext.PlayAnimation(transform);
-    }
-    private void OnEnable()
-    {
-        _animationContext.PlayAnimation(transform);
-        _animationContextEiquif.PlayAnimation(EiquifPos);
+        IButtonAction action = _buttonActions.GetSMButtonAction(index);
+        action?.Execute(); 
+        _animation.SetAnimationStrategy(new ButtonTapAnimation());
+        _animation.PlayAnimation(_buttons[index].transform);
     }
 }

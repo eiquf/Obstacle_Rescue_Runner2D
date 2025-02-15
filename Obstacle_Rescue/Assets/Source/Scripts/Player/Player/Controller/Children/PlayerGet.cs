@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public sealed class PlayerHeal : PlayerSystem
+public sealed class PlayerGet : PlayerSystem
 {
-    public PlayerHeal(Player player) : base(player) { }
+    public PlayerGet(Player player) : base(player) { }
     public override void Execute(Transform transform)
     {
         Vector2 healOrigin = new(_pos.x, _pos.y);
@@ -11,9 +11,15 @@ public sealed class PlayerHeal : PlayerSystem
         foreach (Vector2 direction in directions)
         {
             RaycastHit2D healHit = Physics2D.Raycast(healOrigin, direction, Vector2.Dot(_velocity, direction) * Time.fixedDeltaTime, _player.MovementSettings.HealLayerMask);
+            RaycastHit2D letterHit = Physics2D.Raycast(healOrigin, direction, Vector2.Dot(_velocity, direction) * Time.fixedDeltaTime, _player.MovementSettings.LetterLayerMask);
             if (healHit.collider != null)
             {
-                _player.OnNotify(PlayerStates.Heal);
+                _player.OnNotify?.Invoke(PlayerStates.Heal);
+                break;
+            }
+            else if(letterHit.collider != null)
+            {
+                _player.OnNotify?.Invoke(PlayerStates.Stop);
                 break;
             }
         }

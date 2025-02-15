@@ -13,19 +13,13 @@ public class Health : MonoBehaviour, IPlayerObserver
     private AddHealth _addHealthSystem;
     private RemoveHealth _removeHealthSystem;
     private Death _dead;
-
-    private GameCamera _camera;
-    private Player _player;
     #endregion
-    [Inject]
-    private void Container(GameCamera camera, Player player)
-    {
-        _camera = camera;
-        _player = player;
-    }
+
+    [Inject] private Player _player;
     private void OnEnable()
     {
         new HurtsInitialization(_hurts, transform).Execute();
+        _player.AddObserver(this);
 
         RegisterAction(PlayerStates.Dead, Dead);
         RegisterAction(PlayerStates.Heal, AddHealth);
@@ -40,7 +34,7 @@ public class Health : MonoBehaviour, IPlayerObserver
     private void Start() => Initialize();
     private void Initialize()
     {
-        _dead = new Death(_hurts, _camera, _player);
+        _dead = new Death(_hurts);
         _addHealthSystem = new AddHealth(_livesSettings, _hurts, transform);
         _removeHealthSystem = new RemoveHealth(_livesSettings, _hurts, _dead);
     }
