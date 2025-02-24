@@ -17,7 +17,11 @@ public class GroundSettings : ScriptableObject
     #endregion
     #region ADVANCED
     [SerializeField] private int _colliderScaleSizeX = 4;
+    [SerializeField] private int _timer;
+    [SerializeField] private string _word;
     public int ColliderScaleSizeX => _colliderScaleSizeX;
+    public int Timer => _timer;
+    public string Word => _word;
     #endregion
 }
 
@@ -34,18 +38,17 @@ public class GroundSettingsEditor : Editor
         PropertyField("_fallPlatformChance");
         PropertyField("_hidePositionX");
         PropertyField("_colliderScaleSizeX");
+        Section("CONDITION");
+        PropertyField("_enableAdvancedSettings");
 
-        //if(settings.)
-        //SerializedProperty advancedSettingsProp = serializedObject.FindProperty("enableAdvancedSettings");
-        //EditorGUILayout.PropertyField(advancedSettingsProp);
-
-        //if (advancedSettingsProp.boolValue)
-        //{
-        //    EditorGUILayout.PropertyField(serializedObject.FindProperty("advancedSetting1"));
-        //    EditorGUILayout.PropertyField(serializedObject.FindProperty("advancedSetting2"));
-        //}
+        if (settings.EnableAdvancedSettings)
+        {
+            PropertyField("_colliderScaleSizeX");
+            PropertyField("_timer");
+            PropertyField("_word");
+        }
         EditorGUI.BeginChangeCheck();
-        if (EditorGUI.EndChangeCheck()) serializedObject.ApplyModifiedProperties();
+        serializedObject.ApplyModifiedProperties();
     }
 
     protected void PropertyField(string path)
