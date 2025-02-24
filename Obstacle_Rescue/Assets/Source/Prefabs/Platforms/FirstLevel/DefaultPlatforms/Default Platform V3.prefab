@@ -156,7 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7641215706905188845}
   - component: {fileID: 7641215706905188846}
-  - component: {fileID: 8917216883984933368}
+  - component: {fileID: 3284816911183265798}
   m_Layer: 6
   m_Name: Default Platform V3
   m_TagString: Untagged
@@ -209,7 +209,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 15, y: 23.83244}
   m_EdgeRadius: 0
---- !u!114 &8917216883984933368
+--- !u!114 &3284816911183265798
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,15 +218,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7641215706905188840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6adff25276c92a246bbce9d6a95cc192, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d6a9e5fc051e8c4696cbc0ae9072032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Begin: {fileID: 7641215705505638334}
-  End: {fileID: 7641215707013281502}
-  movementDirection: {x: 1, y: 0}
-  initialSpeed: 2
-  acceleration: 0.1
-  maxSpeed: 10
+  Settings: {fileID: 11400000, guid: 4230fd20c27d7e4418e8644f30123ce5, type: 2}
+  _spawnPropTransform: {fileID: 0}
 --- !u!1 &7641215707013281503
 GameObject:
   m_ObjectHideFlags: 0

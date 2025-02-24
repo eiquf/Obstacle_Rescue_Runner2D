@@ -8,7 +8,6 @@ public class GroundPropsGenerator : IGround
         "FluffyHurt",
         "Stone",
         "GoldApple",
-        "Letter"
    };
 
     private readonly int IndexGroundPropGenerator = 5;

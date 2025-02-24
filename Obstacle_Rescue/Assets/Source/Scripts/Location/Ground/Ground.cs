@@ -1,71 +1,21 @@
-using System;
 using UnityEngine;
-using Zenject;
 
-public sealed class Ground : MonoBehaviour
+public abstract class Ground : MonoBehaviour
 {
-    public Action IsMoving;
+    [SerializeField] protected GroundSettings Settings;
+    [SerializeField] protected Transform _spawnPropTransform;
 
-    [SerializeField] private GroundSettings settings;
-    [SerializeField]private Transform _spawnPropTransform;
-    
-    private bool _fallPlatformAdded;
+    protected bool _fallPlatformAdded;
 
-    private Transform _initialPos;
-    public Transform Begin { get; private set; }
-    public Transform End { get; private set; }
-    public float Height { get; private set; }
+    protected Transform _initialPos;
+    public Transform Begin { get; protected set; }
+    public Transform End { get; protected set; }
+    public float Height { get; protected set; }
 
-    private BoxCollider2D _collider;
+    protected BoxCollider2D Collider;
 
-    [Inject] private Player _player;
-
-    private void Awake()
-    {
-        CacheComponents();
-        CalculateHeight();
-        GenerateProps();
-    }
-
-    private void FixedUpdate()
-    {
-        if (_player == null) return;
-
-        AddFallPlatformIfNeeded();
-        MoveGround();
-    }
-
-    private void CacheComponents()
-    {
-        _initialPos = transform;
-        Begin = transform.GetChild(0);
-        End = transform.GetChild(1);
-        _collider = GetComponent<BoxCollider2D>();
-    }
-    private void CalculateHeight() => Height = transform.position.y + (_collider.bounds.extents.y);
-    private void MoveGround()
-    {
-        transform.Translate(_player.Velocity.x * Time.fixedDeltaTime * Vector2.left);
-
-        if (transform.position.x < settings.HidePositionX)
-            gameObject.SetActive(false);
-    }
-    private void GenerateProps()
-    {
-        if (transform.GetChild(3).TryGetComponent(out _spawnPropTransform) == true)
-            settings.PropsGenerator.Execute(_spawnPropTransform);
-    }
-
-    private void AddFallPlatformIfNeeded()
-    {
-        if (!_fallPlatformAdded && !CompareTag("Unfallable") && UnityEngine.Random.Range(0, 10) == settings.FallPlatformChance)
-        {
-            if (transform.position.x - 5 == _player.transform.position.x)
-            {
-                gameObject.AddComponent<GroundFall>().Initialize(_player);
-                _fallPlatformAdded = true;
-            }
-        }
-    }
-    private void OnDisable() => transform.position = new(0, _initialPos.position.y, 0);
+    protected abstract void Initialize();
+    protected abstract void Move();
+    protected abstract void GenerateProps();
+    protected abstract void Fall();
 }

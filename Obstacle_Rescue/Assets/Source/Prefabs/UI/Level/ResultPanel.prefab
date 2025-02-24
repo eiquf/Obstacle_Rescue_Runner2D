@@ -551,7 +551,7 @@ MonoBehaviour:
   _scoreText: {fileID: 3153951707112144951}
   _titleText: {fileID: 1355335110248095892}
   _moneyText: {fileID: 3153951707456063455}
-  _scoreCounter: {fileID: 0}
+  _scoreCounter: {fileID: 7210419973432961696}
 --- !u!114 &7210419973432961696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1281,7 +1281,7 @@ MonoBehaviour:
     m_MaxSize: 100
     m_Alignment: 4
     m_AlignByGeometry: 0
-    m_RichText: 1
+    m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1

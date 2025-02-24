@@ -19,7 +19,7 @@ public sealed class PlayerGet : PlayerSystem
             }
             else if(letterHit.collider != null)
             {
-                _player.OnNotify?.Invoke(PlayerStates.Stop);
+                _player.OnNotify?.Invoke(PlayerStates.Letter);
                 break;
             }
         }

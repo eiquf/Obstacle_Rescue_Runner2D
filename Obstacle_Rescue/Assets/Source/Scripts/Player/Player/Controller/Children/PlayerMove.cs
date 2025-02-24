@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public sealed class PlayerMove : PlayerSystem
 {
-    private float _height;
+    private float _height { get; set; }
     private float _acceleration = 10f;
     private float _holdJumpTimer = 0.0f;
     private float _maxHoldJumpTime = 0.4f;
@@ -51,6 +51,9 @@ public sealed class PlayerMove : PlayerSystem
                 _isGrounded = true;
                 _height = ground.Height;
                 _pos.y = _height;
+
+                _player.SetYPos(_height, _height + _player.MovementSettings.JumpVelocity * _maxHoldJumpTime);
+
                 _player.Animation.IsStop?.Invoke(false);
             }
         }

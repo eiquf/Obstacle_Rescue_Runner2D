@@ -13,8 +13,8 @@ public sealed class ScoreCounter : MonoBehaviour, IPlayerObserver
 
     private void OnEnable()
     {
-        RegisterStrategy(PlayerStates.Heal, new AddScoreStrategy(10));
-        RegisterStrategy(PlayerStates.Injure, new RemoveScoreStrategy(5));
+        RegisterStrategy(PlayerStates.Heal, new AddScoreStrategy(50));
+        RegisterStrategy(PlayerStates.Injure, new RemoveScoreStrategy(25));
         OnShow += ShowScore;
     }
     private void OnDisable()

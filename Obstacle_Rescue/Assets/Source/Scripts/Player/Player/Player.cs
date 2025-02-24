@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 public sealed class Player : MonoBehaviour
@@ -22,7 +23,12 @@ public sealed class Player : MonoBehaviour
     private PlayerGet _stuff;
     private PlayerDead _dead;
     #endregion
+
+    #region Positions data
     public Vector2 Velocity { get; private set; }
+    public float MinY { get; private set; }
+    public float MaxY { get; private set; }
+    #endregion
 
     private void OnEnable()
     {
@@ -72,6 +78,11 @@ public sealed class Player : MonoBehaviour
         _dead.Execute(transform);
     }
     public void SetVelocity(Vector2 velocity) => Velocity = velocity;
+    public void SetYPos(float maxY, float minY)
+    {
+        MaxY = maxY; 
+        MinY = minY;
+    }
     private void Stop(bool statement)
     {
         _cantMove = statement;
@@ -100,5 +111,5 @@ public interface IPlayerObserver
 }
 public enum PlayerStates
 {
-    Dead, Stop, Move, Heal, Injure, Fall, Complete
+    Dead, Stop, Move, Heal, Injure, Fall, Complete, Letter
 }
