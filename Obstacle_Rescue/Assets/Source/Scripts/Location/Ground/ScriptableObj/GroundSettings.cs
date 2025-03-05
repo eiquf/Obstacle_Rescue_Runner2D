@@ -19,9 +19,11 @@ public class GroundSettings : ScriptableObject
     [SerializeField] private int _colliderScaleSizeX = 4;
     [SerializeField] private int _timer;
     [SerializeField] private string _word;
+    [SerializeField] private Sprite _dottedImage;
     public int ColliderScaleSizeX => _colliderScaleSizeX;
     public int Timer => _timer;
     public string Word => _word;
+    public Sprite DottedImage => _dottedImage;
     #endregion
 }
 
@@ -37,7 +39,6 @@ public class GroundSettingsEditor : Editor
         Section("DEFAULT PROPERTYS");
         PropertyField("_fallPlatformChance");
         PropertyField("_hidePositionX");
-        PropertyField("_colliderScaleSizeX");
         Section("CONDITION");
         PropertyField("_enableAdvancedSettings");
 
@@ -46,6 +47,8 @@ public class GroundSettingsEditor : Editor
             PropertyField("_colliderScaleSizeX");
             PropertyField("_timer");
             PropertyField("_word");
+            PropertyField("_ground");
+            PropertyField("_dottedImage");
         }
         EditorGUI.BeginChangeCheck();
         serializedObject.ApplyModifiedProperties();

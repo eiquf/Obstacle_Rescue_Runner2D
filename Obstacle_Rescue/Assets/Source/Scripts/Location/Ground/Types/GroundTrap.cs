@@ -1,11 +1,17 @@
-﻿using UnityEngine;
+using System;
+using UnityEngine;
 using Zenject;
 
-public class GroundDefault : Ground
+public class GroundTrap : Ground
 {
+    public Action OnCollised { get; private set; }
+    public Action OnEnded { get; private set; }
+
+    public string Key => Settings.Word;
+    [SerializeField] private WordPanel _panel;
     private BoxCollider2D _collider;
 
-    [Inject] private Player _player;
+    [Inject] private readonly Player _player;
 
     private void Awake()
     {
@@ -13,15 +19,22 @@ public class GroundDefault : Ground
         CalculateHeight();
         GenerateProps();
     }
-
     private void FixedUpdate()
     {
         if (_player == null) return;
-
-        Fall();
         Move();
     }
-
+    private void OnEnable()
+    {
+        OnCollised += Trap;
+        OnEnded += Ended;
+    }
+    private void OnDisable()
+    {
+        transform.position = new(0, _initialPos.position.y, 0);
+        OnCollised -= Trap;
+        OnEnded -= Ended;
+    }
     protected override void Initialize()
     {
         _initialPos = transform;
@@ -42,17 +55,10 @@ public class GroundDefault : Ground
         if (transform.GetChild(3).TryGetComponent(out _spawnPropTransform) == true)
             Settings.PropsGenerator.Execute(_spawnPropTransform);
     }
-
-    protected override void Fall()
+    private void Trap() => _panel.OnAdded?.Invoke(Settings.Word, Settings.Timer, Settings.DottedImage, this);
+    private void Ended()
     {
-        if (!_fallPlatformAdded && !CompareTag("Unfallable") && Random.Range(0, 10) == Settings.FallPlatformChance)
-        {
-            if (transform.position.x - 5 == _player.transform.position.x)
-            {
-                gameObject.AddComponent<GroundFall>().Initialize(_player);
-                _fallPlatformAdded = true;
-            }
-        }
+        _player.OnStop?.Invoke(false);
+        Debug.Log("Fp");
     }
-    private void OnDisable() => transform.position = new(0, _initialPos.position.y, 0);
 }

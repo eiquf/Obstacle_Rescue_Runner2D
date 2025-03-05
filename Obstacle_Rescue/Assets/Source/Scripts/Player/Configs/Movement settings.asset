@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf4cb35a1734794cad53bc5d3b5b331, type: 3}
   m_Name: Movement settings
   m_EditorClassIdentifier: 
-  <gravity>k__BackingField: -160
+  <gravity>k__BackingField: -175
   <MaxXVelocity>k__BackingField: 50
   <MaxAcceleration>k__BackingField: 10
-  <JumpVelocity>k__BackingField: 35
-  <MaxMaxHoldJumpTime>k__BackingField: 0.5
-  <JumpGroundThreshold>k__BackingField: -2.26
+  <JumpVelocity>k__BackingField: 40
+  <MaxMaxHoldJumpTime>k__BackingField: 0.3
+  <JumpGroundThreshold>k__BackingField: 0.1
   <DeadLine>k__BackingField: -25
   <StopVelocity>k__BackingField: 0.7
   <PosXallowance>k__BackingField: 0.7
@@ -27,7 +27,7 @@ MonoBehaviour:
   <ObstacleLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
-  <StopLayerMask>k__BackingField:
+  <TrapLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 2048
   <HealLayerMask>k__BackingField:
@@ -36,8 +36,3 @@ MonoBehaviour:
   <LetterLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 512
-  minX: -5
-  maxX: 5
-  minY: -5
-  maxY: 5
-  bounceForce: 5

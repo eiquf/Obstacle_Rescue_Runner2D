@@ -5,14 +5,15 @@ using Zenject;
 
 public sealed class GroundGenerator : MonoBehaviour
 {
-    public event Action OnObstacleChunk;
+    public Action<string> OnObstacleChunk {  get; private set; }
 
-    private const int MaxChunks = 7;
+    private const int MaxChunks = 4;
     private const float PlayerBuffer = 40f;
 
     [SerializeField] private List<Ground> _groundPool;
-    [SerializeField] private List<Ground> _obstacleGroundPool;
-    private List<Ground> _activeChunks = new();
+    [SerializeField] private List<Ground> _obstacleGround;
+    private readonly Dictionary<string, Ground> _obstacleDictionary = new();
+    private readonly List<Ground> _activeChunks = new();
 
     private Ground _obstacleChunk;
 
@@ -20,7 +21,15 @@ public sealed class GroundGenerator : MonoBehaviour
 
     private void OnEnable() => OnObstacleChunk += ActivateObstacleChunk;
     private void OnDisable() => OnObstacleChunk -= ActivateObstacleChunk;
-    private void Start() => _activeChunks.Add(_groundPool[0]);
+    private void Start()
+    {
+        _activeChunks.Add(_groundPool[0]);
+        foreach (var platform in _obstacleGround)
+        {
+            if (platform is GroundTrap groundTrap)
+                _obstacleDictionary.Add(groundTrap.Key, platform);
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -48,10 +57,9 @@ public sealed class GroundGenerator : MonoBehaviour
         _groundPool.RemoveAt(index);
         _activeChunks.Add(randomGround);
     }
-    private void ActivateObstacleChunk()
+    private void ActivateObstacleChunk(string key)
     {
-        int index = UnityEngine.Random.Range(1, _obstacleGroundPool.Count);
-        _obstacleChunk = _obstacleGroundPool[index];
+        _obstacleChunk = _obstacleDictionary[key];
         _obstacleChunk.gameObject.SetActive(true);
         _obstacleChunk.transform.position = GetNextChunkPosition(_obstacleChunk);
 
@@ -67,7 +75,7 @@ public sealed class GroundGenerator : MonoBehaviour
         Ground oldGround = _activeChunks[0];
         _activeChunks.RemoveAt(0);
 
-        if (_obstacleChunk == null)
+        if (_groundPool.Count <= 1)
             _groundPool.Add(oldGround);
 
         oldGround.gameObject.SetActive(false);

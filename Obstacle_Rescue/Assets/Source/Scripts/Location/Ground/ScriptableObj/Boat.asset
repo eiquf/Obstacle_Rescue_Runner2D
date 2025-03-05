@@ -10,8 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b168a09662fce4fab889f9347e2e85, type: 3}
-  m_Name: BoatPlatform
+  m_Name: Boat
   m_EditorClassIdentifier: 
-  <FallPlatformChance>k__BackingField: 10
-  <HidePositionX>k__BackingField: -170
-  <ColliderScaleSizeX>k__BackingField: 4
+  _fallPlatformChance: 0
+  _hidePositionX: -200
+  _enableAdvancedSettings: 1
+  _colliderScaleSizeX: 137
+  _timer: 10
+  _word: BOAT
+  _dottedImage: {fileID: 1438831873, guid: 304c18769ebc72c429aefc8c94814bd3, type: 3}

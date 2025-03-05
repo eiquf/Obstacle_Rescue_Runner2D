@@ -14,9 +14,9 @@ public class LetterCreate : IWord<GameObject, char>
     public GameObject Execute(char symbol)
     {
         float posY = Random.Range(_player.MinY, _player.MaxY);
-        Vector2 pos = new(_startX, posY);
 
-        GameObject currentLetter = Object.Instantiate(_prefab, pos, Quaternion.identity);
+        GameObject currentLetter = Object.Instantiate(_prefab);
+        currentLetter.transform.position = new(_startX, posY);
         TextMeshProUGUI text = currentLetter.GetComponentInChildren<TextMeshProUGUI>();
         text.text = symbol.ToString();
 

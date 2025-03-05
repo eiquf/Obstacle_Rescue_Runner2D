@@ -17,5 +17,4 @@ public abstract class Ground : MonoBehaviour
     protected abstract void Initialize();
     protected abstract void Move();
     protected abstract void GenerateProps();
-    protected abstract void Fall();
 }

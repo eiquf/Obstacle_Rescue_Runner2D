@@ -1,11 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class Letter : IWord<char, List<char>>
 {
+    public event Action OnLastLetterUsed;
     public char Execute(List<char> chars)
     {
-        char firstChar = chars[0]; // Сначала сохраняем букву
-        chars.RemoveAt(0); // Удаляем букву из списка
+        if (chars.Count == 0) return default;
+
+        int index = UnityEngine.Random.Range(0, chars.Count);
+        char firstChar = chars[index];
+        chars.RemoveAt(0);
+
+        if (chars.Count == 0)
+            OnLastLetterUsed?.Invoke();
+
         return firstChar;
     }
 }

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 public sealed class Player : MonoBehaviour
 {
+    public Action<bool> OnStop {  get; private set; } 
     public Action<PlayerStates> OnNotify { get; private set; }
     private readonly List<IPlayerObserver> observers = new();
     [field: SerializeField] public MovementSettings MovementSettings { get; private set; }
@@ -33,10 +33,12 @@ public sealed class Player : MonoBehaviour
     private void OnEnable()
     {
         EventBus.OnGameStopped += Stop;
+        OnStop += Stop;
         OnNotify += NotifyObservers;
     }
     private void OnDisable()
     {
+        OnStop -= Stop;
         EventBus.OnGameStopped -= Stop;
 
         OnNotify -= NotifyObservers;
@@ -45,6 +47,8 @@ public sealed class Player : MonoBehaviour
 
     private void Start()
     {
+        _cantMove = true;
+
         Velocity = Vector2.zero;
 
         _animator = GetComponent<Animator>();
@@ -111,5 +115,5 @@ public interface IPlayerObserver
 }
 public enum PlayerStates
 {
-    Dead, Stop, Move, Heal, Injure, Fall, Complete, Letter
+    Dead, Stop, Move, Heal, Injure, Fall, Complete, Letter, Trap
 }

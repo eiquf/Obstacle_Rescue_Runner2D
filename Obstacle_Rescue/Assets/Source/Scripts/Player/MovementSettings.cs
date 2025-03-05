@@ -21,15 +21,9 @@ public class MovementSettings : ScriptableObject
     [field: Header("Layer Masks")]
     [field: SerializeField] public LayerMask GroundLayerMask { get; private set; }
     [field: SerializeField] public LayerMask ObstacleLayerMask { get; private set; }
-    [field: SerializeField] public LayerMask StopLayerMask { get; private set; }
+    [field: SerializeField] public LayerMask TrapLayerMask { get; private set; }
     [field: SerializeField] public LayerMask HealLayerMask { get; private set; }
     [field: SerializeField] public LayerMask LetterLayerMask { get; private set; }
-    [field: Header("Bounce")]
-    [field: SerializeField] public float minX = -5f;
-    [field: SerializeField] public float maxX = 5f;
-    [field: SerializeField] public float minY = -5f;
-    [field: SerializeField] public float maxY = 5f;
-    [field: SerializeField] public float bounceForce = 5f;
     #endregion
 
     #region Constant variables

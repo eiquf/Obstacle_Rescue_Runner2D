@@ -48,13 +48,23 @@ public sealed class PlayerMove : PlayerSystem
         {
             if (hit2D.collider.TryGetComponent<Ground>(out var ground))
             {
+                if (ground is GroundTrap trap)
+                {
+                    trap.OnCollised?.Invoke();
+                    _player.OnStop?.Invoke(true);
+                    _player.OnNotify?.Invoke(PlayerStates.Stop);
+                }
+                else
+                {
+                    _player.OnStop?.Invoke(false);
+                    _player.Animation.IsStop?.Invoke(false);
+                }
+
                 _isGrounded = true;
                 _height = ground.Height;
                 _pos.y = _height;
 
                 _player.SetYPos(_height, _height + _player.MovementSettings.JumpVelocity * _maxHoldJumpTime);
-
-                _player.Animation.IsStop?.Invoke(false);
             }
         }
         else
@@ -138,7 +148,8 @@ public sealed class PlayerMove : PlayerSystem
 
             if (Input.touchCount == 1)
             {
-                if (Input.GetTouch(0).phase == TouchPhase.Stationary)
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began)
                 {
                     _isGrounded = false;
                     _velocity.y = _player.MovementSettings.JumpVelocity;
@@ -153,22 +164,25 @@ public sealed class PlayerMove : PlayerSystem
                     }
                     _player.Animation.IsJump?.Invoke(true);
                 }
-                if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+                {
                     _isHoldingJump = false;
+                }
             }
+
         }
     }
     private void HoldJump()
     {
         if (!_isGrounded)
         {
-            if (_isHoldingJump)
-            {
+            if (_isHoldingJump && _holdJumpTimer < _maxHoldJumpTime)
                 _holdJumpTimer += Time.fixedDeltaTime;
-                if (_holdJumpTimer >= _maxHoldJumpTime)
-                    _isHoldingJump = false;
-            }
-            else _velocity.y += _player.MovementSettings.gravity * Time.fixedDeltaTime;
+            else
+                _isHoldingJump = false;
+
+            if (!_isHoldingJump)
+                _velocity.y += _player.MovementSettings.gravity * Time.fixedDeltaTime;
 
             _pos.y += _velocity.y * Time.fixedDeltaTime;
         }

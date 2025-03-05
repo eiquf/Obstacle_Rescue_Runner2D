@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4137525719334929523}
   - component: {fileID: 6162931401642005610}
+  - component: {fileID: -3584974162562127120}
   m_Layer: 6
   m_Name: Boat Platform
   m_TagString: Unfallable
@@ -118,8 +119,8 @@ Transform:
   - {fileID: 2312016197738605628}
   - {fileID: 4319839342586125842}
   - {fileID: 1841069784235004662}
-  - {fileID: 1378179405898626426}
   - {fileID: 1156561305820506945}
+  - {fileID: 6877842129514747445}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -136,7 +137,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 49.27719, y: -2.292819}
+  m_Offset: {x: 49, y: -2.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -147,8 +148,22 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 136.55437, y: 15.414362}
+  m_Size: {x: 136, y: 16}
   m_EdgeRadius: 0
+--- !u!114 &-3584974162562127120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658855137477052107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ad6d20ea9a20543800ce30b5f76d03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Settings: {fileID: 11400000, guid: 57507108ce057b840b3b9b78860838d4, type: 2}
+  _spawnPropTransform: {fileID: 6877842129514747445}
 --- !u!1 &2312016197738605629
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,7 +446,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &3170771238548633613
+--- !u!1 &3715593293022312938
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -439,28 +454,28 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1378179405898626426}
-  m_Layer: 0
-  m_Name: Trigger
+  - component: {fileID: 6877842129514747445}
+  m_Layer: 6
+  m_Name: PropPos
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1378179405898626426
+--- !u!4 &6877842129514747445
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3170771238548633613}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.1, y: 11.330002, z: 0}
+  m_GameObject: {fileID: 3715593293022312938}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 71.88, y: 12.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4137525719334929523}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3947443982040244416
 GameObject:
@@ -2303,7 +2318,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4137525719334929523}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9038307889228132763
 GameObject:

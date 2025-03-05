@@ -21,5 +21,7 @@ public class Dictionary : IButtonAction
 
         if (_counter.GetCurrent() <= 0)
             _button.interactable = false;
+
+        EventBus.RaiseGameStopped(_panelToggler.IsActive());
     }
 }
