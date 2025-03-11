@@ -681,6 +681,10 @@ MonoBehaviour:
   Settings: {fileID: 11400000, guid: b2bed6e6d74dc6845b500d0742fde200, type: 2}
   _spawnPropTransform: {fileID: 4639204305409853090}
   _panel: {fileID: 0}
+  _objToActivate: {fileID: 3306343812212293462}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &8577061490530398647
 GameObject:
   m_ObjectHideFlags: 0

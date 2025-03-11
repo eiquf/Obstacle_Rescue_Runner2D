@@ -29,7 +29,12 @@ public class GroundDefault : Ground
         End = transform.GetChild(1);
         _collider = GetComponent<BoxCollider2D>();
     }
-    private void CalculateHeight() => Height = transform.position.y + (_collider.bounds.extents.y);
+    private void CalculateHeight()
+    {
+        Height = transform.position.y + (_collider.bounds.extents.y);
+        Debug.Log($"Height of {gameObject.name}: {Height}");
+    }
+
     protected override void Move()
     {
         transform.Translate(_player.Velocity.x * Time.fixedDeltaTime * Vector2.left);

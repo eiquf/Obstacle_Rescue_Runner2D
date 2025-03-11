@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf4cb35a1734794cad53bc5d3b5b331, type: 3}
   m_Name: Movement settings
   m_EditorClassIdentifier: 
-  <gravity>k__BackingField: -175
-  <MaxXVelocity>k__BackingField: 50
+  <gravity>k__BackingField: -150
+  <MaxXVelocity>k__BackingField: 25
   <MaxAcceleration>k__BackingField: 10
-  <JumpVelocity>k__BackingField: 40
+  <JumpVelocity>k__BackingField: 30
   <MaxMaxHoldJumpTime>k__BackingField: 0.3
   <JumpGroundThreshold>k__BackingField: 0.1
   <DeadLine>k__BackingField: -25
-  <StopVelocity>k__BackingField: 0.7
+  <StopVelocity>k__BackingField: 0.4
   <PosXallowance>k__BackingField: 0.7
   <GroundLayerMask>k__BackingField:
     serializedVersion: 2

@@ -29,10 +29,6 @@ MonoBehaviour:
     m_Address: Stone
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: e34c2ff7ee7c3da4582a839582dd8c44
-    m_Address: Letter
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 87bd1b6abcc712b49a239b4da6985aae, type: 2}
   m_SchemaSet:

@@ -11,8 +11,8 @@ public class Health : MonoBehaviour, IPlayerObserver
     private readonly Dictionary<PlayerStates, Action> actions = new();
     #region Scripts
     private AddHealth _addHealthSystem;
-    private RemoveHealth _removeHealthSystem;
-    private Death _dead;
+    public RemoveHealth _removeHealthSystem;
+    public Death _dead;
     #endregion
 
     [Inject] private Player _player;

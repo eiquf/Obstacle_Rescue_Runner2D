@@ -10,7 +10,7 @@ public class Letter : IWord<char, List<char>>
 
         int index = UnityEngine.Random.Range(0, chars.Count);
         char firstChar = chars[index];
-        chars.RemoveAt(0);
+        chars.RemoveAt(index);
 
         if (chars.Count == 0)
             OnLastLetterUsed?.Invoke();

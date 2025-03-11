@@ -12,13 +12,15 @@ public class DropSlot : MonoBehaviour, IDropHandler
     }
     public void OnDrop(PointerEventData eventData)
     {
-        DraggableLetter draggable = eventData.pointerDrag.GetComponent<DraggableLetter>();
+        DraggableLetter draggable = eventData.pointerDrag?.GetComponent<DraggableLetter>();
 
         if (draggable != null && draggable.name == _correctLetter)
         {
-            _wordPanel.OnRemoved?.Invoke(draggable);
-            draggable.transform.SetParent(transform);
-            draggable.transform.position = transform.position;
+            _wordPanel.RemoveOrder(draggable);
+            draggable.transform.SetParent(transform, true);
+            draggable.transform.localPosition = Vector3.zero;
+            draggable.GetComponent<CanvasGroup>().blocksRaycasts = false;
         }
     }
+
 }

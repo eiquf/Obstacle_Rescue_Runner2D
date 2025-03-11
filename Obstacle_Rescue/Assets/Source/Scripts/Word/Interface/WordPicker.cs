@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 
-public class WordPicker : IWord<string, string[]>
+public class WordPicker : IWord<string, List<string>>
 {
-    private List<string> _currentWords = new();
-    public string Execute(string[] elements)
+    public string Execute(List<string> elements)
     {
-        if (_currentWords.Count == 0) _currentWords.AddRange(elements);
-
-        string word = _currentWords[UnityEngine.Random.Range(0, _currentWords.Count)];
-        _currentWords.Remove(word);
+        string word = elements[UnityEngine.Random.Range(0, elements.Count)];
+        elements.Remove(word);
         return word;
     }
 }

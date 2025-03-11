@@ -382,6 +382,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenuUI
       objectReference: {fileID: 0}
+    - target: {fileID: 3773445241403184660, guid: 6330cf87827fce84aadede2368258b76, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4901369438361133080, guid: 6330cf87827fce84aadede2368258b76, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -466,6 +470,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6086048971430147899, guid: 6330cf87827fce84aadede2368258b76, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6760644220408312173, guid: 6330cf87827fce84aadede2368258b76, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -480,6 +488,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6760644220408312173, guid: 6330cf87827fce84aadede2368258b76, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6760644220756894853, guid: 6330cf87827fce84aadede2368258b76, type: 3}
+      propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

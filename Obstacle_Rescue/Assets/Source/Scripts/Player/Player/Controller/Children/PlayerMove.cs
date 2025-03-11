@@ -12,6 +12,8 @@ public sealed class PlayerMove : PlayerSystem
     private bool _isHoldingJump = false;
     private GroundFall fall;
 
+    private bool _collected;
+
     public PlayerMove(Player player) : base(player) { }
     public override void Execute(Transform transform)
     {
@@ -39,9 +41,10 @@ public sealed class PlayerMove : PlayerSystem
     }
     private void GroundCheck()
     {
+
         Vector2 rayOrigin = new(_pos.x, _pos.y - 0.1f);
-        Vector2 rayDirection = Vector2.up;
-        float rayDistance = 3f;
+        Vector2 rayDirection = Vector2.down;
+        float rayDistance = 0.2f;
         RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, _player.MovementSettings.GroundLayerMask);
 
         if (hit2D.collider != null)
@@ -50,12 +53,14 @@ public sealed class PlayerMove : PlayerSystem
             {
                 if (ground is GroundTrap trap)
                 {
-                    trap.OnCollised?.Invoke();
+                    trap.Trap();
                     _player.OnStop?.Invoke(true);
                     _player.OnNotify?.Invoke(PlayerStates.Stop);
+                    _collected = true;
                 }
                 else
                 {
+                    _collected = false;
                     _player.OnStop?.Invoke(false);
                     _player.Animation.IsStop?.Invoke(false);
                 }
@@ -69,8 +74,6 @@ public sealed class PlayerMove : PlayerSystem
         }
         else
             _isGrounded = false;
-
-        Debug.DrawRay(rayOrigin, rayDirection * rayDistance, Color.yellow);
     }
 
     private void ChangePosX()
@@ -88,7 +91,7 @@ public sealed class PlayerMove : PlayerSystem
         if (!_isGrounded)
         {
             Vector2 rayOrigin = new(_pos.x + 0.7f, _pos.y - (_pos.y / 2));
-            Vector2 rayDirection = Vector2.up;
+            Vector2 rayDirection = Vector2.down;
             float rayDistance = _velocity.y * Time.fixedDeltaTime;
             RaycastHit2D hit2D = Physics2D.Raycast(rayOrigin, rayDirection, rayDistance, _player.MovementSettings.GroundLayerMask);
             if (hit2D.collider != null)
@@ -121,7 +124,8 @@ public sealed class PlayerMove : PlayerSystem
     private void WallNotGroundedCheck()
     {
         Vector2 wallOrigin = new(_pos.x, _pos.y);
-        Vector2 wallDir = Vector2.right;
+        Vector2 wallDir = new Vector2(1f, -0.5f).normalized;
+
         RaycastHit2D wallHit = Physics2D.Raycast(wallOrigin, wallDir, _velocity.x * Time.fixedDeltaTime, _player.MovementSettings.GroundLayerMask);
         if (wallHit.collider != null)
         {
@@ -158,7 +162,7 @@ public sealed class PlayerMove : PlayerSystem
 
                     if (fall != null)
                     {
-                        fall.Initialize(null);
+                        fall.Initialize(_player);
                         fall = null;
                         _player.OnNotify?.Invoke(PlayerStates.Move);
                     }
@@ -176,13 +180,13 @@ public sealed class PlayerMove : PlayerSystem
     {
         if (!_isGrounded)
         {
-            if (_isHoldingJump && _holdJumpTimer < _maxHoldJumpTime)
+            if (_isHoldingJump)
+            {
                 _holdJumpTimer += Time.fixedDeltaTime;
-            else
-                _isHoldingJump = false;
-
-            if (!_isHoldingJump)
-                _velocity.y += _player.MovementSettings.gravity * Time.fixedDeltaTime;
+                if (_holdJumpTimer >= _maxHoldJumpTime)
+                    _isHoldingJump = false;
+            }
+            else _velocity.y += _player.MovementSettings.gravity * Time.fixedDeltaTime;
 
             _pos.y += _velocity.y * Time.fixedDeltaTime;
         }

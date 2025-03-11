@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a66119b3150544ebec298b53a621bb, type: 3}
+  m_Name: Boat
+  m_EditorClassIdentifier: 
+  _timer: 15
+  _word: BOAT
+  _dottedImage: {fileID: 1438831873, guid: 304c18769ebc72c429aefc8c94814bd3, type: 3}

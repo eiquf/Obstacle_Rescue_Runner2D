@@ -27,18 +27,14 @@ public class MovementSettings : ScriptableObject
     #endregion
 
     #region Constant variables
-    private const float _maxXValocityConst = 50;
     private const float _maxAccelerationConst = 10;
-    private const float _stopVelocityConst = 0.7f;
     private const float _posXallowanceConst = 0.7f;
     private const float _deadLineConst = -25f;
     #endregion
 
     private void OnValidate()
     {
-        if (MaxXVelocity != _maxXValocityConst) MaxXVelocity = _maxXValocityConst;
         if (MaxAcceleration != _maxAccelerationConst) MaxAcceleration = _maxAccelerationConst;
-        if (StopVelocity != _stopVelocityConst) StopVelocity = _stopVelocityConst;
         if (PosXallowance != _posXallowanceConst) PosXallowance = _posXallowanceConst;
         if (DeadLine != _deadLineConst) DeadLine = _deadLineConst;
     }

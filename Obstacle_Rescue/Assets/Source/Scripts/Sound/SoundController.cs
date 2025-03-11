@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public sealed class SoundController : MonoBehaviour
 {
-    public Action<int> IsSoundPlay { get; private set; }
+    public Action IsSoundPlay { get; private set; }
     public Action<Transform> IsImagesSet { get; private set; }
 
     public readonly BGM _bgm = new();
@@ -16,7 +16,7 @@ public sealed class SoundController : MonoBehaviour
 
     public List<Image> ButtonsImages { get; private set; } = new();
     [field: SerializeField] public Sprite[] Sprites { get; private set; }
-    public AudioClip[] AudioClips { get; private set; }
+    public AudioClip AudioClip;
     [field: SerializeField] public AudioSource[] AudioSources { get; private set; }
 
 
@@ -53,5 +53,5 @@ public sealed class SoundController : MonoBehaviour
         if (ButtonsImages.Count == Amount)
             new SoundImagesInitialization().Execute(this);
     }
-    private void SoundPlay(int index) => _sfxPlay.SFXPlay?.Invoke(index);
+    private void SoundPlay() => _sfxPlay.SFXPlay?.Invoke();
 }

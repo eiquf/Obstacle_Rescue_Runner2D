@@ -1,16 +1,13 @@
-using System;
 using UnityEngine;
 using Zenject;
 
 public class GroundTrap : Ground
 {
-    public Action OnCollised { get; private set; }
-    public Action OnEnded { get; private set; }
-
-    public string Key => Settings.Word;
     [SerializeField] private WordPanel _panel;
-    private BoxCollider2D _collider;
+    [SerializeField] private GameObject _objToActivate;
+    public BoxCollider2D _collider;
 
+    [SerializeField] LayerMask _layerMask;
     [Inject] private readonly Player _player;
 
     private void Awake()
@@ -18,29 +15,21 @@ public class GroundTrap : Ground
         Initialize();
         CalculateHeight();
         GenerateProps();
+
+        _collider.enabled = false;
     }
     private void FixedUpdate()
     {
         if (_player == null) return;
         Move();
     }
-    private void OnEnable()
-    {
-        OnCollised += Trap;
-        OnEnded += Ended;
-    }
-    private void OnDisable()
-    {
-        transform.position = new(0, _initialPos.position.y, 0);
-        OnCollised -= Trap;
-        OnEnded -= Ended;
-    }
+    private void OnDisable() => transform.position = new(0, _initialPos.position.y, 0);
     protected override void Initialize()
     {
+        //_collider = GetComponent<BoxCollider2D>();
         _initialPos = transform;
         Begin = transform.GetChild(0);
         End = transform.GetChild(1);
-        _collider = GetComponent<BoxCollider2D>();
     }
     private void CalculateHeight() => Height = transform.position.y + (_collider.bounds.extents.y);
     protected override void Move()
@@ -55,10 +44,10 @@ public class GroundTrap : Ground
         if (transform.GetChild(3).TryGetComponent(out _spawnPropTransform) == true)
             Settings.PropsGenerator.Execute(_spawnPropTransform);
     }
-    private void Trap() => _panel.OnAdded?.Invoke(Settings.Word, Settings.Timer, Settings.DottedImage, this);
-    private void Ended()
+    public void Trap()
     {
-        _player.OnStop?.Invoke(false);
-        Debug.Log("Fp");
+        _panel.gameObject.SetActive(true);
+        _panel.Activate(this);
     }
+    public void SetObj() => _objToActivate.SetActive(true);
 }

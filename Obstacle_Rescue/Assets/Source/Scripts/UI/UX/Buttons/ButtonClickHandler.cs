@@ -30,7 +30,7 @@ public class ButtonClickHandler : IMenu
         action?.Execute();
 
         ButtonsTapAnimation(_defaultButtons[index].transform);
-        _container.SoundController.IsSoundPlay?.Invoke(index);
+        _container.SoundController.IsSoundPlay?.Invoke();
     }
     private void ButtonsTapAnimation(Transform transform) => _animationContext.PlayAnimation(transform);
 }

@@ -2,7 +2,7 @@ using System;
 
 public class SoundSFXPlay : IDisposable
 {
-    public Action<int> SFXPlay { get; set; }
+    public Action SFXPlay { get; set; }
 
     private readonly SoundController _controller;
     public SoundSFXPlay(SoundController soundController)
@@ -12,5 +12,5 @@ public class SoundSFXPlay : IDisposable
         SFXPlay += SoundPlay;
     }
     public void Dispose() => SFXPlay -= SoundPlay;
-    private void SoundPlay(int index) => _controller.AudioSources[1].PlayOneShot(_controller.AudioClips[index]);
+    private void SoundPlay() => _controller.AudioSources[1].PlayOneShot(_controller.AudioClip);
 }

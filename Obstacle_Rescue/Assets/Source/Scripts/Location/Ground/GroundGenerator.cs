@@ -27,7 +27,7 @@ public sealed class GroundGenerator : MonoBehaviour
         foreach (var platform in _obstacleGround)
         {
             if (platform is GroundTrap groundTrap)
-                _obstacleDictionary.Add(groundTrap.Key, platform);
+                _obstacleDictionary.Add(groundTrap.name, platform);
         }
     }
 
@@ -41,7 +41,7 @@ public sealed class GroundGenerator : MonoBehaviour
         if (_activeChunks.Count > MaxChunks)
             RemoveOldChunk();
     }
-
+    public void ClearJ() => _obstacleChunk = null;
     private bool ShouldSpawnNextChunk() =>
         _player.transform.position.x + PlayerBuffer > _activeChunks[^1].End.position.x;
 
@@ -59,11 +59,15 @@ public sealed class GroundGenerator : MonoBehaviour
     }
     private void ActivateObstacleChunk(string key)
     {
+        if (_obstacleChunk != null) return;
+
         _obstacleChunk = _obstacleDictionary[key];
         _obstacleChunk.gameObject.SetActive(true);
         _obstacleChunk.transform.position = GetNextChunkPosition(_obstacleChunk);
+        _obstacleChunk.GetComponent<GroundTrap>()._collider.enabled = true;
 
         _activeChunks.Add(_obstacleChunk);
+        ActivateChunk();
     }
     private Vector2 GetNextChunkPosition(Ground nextGround) =>
         new(_activeChunks[^1].End.position.x + UnityEngine.Random.Range(0f, 0.4f) - nextGround.Begin.position.x,

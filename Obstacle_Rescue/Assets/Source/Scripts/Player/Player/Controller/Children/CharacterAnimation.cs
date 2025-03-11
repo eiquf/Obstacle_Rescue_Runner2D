@@ -16,6 +16,7 @@ public sealed class CharacterAnimation
     public float flashDuration = 0.1f;
     public int flashCount = 3;
 
+    private readonly Sequence _injurySequence = DOTween.Sequence();
     private readonly SpriteRenderer _spriteRenderer;
     private readonly Animator _animator;
 
@@ -51,21 +52,20 @@ public sealed class CharacterAnimation
             IsJump -= handler;
         }
         IsInjured -= Injure;
+        _injurySequence.Kill();   
     }
 
     private void Jump(bool state) => SetAnimationState(keys[Keys.Jump], state);
     private void Idle(bool state) => SetAnimationState(keys[Keys.Idle], state);
     private void Injure()
     {
-        Sequence injurySequence = DOTween.Sequence();
-
         for (int i = 0; i < flashCount; i++)
         {
-            injurySequence.Append(_spriteRenderer.DOColor(Color.red, flashDuration / 2));
-            injurySequence.Append(_spriteRenderer.DOColor(originalColor, flashDuration / 2));
+            _injurySequence.Append(_spriteRenderer.DOColor(Color.red, flashDuration / 2));
+            _injurySequence.Append(_spriteRenderer.DOColor(originalColor, flashDuration / 2));
         }
 
-        injurySequence.Play();
+        _injurySequence.Play();
     }
 
     private void SetAnimationState(string animation, bool activate) => _animator.SetBool(animation, activate);

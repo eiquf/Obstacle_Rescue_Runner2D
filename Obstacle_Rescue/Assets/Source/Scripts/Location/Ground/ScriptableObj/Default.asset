@@ -16,6 +16,3 @@ MonoBehaviour:
   _hidePositionX: -200
   _enableAdvancedSettings: 0
   _colliderScaleSizeX: 4
-  _timer: 0
-  _word: 
-  _ground: {fileID: 0}

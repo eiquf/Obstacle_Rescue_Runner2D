@@ -47,8 +47,6 @@ public sealed class Player : MonoBehaviour
 
     private void Start()
     {
-        _cantMove = true;
-
         Velocity = Vector2.zero;
 
         _animator = GetComponent<Animator>();
@@ -93,9 +91,9 @@ public sealed class Player : MonoBehaviour
         if (statement)
         {
             _stop.Execute(transform);
-            NotifyObservers(PlayerStates.Stop);
         }
     }
+    public void Dead() => NotifyObservers(PlayerStates.Dead);
     #region Observers
     public void AddObserver(IPlayerObserver observer)
     {
