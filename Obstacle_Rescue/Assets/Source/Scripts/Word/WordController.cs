@@ -31,6 +31,8 @@ public class WordController : MonoBehaviour, IPlayerObserver
     [SerializeField] private char _currentLetter;
     [SerializeField] private WordPanel _panel;
     private string _currentWord;
+
+    public bool BLUE;
     private void OnEnable()
     {
         _player.AddObserver(this);
@@ -51,6 +53,12 @@ public class WordController : MonoBehaviour, IPlayerObserver
     private void FixedUpdate()
     {
         if (_letterObj != null) Movement();
+
+        if(BLUE == true)
+        {
+            HandleLastLetterUsed();
+            BLUE = false;
+        }
     }
     private void Initialize()
     {

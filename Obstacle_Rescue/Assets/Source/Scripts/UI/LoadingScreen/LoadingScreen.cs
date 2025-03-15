@@ -25,9 +25,15 @@ public class LoadingScreen : MonoBehaviour
     }
     async void Loading()
     {
+        gameObject.SetActive(true); // Включаем экран загрузки
+
         _sceneChecker.Execute();
         var loadOperation = _loadScene.Execute(_sceneChecker.CurrentScene.name);
-        await loadOperation;
-        gameObject.SetActive(false);
+        _anim.PlayAnimation(null);
+
+        await loadOperation; // Ждём завершения загрузки сцены
+
+        gameObject.SetActive(false); // Выключаем экран загрузки после окончания
     }
+
 }

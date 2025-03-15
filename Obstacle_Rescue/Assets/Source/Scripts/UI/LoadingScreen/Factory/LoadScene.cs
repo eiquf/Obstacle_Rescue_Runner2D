@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class LoadScene : LoadingTask<string>
 {
-    private const int _additiveTimeToWait = 1;
+    private const int _additiveTimeToWait = 3;
     private string _sceneName;
     public override async Task Execute(string name)
     {

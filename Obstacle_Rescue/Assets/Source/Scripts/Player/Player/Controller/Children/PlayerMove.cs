@@ -53,10 +53,13 @@ public sealed class PlayerMove : PlayerSystem
             {
                 if (ground is GroundTrap trap)
                 {
-                    trap.Trap();
-                    _player.OnStop?.Invoke(true);
-                    _player.OnNotify?.Invoke(PlayerStates.Stop);
-                    _collected = true;
+                    if (_collected == false)
+                    {
+                        trap.Trap();
+                        _player.OnStop?.Invoke(true);
+                        _player.OnNotify?.Invoke(PlayerStates.Stop);
+                        _collected = true;
+                    }
                 }
                 else
                 {
@@ -180,13 +183,13 @@ public sealed class PlayerMove : PlayerSystem
     {
         if (!_isGrounded)
         {
-            if (_isHoldingJump)
-            {
+            if (_isHoldingJump && _holdJumpTimer < _maxHoldJumpTime)
                 _holdJumpTimer += Time.fixedDeltaTime;
-                if (_holdJumpTimer >= _maxHoldJumpTime)
-                    _isHoldingJump = false;
-            }
-            else _velocity.y += _player.MovementSettings.gravity * Time.fixedDeltaTime;
+            else
+                _isHoldingJump = false;
+
+            if (!_isHoldingJump)
+                _velocity.y += _player.MovementSettings.gravity * Time.fixedDeltaTime;
 
             _pos.y += _velocity.y * Time.fixedDeltaTime;
         }
