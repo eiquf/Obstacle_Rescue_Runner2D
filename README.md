@@ -20,7 +20,10 @@ Game teaches vocabulary, spelling and problem-solving in a fun and active way. W
 
 ## 👨‍💻 Developed By
 **Eiquif / Eiquf** – Game Developer, Designer, and Programmer  
-🛠 Built entirely in **Unity**  
+🛠 Built entirely in **Unity**
+
+Project view:
+- [Behance](https://www.behance.net/gallery/242248485/Obstacle-Rescue-Game-Project?platform=direct)
 
 Connect with me:  
 - [GitHub](https://github.com/eiquf)  
