@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: UIPanels
+  m_EditorClassIdentifier: 
+  m_GroupName: UIPanels
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c1b43434c46a609428069591a564844a
+  m_SerializeEntries:
+  - m_GUID: a887501c36c4ad045b144a9535112e09
+    m_Address: DictionaryPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cf1e7eb9cd387e1408c8d53fa19432b0
+    m_Address: Hurt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f89f61bb527e6eb4db0d36fa4ada0e24
+    m_Address: StopPanel
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 87bd1b6abcc712b49a239b4da6985aae, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: bf5d27606904fe848b4f5edea7c9dd42, type: 2}
+    - {fileID: 11400000, guid: 426a02b57853d5e4e892daa807c77246, type: 2}

@@ -1,0 +1,12 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "Angle X"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": []
+}

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Stuff
+  m_EditorClassIdentifier: 
+  m_GroupName: Stuff
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c44f8c6adc0137b468ab0cf1ca994566
+  m_SerializeEntries:
+  - m_GUID: c78ab7a575d836c40aa98fda6aa7adab
+    m_Address: FluffyHurt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 979c54dadd4581742a13846d61baee85
+    m_Address: GoldApple
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 17372a46f4016354fa7ce841246eba91
+    m_Address: Stone
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 87bd1b6abcc712b49a239b4da6985aae, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 14e4487199bd0c24380ba738153f65a9, type: 2}
+    - {fileID: 11400000, guid: 057df2c6a57e2364584db571e01971a1, type: 2}
